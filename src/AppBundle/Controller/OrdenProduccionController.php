@@ -183,4 +183,5 @@ class OrdenProduccionController extends Controller
             'ordenProduccion' => $ordenProduccion,
         ));
     }
+    
 }

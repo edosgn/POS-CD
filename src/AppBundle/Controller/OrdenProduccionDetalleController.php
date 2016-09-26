@@ -200,4 +200,29 @@ class OrdenProduccionDetalleController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * cambia el estado de pendiente a asignada la orden para q sea visible desde produccion.
+     *
+     * @Route("/asignar/estado/{id}/{idEstado}", name="orden_produccion_asignar_estado")
+     * @Method("GET")
+     */
+
+    public function asignarEstadoAction($id, $idEstado){
+
+        $em = $this->getDoctrine()->getManager();
+        $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($id);
+
+        $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find($idEstado);
+
+        $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+
+        $em->persist($ordenProduccionDetalle);
+        $em->flush();
+
+        return $this->redirectToRoute('orden_produccion_detalle_show',array(
+                'id' => $ordenProduccionDetalle->getId()
+            ));
+
+    }
 }
