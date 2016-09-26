@@ -132,6 +132,14 @@ class OrdenProduccionDetalleController extends Controller
     {
         $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
 
+        $user = $this->getUser();
+
+        if ($user->getRole() == 'ROLE_SHIPPING') {
+            return $this->render('ordenproducciondetalle/show.shipping.html.twig', array(
+            'ordenProduccionDetalle' => $ordenProduccionDetalle,
+            'delete_form' => $deleteForm->createView(),
+        ));
+        }
         return $this->render('ordenproducciondetalle/show.html.twig', array(
             'ordenProduccionDetalle' => $ordenProduccionDetalle,
             'delete_form' => $deleteForm->createView(),
