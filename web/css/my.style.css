@@ -1,6 +1,6 @@
 /* ================================================ */
 /* My Style */
-select.select-hidden{
+select.select-hidden,input.input-hidden{
     visibility: hidden;
     height: 0;
     width: 0;

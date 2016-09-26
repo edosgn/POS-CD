@@ -20,6 +20,7 @@ class UsuarioType extends AbstractType
             ->add('identificacion')
             ->add('telefono')
             ->add('correo')
+            ->add('pin')
             ->add('estado', 'choice', array(
                 'choices'=> array('1'=>'Activo', '0'=>'Inactivo'),
                 'empty_value'=>false,

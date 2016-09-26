@@ -128,6 +128,7 @@
                                                 <th>Precio</th>
                                                 <th>Responsable</th>
                                                 <th>Estado</th>
+                                                <th>Operaciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -139,6 +140,12 @@
                                                 <td>{{ ordenProduccionDetalle.precio }}</td>
                                                 <td>{{ ordenProduccionDetalle.responsable }}</td>
                                                 <td>{{ ordenProduccionDetalle.ordenProduccionEstado }}</td>
+                                                <td>
+                                                <a href="{{ path('orden_produccion_detalle_delete', {'id': ordenProduccionDetalle.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                                </td>
+                                               
                                             </tr>
                                         {% endfor %}
                                         </tbody>

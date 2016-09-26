@@ -168,21 +168,17 @@ class OrdenProduccionDetalleController extends Controller
     /**
      * Deletes a OrdenProduccionDetalle entity.
      *
-     * @Route("/{id}", name="orden_produccion_detalle_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="orden_produccion_detalle_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, OrdenProduccionDetalle $ordenProduccionDetalle)
+    public function deleteAction(OrdenProduccionDetalle $ordenProduccionDetalle)
     {
-        $form = $this->createDeleteForm($ordenProduccionDetalle);
-        $form->handleRequest($request);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($ordenProduccionDetalle);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($ordenProduccionDetalle);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('orden_produccion_detalle_index');
+        return $this->redirectToRoute('orden_produccion_show',array('id' => $ordenProduccionDetalle->getOrdenProduccion()->getId()));
     }
 
     /**

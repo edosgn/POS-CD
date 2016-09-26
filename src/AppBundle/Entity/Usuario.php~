@@ -543,27 +543,4 @@ class Usuario implements UserInterface
     {
         return $this->usuarioCategoria;
     }
-
-    /**
-     * Set pin
-     *
-     * @param string $pin
-     * @return Usuario
-     */
-    public function setPin($pin)
-    {
-        $this->pin = $pin;
-
-        return $this;
-    }
-
-    /**
-     * Get pin
-     *
-     * @return string 
-     */
-    public function getPin()
-    {
-        return $this->pin;
-    }
 }

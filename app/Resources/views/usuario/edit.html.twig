@@ -49,6 +49,10 @@
                                             {{ form_widget(edit_form.apellido, { 'attr': {'placeholder':'Digite Apellido','class':'form-control' }}) }}
                                         </div>
                                     </div>
+
+
+                                   
+
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Identificación:</label>
@@ -84,7 +88,21 @@
                                             {{ form_widget(edit_form.role, { 'attr': {'class':'form-control' }}) }}
                                         </div>
                                     </div>
+
+                                    {% if usuario.role == 'ROLE_ADMIN' %}
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Pin:</label>
+                                                {{ form_widget(edit_form.pin, { 'attr': {'placeholder':'Digite Pin','class':'form-control' }}) }}
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                            {{ form_widget(edit_form.pin, { 'attr': {'class':'input-hidden' }}) }}
+                                    {% endif %}
+
                                 </div>
+
+
 
                                 <div class="row">
                                     <hr>

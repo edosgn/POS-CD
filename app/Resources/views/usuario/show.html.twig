@@ -93,6 +93,13 @@
                                     <strong>Ultima modificación:</strong>
                                     {% if usuario.updatedAt %}{{ usuario.updatedAt|date('Y-m-d') }}{% endif %}
                                 </p><!-- /.p -->
+                                <p>
+                                    {% if usuario.pin %}
+                                        <i class="fa fa-asterisk"></i>
+                                        <strong>Pin:</strong>
+                                        {{ usuario.pin }}
+                                    {% endif %}
+                                </p>
                             </div><!-- .card-body -->
 
                             <footer class="card-footer pt-n text-center"><!-- .card-footer -->
