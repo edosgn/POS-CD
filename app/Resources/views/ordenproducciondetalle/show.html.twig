@@ -23,8 +23,8 @@
 
             <h1>
                 Estado: 
-                <strong> {{ ordenProduccionDetalle.ordenProduccion.estado }} </strong>
-                <small>Ver</small>
+                <strong> {{ ordenProduccionDetalle.ordenProduccionEstado.nombre }} </strong>
+                
             </h1>
             <div class="options">
                 <a href="3" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
@@ -74,15 +74,28 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6"><!-- .col -->
                         <h1 class="text-center">
-                            <a href="{{path('homepage')}}" class="btn btn-lg btn-raised btn-danger">
-                                <i class="fa fa-pause fa-5x"></i>
-                            </a>
+                        <a href="{{path('homepage')}}" class="btn btn-lg btn-raised btn-danger">
+                            <i class="fa fa-pause fa-5x"></i>
+                        </a>
+
+                        {% if ordenProduccionDetalle.ordenProduccionEstado.nombre == "Produccion" %}
+                        <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':3})}}" class="btn btn-lg btn-raised btn-success">
+                            <i class="fa fa-check fa-5x"></i>
+                        </a> 
+                        {% else %}
+                            {% if ordenProduccionDetalle.ordenProduccionEstado.nombre == "Asignada" %}
                             <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':2})}}" class="btn btn-lg btn-raised btn-primary">
                                 <i class="fa fa-play fa-5x"></i>
                             </a>
                             <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':3})}}" class="btn btn-lg btn-raised btn-success">
                                 <i class="fa fa-check fa-5x"></i>
                             </a>
+                            {% endif %}
+                        {% endif %}
+
+                        
+                        
+                            
                         </h1>
                     </div><!-- /.col -->
                 </div>
