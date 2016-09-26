@@ -90,7 +90,7 @@
                                         <th>Número de Pedido</th>
                                         <th>Detalle(s)</th>
                                         <th>Fecha</th>
-                                        <th>Opciones</th>
+                                        <th>Precio Total</th>
                                     </tr>  
                                 </thead>
                                 <tbody>
@@ -115,14 +115,18 @@
                                                 {{ pedido.createdAt|date('Y-m-d') }}
                                             </td>
                                             <td>
-                                                <div class="btn-group">
-                                                    <a href="{{path('pedido_show',{'id':pedido.id})}}" class="btn btn-default btn-raised btn-xs">
-                                                        <i class="fa fa-check"></i>
-                                                    </a>
-                                                    <a href="{{path('pedido_edit',{'id':pedido.id})}}" class="btn btn-default btn-raised btn-xs">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                </div>
+                                                {% set total = 0%} {% set totalOrdenes = 0 %} {% set totalVentas = 0 %}
+                                                {% for ordenProduccion in pedido.ordenProduccion %}
+                                                    {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
+                                                        {% set totalOrdenes = totalOrdenes+ordenProduccionDetalle.precio %}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                                {% for venta in pedido.venta %}
+                                                    {% set totalVentas = totalVentas+pedido.venta.valor %}
+                                                {% endfor %}
+                                                {% set total=totalVentas+totalOrdenes %}
+                                                ${{total|number_format(2, ',', '.')}}
+                                                
                                             </td>
                                         </tr>
                                     {% endfor %}

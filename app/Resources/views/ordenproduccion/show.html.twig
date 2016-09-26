@@ -69,7 +69,7 @@
                                 <div class="personel-info pt-n"><!-- .personel-info -->
                                     <i class="fa fa-calendar"></i>
                                     <strong>Fecha de entrega:</strong>
-                                    <span>{% if ordenProduccion.fechaEntrega %}{{ ordenProduccion.fechaEntrega|date('Y-m-d h:i') }}{% endif %}</span>
+                                    <span>{% if ordenProduccion.fechaEntrega %}{{ ordenProduccion.fechaEntrega|date('Y-m-d') }}{% endif %}</span>
                                 </div><!-- /.personel-info -->
                                 <div class="personel-info pt-n"><!-- .personel-info -->
                                     <i class="fa fa-clock-o"></i>
@@ -196,6 +196,9 @@
                             
                         </div><!-- /.panel body -->                        
                     </div><!-- /.panel -->
+                    <a href="{{ path('pedido_show',{'id':ordenProduccion.pedido.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Finalizar">
+                    <i class="fa fa-check fa-5x"></i>
+                </a>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->

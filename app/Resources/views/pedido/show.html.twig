@@ -115,7 +115,7 @@
                                                 </td>
                                                 <td>{{ ordenProduccion.ordenProduccionDetalle|length }}</td>
                                                 <td>{{ ordenProduccion.estado }}</td>
-                                                <td>{{ ordenProduccion.fechaEntrega | date('Y-m-d h:i A') }}</td>
+                                                <td>{{ ordenProduccion.fechaEntrega | date('Y-m-d') }} {{ordenProduccion.horario}}</td>
                                                 <td>{{ ordenProduccion|length }}</td>
                                                 <td>
                                                     <div class="btn-group">

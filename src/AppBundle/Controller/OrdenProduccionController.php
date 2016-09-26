@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\OrdenProduccion;
 use AppBundle\Entity\Pedido;
+use AppBundle\Entity\Usuario;
 use AppBundle\Entity\Cliente;
 use AppBundle\Entity\OrdenProduccionDetalle;
 use AppBundle\Form\OrdenProduccionType;
@@ -116,10 +117,24 @@ class OrdenProduccionController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($ordenProduccion);
-            $em->flush();
 
-            return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
+            //$user=$this->get('security.context')->getToken()->getUser()->getRole();
+            $usuario=$em->getRepository('AppBundle:Usuario')->findOneByRole('ROLE_ADMIN');
+            $pin=$usuario->getPin();
+            if($request->request->get('ingresarPin') == $pin){
+                $em->persist($ordenProduccion);
+                $em->flush();
+
+                return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
+            }
+            else{
+                return $this->render('ordenproduccion/edit.html.twig', array(
+                'ordenProduccion' => $ordenProduccion,
+                'step' => $request->query->get('idStep'),
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+                'error' => 'error',));
+            }
         }
 
         return $this->render('ordenproduccion/edit.html.twig', array(
@@ -127,6 +142,7 @@ class OrdenProduccionController extends Controller
             'step' => $request->query->get('idStep'),
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'error' => null,
         ));
     }
 

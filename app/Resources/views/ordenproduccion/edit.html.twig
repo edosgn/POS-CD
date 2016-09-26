@@ -11,6 +11,13 @@
             </li>
             <li class="active">Editar</li>
         </ol><!-- /.breadcrumb -->
+
+        {% if error %}
+            <span class="label label-danger">
+                "Error! PIN Invalido."
+            </span>
+        {% endif %}
+
         <div class="page-heading"><!-- .page-heading -->
             <h1>Orden de Producción
                 <small>Editar</small>
@@ -230,19 +237,19 @@
                                     <ul class="demo-btns"><!-- .demo-btns -->
                                         <li>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="contado">
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="contado" onclick="metodoPago();">
                                                     <i class="fa fa-dollar"></i>
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="credito">
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="credito" onclick="metodoPago();">
                                                     Credito
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="consignacion">
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="consignacion" onclick="metodoPago();">
                                                     Consignación
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="giro">
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="giro" onclick="metodoPago();">
                                                     Giro
                                                 </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="tarjeta">
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="tarjeta" onclick="metodoPago();">
                                                     <i class="fa fa-credit-card"></i>
                                                 </button>
                                             </div>
@@ -261,8 +268,19 @@
                                         <i class="fa fa-chevron-down"></i>
                                         {{ form_widget(edit_form.prioridad, { 'attr': {'class':'form-control' }}) }}
                                     </div>
-                                </div><!-- /.col -->
-                            </div><!-- /.row -->                            
+                                </div><!-- /.col -->                                
+                            </div><!-- /.row -->
+
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <div class="row" id="pin" style="display:none">                                    
+                                    <div class="col-md-4"><!-- .col -->
+                                        <div class="form-group">
+                                            <label class="control-label">PIN</label>
+                                            <input type="password" name="ingresarPin" class="form-control" required maxlength="4">
+                                        </div>
+                                    </div><!-- /.col -->
+                                </div>   
+                            {% endif %}                                                   
                         </fieldset>
 
                         <input type="submit" class="finish btn-success btn" value="Guardar" />
@@ -368,6 +386,16 @@
             }
 
             txtarea.scrollTop = scrollPos;
+        }
+
+
+        function metodoPago(){
+            if(document.getElementById('select-pago').value == 'credito'){
+                document.getElementById('pin').style.display='block';
+            }
+            else{
+                document.getElementById('pin').style.display='none';   
+            }
         }
 
 
