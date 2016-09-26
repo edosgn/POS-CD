@@ -149,10 +149,16 @@ class Usuario implements UserInterface
      **/
     private $usuarioCategoria;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Despacho", mappedBy="usuario")
+     */
+    protected $despachos;
+
     public function __construct() {
         $this->pedidos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
         $this->usuarioCategoria = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->despachos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -542,5 +548,28 @@ class Usuario implements UserInterface
     public function getUsuarioCategoria()
     {
         return $this->usuarioCategoria;
+    }
+
+    /**
+     * Set pin
+     *
+     * @param string $pin
+     * @return Usuario
+     */
+    public function setPin($pin)
+    {
+        $this->pin = $pin;
+
+        return $this;
+    }
+
+    /**
+     * Get pin
+     *
+     * @return string 
+     */
+    public function getPin()
+    {
+        return $this->pin;
     }
 }

@@ -149,10 +149,16 @@ class Usuario implements UserInterface
      **/
     private $usuarioCategoria;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Despacho", mappedBy="usuario")
+     */
+    protected $despachos;
+
     public function __construct() {
         $this->pedidos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
         $this->usuarioCategoria = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->despachos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -565,5 +571,38 @@ class Usuario implements UserInterface
     public function getPin()
     {
         return $this->pin;
+    }
+
+    /**
+     * Add despachos
+     *
+     * @param \AppBundle\Entity\Despacho $despachos
+     * @return Usuario
+     */
+    public function addDespacho(\AppBundle\Entity\Despacho $despachos)
+    {
+        $this->despachos[] = $despachos;
+
+        return $this;
+    }
+
+    /**
+     * Remove despachos
+     *
+     * @param \AppBundle\Entity\Despacho $despachos
+     */
+    public function removeDespacho(\AppBundle\Entity\Despacho $despachos)
+    {
+        $this->despachos->removeElement($despachos);
+    }
+
+    /**
+     * Get despachos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDespachos()
+    {
+        return $this->despachos;
     }
 }
