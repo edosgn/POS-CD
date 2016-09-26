@@ -113,6 +113,41 @@
                                             {{ form_widget(form.direccionEntrega, { 'attr': {'placeholder':'Digite Dirección','class':'form-control' }, 'id':'textDestinatarioDireccion' }) }}
                                         </div>
                                     </div><!-- /.col -->
+                                    <div class="col-md-12"><!-- .col -->
+                                        <ul class="demo-btns"><!-- .demo-btns -->
+                                            <li>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Calle ');return false;">
+                                                        Cll
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Carrera ');return false;">
+                                                        Cra
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Diagonal ');return false;">
+                                                        Diagonal
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Barrio ');return false;">
+                                                        Barrio
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Conjunto ');return false;">
+                                                        Conjunto
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Apartamento ');return false;">
+                                                        Apto
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Torre ');return false;">
+                                                        Torre
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Condominio ');return false;">
+                                                        Condominio
+                                                    </button>
+                                                    <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDestinatarioDireccion" onclick="insertAtCaret('textDestinatarioDireccion', ' Oficina ');return false;">
+                                                        Oficina
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        </ul><!-- /.demo-btns -->
+                                    </div><!-- /.col -->
                                 </div><!-- /.row -->
 
                                 <div class="row"><!-- .row -->
@@ -200,5 +235,45 @@
               document.getElementById('envio').value=2000;
             }
         }
+
+
+        function insertAtCaret(areaId, text) {
+            var txtarea = document.getElementById(areaId);
+            if (!txtarea) { return; }
+
+            var scrollPos = txtarea.scrollTop;
+            var strPos = 0;
+            var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+                "ff" : (document.selection ? "ie" : false ) );
+            if (br == "ie") {
+                txtarea.focus();
+                var range = document.selection.createRange();
+                range.moveStart ('character', -txtarea.value.length);
+                strPos = range.text.length;
+            } else if (br == "ff") {
+                strPos = txtarea.selectionStart;
+            }
+
+            var front = (txtarea.value).substring(0, strPos);
+            var back = (txtarea.value).substring(strPos, txtarea.value.length);
+            txtarea.value = front + text + back;
+            strPos = strPos + text.length;
+            if (br == "ie") {
+                txtarea.focus();
+                var ieRange = document.selection.createRange();
+                ieRange.moveStart ('character', -txtarea.value.length);
+                ieRange.moveStart ('character', strPos);
+                ieRange.moveEnd ('character', 0);
+                ieRange.select();
+            } else if (br == "ff") {
+                txtarea.selectionStart = strPos;
+                txtarea.selectionEnd = strPos;
+                txtarea.focus();
+            }
+
+            txtarea.scrollTop = scrollPos;
+        }
+
+
     </script>
 {% endblock %}

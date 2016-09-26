@@ -122,20 +122,32 @@
                                                 <ul class="demo-btns"><!-- .demo-btns -->
                                                     <li>
                                                         <div class="btn-group">
-                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Calle">
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Calle ');return false;">
                                                                 Cll
                                                             </button>
-                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Carrera">
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Carrera ');return false;">
                                                                 Cra
                                                             </button>
-                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Barrio">
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Diagonal ');return false;">
+                                                                Diagonal
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Barrio ');return false;">
                                                                 Barrio
                                                             </button>
-                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Conjunto">
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Conjunto ');return false;">
                                                                 Conjunto
                                                             </button>
-                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Apartamento">
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Apartamento ');return false;">
                                                                 Apto
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Torre ');return false;">
+                                                                Torre
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Condominio ');return false;">
+                                                                Condominio
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Oficina ');return false;">
+                                                                Oficina
                                                             </button>
                                                         </div>
                                                     </li>
@@ -312,13 +324,53 @@
             $(select).val(value);
         });
 
-        $('.btn-address').click(function(e){
+        /*$('.btn-address').click(function(e){
             e.preventDefault();
             var input = $(this).data('id');
             var value = $(this).data('value');
 
             $(input).val($(input).val() + " " + value);
-        });
+        });*/
+
+
+        function insertAtCaret(areaId, text) {
+            var txtarea = document.getElementById(areaId);
+            if (!txtarea) { return; }
+
+            var scrollPos = txtarea.scrollTop;
+            var strPos = 0;
+            var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+                "ff" : (document.selection ? "ie" : false ) );
+            if (br == "ie") {
+                txtarea.focus();
+                var range = document.selection.createRange();
+                range.moveStart ('character', -txtarea.value.length);
+                strPos = range.text.length;
+            } else if (br == "ff") {
+                strPos = txtarea.selectionStart;
+            }
+
+            var front = (txtarea.value).substring(0, strPos);
+            var back = (txtarea.value).substring(strPos, txtarea.value.length);
+            txtarea.value = front + text + back;
+            strPos = strPos + text.length;
+            if (br == "ie") {
+                txtarea.focus();
+                var ieRange = document.selection.createRange();
+                ieRange.moveStart ('character', -txtarea.value.length);
+                ieRange.moveStart ('character', strPos);
+                ieRange.moveEnd ('character', 0);
+                ieRange.select();
+            } else if (br == "ff") {
+                txtarea.selectionStart = strPos;
+                txtarea.selectionEnd = strPos;
+                txtarea.focus();
+            }
+
+            txtarea.scrollTop = scrollPos;
+        }
+
+
 
     </script>
 {% endblock %}
