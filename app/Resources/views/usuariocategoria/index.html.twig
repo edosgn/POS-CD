@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>UsuarioCategoria list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Estado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usuarioCategorium in usuarioCategorias %}
+            <tr>
+                <td><a href="{{ path('usuariocategoria_show', { 'id': usuarioCategorium.id }) }}">{{ usuarioCategorium.id }}</a></td>
+                <td>{{ usuarioCategorium.estado }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('usuariocategoria_show', { 'id': usuarioCategorium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('usuariocategoria_edit', { 'id': usuarioCategorium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('usuariocategoria_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

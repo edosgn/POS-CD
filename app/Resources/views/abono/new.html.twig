@@ -1,0 +1,75 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li>
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('abono_index') }}">Abonos</a>
+            </li>
+            <li class="active">
+                Crear
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Abono
+                <small>Crear</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('abono_index') }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-3"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>Formulario</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group input-icon right">
+                                            <label class="control-label">Pedido:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            {{ form_widget(form.pedido, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Valor Abono:</label>
+                                            {{ form_widget(form.valorAbono, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Fecha y hora Abono:</label>
+                                            <input type='text' class="form-control" readonly value="{{ 'now'|date('Y-m-d h:i A') }}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-raised">
+                                            Crear
+                                        </button>
+                                    </div>
+                                </div>      
+                            {{ form_end(form) }}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->        
+    </div><!-- /.page-content -->
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{path('homepage')}}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('cliente_index') }}">Clientes</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            {% if cliente.tipo == "empresa" %}
+            <div class="row"><!-- .row -->
+                <div class="col-md-12 profile-area2"><!-- .col -->
+                    <div class="media col-md-6 col-sm-6 col-xs-6"><!-- .media -->
+                        <a class="media-left pr-n" href="#"><!-- .media-left -->
+                            <img class="media-object img-resposnive" src="{{asset('img/avatar/default.jpg')}}" alt="Generic placeholder image" width='88' height='88'>
+                        </a><!-- /.media-left -->
+                        <div class="media-body pl-xl"><!-- .media-body -->
+                            <h4 class="media-heading">
+                                {{ cliente.empresa }}
+                            </h4>
+                            <i class="fa fa-user"></i>
+                            {{ cliente.nombre }} {{cliente.apellido}}<br />
+                            <i>ID</i> {{ cliente.identificacion }}<br />
+                            <i class="fa fa-phone"></i>
+                            {{ cliente.telefono }}<br />
+                            <i class="fa fa-birthday-cake"></i>
+                            {% if cliente.fechaNacimiento %}{{ cliente.fechaNacimiento|date('Y-m-d') }}{% endif %}
+                        </div><!-- /.media-body -->
+                    </div><!-- /.media -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            {% else %}
+            <div class="row"><!-- .row -->
+                <div class="col-md-12 profile-area"><!-- .col -->
+                    <div class="media col-md-6 col-sm-6 col-xs-6"><!-- .media -->
+                        <a class="media-left pr-n" href="#"><!-- .media-left -->
+                            <img class="media-object img-resposnive" src="{{asset('img/avatar/default.jpg')}}" alt="Generic placeholder image" width='88' height='88'>
+                        </a><!-- /.media-left -->
+                        <div class="media-body pl-xl"><!-- .media-body -->
+                            <h4 class="media-heading">
+                                {{ cliente }}
+                            </h4>
+                            <i class="fa fa-envelope"></i>
+                            {{ cliente.correo }}<br />
+                            <i>ID</i> {{ cliente.identificacion }}<br />
+                            <i class="fa fa-phone"></i>
+                            {{ cliente.telefono }}<br />
+                            <i class="fa fa-birthday-cake"></i>
+                            {% if cliente.fechaNacimiento %}{{ cliente.fechaNacimiento|date('Y-m-d') }}{% endif %}
+                        </div><!-- /.media-body -->
+                    </div><!-- /.media -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+            {% endif %}
+
+            <p class="text-right">
+                <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+                <a href="{{ path('acceso_pedido') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Regresar">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('pedido_new', {'idCliente': cliente.id})}}" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="top" title="Pedido">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('referencia_new', {'idCliente': cliente.id})}}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Referencia">
+                    <i class="fa fa-star"></i>
+                </a>
+            </p>
+
+            <div class="col-md-6"><!-- .col -->
+                <div class="panel panel-default"><!-- .panel -->
+                    <div class="panel-body"><!-- .panel-body -->
+                        {% if cliente.pedidos|length != 0 %}
+                        <div class="table-responsive"><!-- .table-responsive -->
+                            <table class="table table table-striped table-bordered table-data"><!-- .table -->
+                                <thead>
+                                    <tr>
+                                        <th colspan="4" style="text-align:center;">Pedidos Realizados por el cliente</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Número de Pedido</th>
+                                        <th>Detalle(s)</th>
+                                        <th>Fecha</th>
+                                        <th>Opciones</th>
+                                    </tr>  
+                                </thead>
+                                <tbody>
+                                    {% for pedido in cliente.pedidos %}
+                                        <tr>             
+                                            <td>
+                                                <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{pedido.numero}}</a>
+                                            </td>
+                                            <td>
+                                                {% if pedido.ordenProduccion|length != 0 %}
+                                                    <ul>
+                                                        {% for ordenProduccion in pedido.ordenProduccion %}
+                                                            <li>{{ordenProduccion.ordenProduccionDetalle|length}}</li>
+                                                        {% endfor %}
+                                                        {% for venta in pedido.venta %}
+                                                            <li>{{venta.articulo}}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ pedido.createdAt|date('Y-m-d') }}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{path('pedido_show',{'id':pedido.id})}}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                    <a href="{{path('pedido_edit',{'id':pedido.id})}}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table><!-- /.table -->
+                        </div><!-- /.table-responsive -->
+                        {% else %}
+                            <h2 class="text-center text-danger">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No ha realizado pedidos.
+                            </h2>
+                        {% endif %}
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->                        
+            </div><!-- /.col -->
+
+            <div class="col-md-6"><!-- .col -->
+                <div class="panel panel-default"><!-- .panel -->
+                    <div class="panel-body"><!-- .panel-body -->
+                        {% if cliente.referencias|length != 0 %}
+                        <div class="table-responsive"><!-- .table-responsive -->
+                            <h3 class="text-center">Listado de Preferidos</h3><br>                 
+                            {% for referencia in cliente.referencias %}
+                                <div class="col-xs-12 col-sm-3 text-center">
+                                    <img src="{{asset('img/avatar/default.jpg')}}" class="img-responsive img-circle"><br>
+                                    <a href="{{path('referencia_show',{'id':referencia.id})}}" class="findReferencia">{{ referencia | title }}</a><br>
+                                    {{ referencia.parentesco }}<br>
+                                    {% if referencia.fechaEspecial %}{{ referencia.fechaEspecial|date('Y-m-d') }}{% endif %}<br>
+                                    <div class="btn-group">
+                                        <a href="{{path('referencia_show',{'id':referencia.id})}}" class="btn btn-default btn-raised btn-xs">
+                                            <i class="fa fa-check"></i>
+                                        </a>
+                                        <a href="{{path('referencia_edit',{'id':referencia.id})}}" class="btn btn-default btn-raised btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    </div>
+                                </div>                              
+                            {% endfor %}
+                        </div><!-- /.table-responsive -->
+                        {% else %}
+                            <h2 class="text-center text-danger">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No se han registrado referencias.
+                            </h2>
+                        {% endif %}
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div>
+
+            <div class="col-md-12"><!-- .col -->
+                <div class="panel panel-default"><!-- .panel -->
+                    <div class="panel-body"><!-- .panel-body -->
+                        {#
+                        {% if cliente.pedidos|length != 0 %}
+                            {% set promtotal = 0 %} {% set sumtotal = 0 %} {% set npedidos = cliente.pedidos|length %}
+                            {% for pedido in cliente.pedidos %}
+                                {% set promedio = 0 %} {% set sum = 0 %} {% set num = 0 %}
+                                {% if pedido.ordenProduccion|length != 0 %}                                                    
+                                    {% for orden in pedido.ordenProduccion %}
+                                        {% set sum = sum + orden.precio %}
+                                        {% set num = num + 1 %}
+                                    {% endfor %} 
+                                    {% set promedio = sum / num %}                                   
+                                {% endif %}
+                                {% set sumtotal = sumtotal + promedio %}
+                            {% endfor %}
+                            {% set promtotal = sumtotal / npedidos %}
+                            Promedio de pedidos: {{promtotal|number_format(2, ',', '.')}}
+                        {% else %}
+                            <h5 class="text-center text-danger">No hay graficas que mostrar.</h5>
+                        {% endif %}
+                        #}                        
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div><!--row-->
+
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}
+
+
+

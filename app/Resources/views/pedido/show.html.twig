@@ -1,0 +1,235 @@
+{% extends 'frontend.html.twig' %}
+
+{% set total = 0 %}
+{% set subtotalventas = 0 %}
+{% set subtotalordenes = 0 %}
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('cliente_index') }}">Clientes</a>
+            </li>
+            <li>
+                <a href="{{ path('cliente_show',{'id':pedido.cliente.id}) }}">{{pedido.cliente}}</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('pedido_show',{'id':pedido.id}) }}">{{pedido}}</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Pedido
+                <small>{{pedido}}</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('cliente_show',{'id':pedido.cliente.id}) }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al Cliente">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a href="javascript:window.print()" class="btn btn-inverse btn-raised">
+                    <i class="fa fa-file-o"></i>
+                </a>
+                <a href="{{ path('orden_produccion_new', {'idPedido': pedido.id, 'idStep':1}) }}" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="top" title="Orden de Producción">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('venta_new', {'idPedido': pedido.id}) }}" class="btn btn-second btn-raised" data-toggle="tooltip" data-placement="top" title="Venta">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('orden_produccion_new', {'idPedido': pedido.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row mb-xl"><!-- .row -->
+                {% if pedido.cliente.tipo != "natural" %}
+                <div class="col-md-3"><!-- .col -->
+                    <div class="panel panel-body blue">
+                        <h3 class="text-muted">Empresa</h3>                         
+                        <address class="ml-md">
+                            <i class="fa fa-industry"></i><strong> {{pedido.cliente.empresa}}</strong><br>
+                            <i>NIT</i> {{pedido.cliente.nit}}<br>
+                        </address>
+                    </div>
+                </div><!-- /.col -->
+                {% endif %}
+                <div class="col-md-3"><!-- .col -->
+                    <div class="panel panel-body color-blue">
+                        <h3 class="text-muted">Cliente</h3>                         
+                        <address class="ml-md">
+                            <i class="fa fa-user"></i><strong> {{pedido.cliente}}</strong><br>
+                            <i class="fa fa-newspaper-o"></i> {{pedido.cliente.identificacion}}<br>
+                            <i class="fa fa-phone"></i> {{pedido.cliente.telefono}}<br>
+                            <i class="fa fa-envelope"></i> {{pedido.cliente.correo}}<br>
+                        </address>
+                    </div>
+                </div><!-- /.col -->
+                <div class="col-md-3"><!-- .col -->
+                    <div class="panel panel-body color-red">
+                        <h3 class="text-muted">Pedido</h3>                         
+                        <ul class="text-left list-unstyled ml-md">
+                            <li><i class="fa fa-shopping-cart"></i><strong> Pedido No:</strong> {{ pedido }} </li>
+                            <li><i class="fa fa-calendar"></i><strong> Fecha:</strong> {{ pedido.createdAt|date('Y-m-d') }}</li>
+                            <li><i class="fa fa-user"></i><strong> Creado por:</strong> {{ pedido.usuario }}</li>
+                        </ul>
+                    </div>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row mb-xl"><!-- .row -->
+                <div class="col-md-12"><!-- .col -->
+                    <div class="panel"><!-- .panel -->
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            {% if pedido.ordenProduccion|length != 0 %}
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-hover table-bordered table-data m-n"><!-- .table -->
+                                    <thead>
+                                        <caption>Ordenes de producción</caption>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Número</th>
+                                            <th>Detalle</th>
+                                            <th>Estado</th>
+                                            <th>Fecha y hora de Entrega</th>
+                                            <th>Precio</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set count = 0 %} 
+                                                                             
+                                        {% for ordenProduccion in pedido.ordenProduccion %}
+                                            {% set count = count + 1 %}
+                                            {% set subtotalordenes = subtotalordenes + ordenProduccion|length %}
+                                            <tr>
+                                                <td>{{ count }}</td>
+                                                <td>
+                                                    <a href="{{path('orden_produccion_show',{'id':ordenProduccion.id})}}">
+                                                    {{ ordenProduccion.numero }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ ordenProduccion.ordenProduccionDetalle|length }}</td>
+                                                <td>{{ ordenProduccion.estado }}</td>
+                                                <td>{{ ordenProduccion.fechaEntrega | date('Y-m-d h:i A') }}</td>
+                                                <td>{{ ordenProduccion|length }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="{{path('orden_produccion_show',{'id':ordenProduccion.id})}}" class="btn btn-default btn-raised btn-xs">
+                                                            <i class="fa fa-check"></i>
+                                                        </a>
+                                                        <a href="{{path('orden_produccion_edit',{'id':ordenProduccion.id})}}" class="btn btn-default btn-raised btn-xs">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                            {% endif %}
+                            {% if pedido.venta|length != 0 %}
+                                <div class="table-responsive"><!-- .table-responsive -->
+                                    <table class="table table-hover table-bordered table-data m-n"><!-- .table -->
+                                        <thead>
+                                            <caption>Ventas</caption>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Pedido</th>
+                                                <th>Articulo</th>
+                                                <th>Precio</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% set count = 0 %}                                            
+                                            {% for venta in pedido.venta %}
+                                                {% set count = count + 1 %}
+                                                {% set subtotalventas = subtotalventas + venta.valor %}
+                                                <tr>
+                                                    <td>{{ count }}</td>
+                                                    <td>{{ venta.pedido }}</td>
+                                                    <td>
+                                                        <a href="{{path('venta_show',{'id':venta.id})}}">
+                                                        {{ venta.articulo }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ venta.valor|number_format(2, ',', '.') }}</td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="{{path('venta_show',{'id':venta.id})}}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-check"></i>
+                                                            </a>
+                                                            <a href="{{path('venta_edit',{'id':venta.id})}}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}                                            
+                                        </tbody>
+                                    </table><!-- /.table -->
+                                </div><!-- /.table-responsive -->                          
+                            {% endif %}
+                            {% set total = subtotalordenes + subtotalventas %}
+                            {% if pedido.ordenProduccion|length == 0 and pedido.venta|length == 0 %}
+                                <h2 class="text-center">
+                                    <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                    <br>
+                                    No existen registros.
+                                </h2>
+                            {% endif %}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+
+                <div class="col-md-12"><!-- .col -->
+                    {% if pedido.ordenProduccion|length != 0 or pedido.venta|length != 0 %}
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="text-left">Vendedor</p>
+                            <p class="text-left"><img class="img-responsive" src="https://haciendaelrefugio.files.wordpress.com/2013/04/jim-signature.png" alt="signature" width= "130" height= "130"></p>
+                            <p class="text-left mb-sm"><strong>{{app.user}}</strong></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="text-right"><strong>SUB TOTAL: ${{subtotalordenes|number_format(2, ',', '.')}}</strong></p>     
+                            <hr>
+                            <h4 class="text-right" style="font-weight: bold;">TOTAL: $ {{total|number_format(2, ',', '.')}}</h4>     
+                        </div>
+                    </div>
+                    {% endif %}
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+                
+            <div class="row">
+                    
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}
+{% block aside %}
+    <table border="2" style="text-align:center">
+        <tr>
+            <td colspan="8"><h4>Ordenes de Produccion del pedido</h4></td>
+        </tr>
+        {% for orden in ordenes %}
+            <tr>                
+                <td>Orden Nº</td>
+                <td>{{orden.numero}}</td>
+                <td>Detalle</td>
+                <td>{{orden.detalle}}</td>
+                <td>Destinatario</td>               
+                <td>{{orden.destinatario}}</td>
+                <td>Fecha entrega</td>
+                <td>{{orden.fechaEntrega | date('Y-m-d H:i:s A')}}</td>
+            </tr>
+        {% endfor %}
+    </table><br>
+{% endblock %}

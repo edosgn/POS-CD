@@ -1,0 +1,21 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+#Security
+usuario_login:
+    pattern: /login
+    defaults: { _controller: AppBundle:Usuario:login }
+
+usuario_login_check:
+    pattern: /login_check
+
+usuario_logout:
+    pattern: /logout
+
+comercial_list:
+    pattern: /comercial/{user}
+    defaults: { _controller:AppBundle:Comercial:listar }
+
+produccion_index:
+    pattern: /produccion
+    defaults: { _controller:AppBundle:Produccion:index }

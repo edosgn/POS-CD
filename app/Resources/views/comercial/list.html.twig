@@ -1,0 +1,225 @@
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    
+                            <h3 class="text-center">Listado de Ordenes Pendientes</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+							                <th>Cliente</th>		                
+							                <th>Telefono</th>
+							                <th>Fecha de entrega</th>
+							                <th>Hora estimada entrega</th>
+							                <th>Detalle</th>		                
+							                <th>Prioridad</th>                
+							                <th>Responsable de produccion</th>
+							                <th>Estado</th>
+							                <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}
+                                    	{% if orden.estado == "Pendiente" %}
+	                                        {% set count = count + 1 %}
+	                                        <tr>
+	                                            <td>{{ count }}</td>
+	                                            <td>{{ orden.numero }}</td>
+								                <td>{% if orden.pedido.cliente %}{{ orden.pedido.cliente }}{% endif %}</td>
+								                <td>{{ orden.telefono }}</td>
+								                <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d') }}{% endif %}</td>
+								                <td>{{ orden.fechaEstimada | date('H:i A') }}</td>
+								                <td>{{ orden.detalle }}</td>
+								                <td>{{ orden.prioridad }}</td>                
+								                <td>{{ orden.responsableProduccion }}</td>
+								                <td>{{ orden.estado }}</td>
+								                <td>
+								                    <div class="btn-group">
+								                        <a href="{{ path('orden_produccion_show', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-check"></i>
+								                        </a>
+								                        <a href="{{ path('orden_produccion_edit', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-pencil"></i>
+								                        </a>
+								                    </div>
+								                </td>
+	                                        </tr>
+                                    	{% endif %}	    		
+									{% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                   
+                            <h3 class="text-center">Listado de Ordenes En proceso</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+							                <th>Cliente</th>		                
+							                <th>Telefono</th>
+							                <th>Fecha de entrega</th>
+							                <th>Hora estimada entrega</th>
+							                <th>Detalle</th>		                
+							                <th>Prioridad</th>                
+							                <th>Responsable de produccion</th>
+							                <th>Estado</th>
+							                <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}
+                                    	{% if orden.estado == "En Proceso" %}
+	                                        {% set count = count + 1 %}
+	                                        <tr>
+	                                            <td>{{ count }}</td>
+	                                            <td>{{ orden.numero }}</td>
+								                <td>{% if orden.pedido.cliente %}{{ orden.pedido.cliente }}{% endif %}</td>
+								                <td>{{ orden.telefono }}</td>
+								                <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d') }}{% endif %}</td>
+								                <td>{{ orden.fechaEstimada | date('H:i A') }}</td>
+								                <td>{{ orden.detalle }}</td>
+								                <td>{{ orden.prioridad }}</td>                
+								                <td>{{ orden.responsableProduccion }}</td>
+								                <td>{{ orden.estado }}</td>
+								                <td>
+								                    <div class="btn-group">
+								                        <a href="{{ path('orden_produccion_show', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-check"></i>
+								                        </a>
+								                        <a href="{{ path('orden_produccion_edit', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-pencil"></i>
+								                        </a>
+								                    </div>
+								                </td>
+	                                        </tr>
+                                    	{% endif %}	    		
+									{% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                            <h3 class="text-center">Listado de Ordenes Finalizadas</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+							                <th>Cliente</th>		                
+							                <th>Telefono</th>
+							                <th>Fecha de entrega</th>
+							                <th>Hora estimada entrega</th>
+							                <th>Detalle</th>		                
+							                <th>Prioridad</th>                
+							                <th>Responsable de produccion</th>
+							                <th>Estado</th>
+							                <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}
+                                    	{% if orden.estado == "Finalizado" %}
+	                                        {% set count = count + 1 %}
+	                                        <tr>
+	                                            <td>{{ count }}</td>
+	                                            <td>{{ orden.numero }}</td>
+								                <td>{% if orden.pedido.cliente %}{{ orden.pedido.cliente }}{% endif %}</td>
+								                <td>{{ orden.telefono }}</td>
+								                <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d') }}{% endif %}</td>
+								                <td>{{ orden.fechaEstimada | date('H:i A') }}</td>
+								                <td>{{ orden.detalle }}</td>
+								                <td>{{ orden.prioridad }}</td>                
+								                <td>{{ orden.responsableProduccion }}</td>
+								                <td>{{ orden.estado }}</td>
+								                <td>
+								                    <div class="btn-group">
+								                        <a href="{{ path('orden_produccion_show', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-check"></i>
+								                        </a>
+								                        <a href="{{ path('orden_produccion_edit', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-pencil"></i>
+								                        </a>
+								                    </div>
+								                </td>
+	                                        </tr>
+                                    	{% endif %}	    		
+									{% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                            <h3 class="text-center">Listado de Ordenes Entregadas</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+							                <th>Cliente</th>		                
+							                <th>Telefono</th>
+							                <th>Fecha de entrega</th>
+							                <th>Hora estimada entrega</th>
+							                <th>Detalle</th>		                
+							                <th>Prioridad</th>                
+							                <th>Responsable de produccion</th>
+							                <th>Estado</th>
+							                <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}
+                                    	{% if orden.estado == "Entregada" %}
+	                                        {% set count = count + 1 %}
+	                                        <tr>
+	                                            <td>{{ count }}</td>
+	                                            <td>{{ orden.numero }}</td>
+								                <td>{% if orden.pedido.cliente %}{{ orden.pedido.cliente }}{% endif %}</td>
+								                <td>{{ orden.telefono }}</td>
+								                <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d') }}{% endif %}</td>
+								                <td>{{ orden.fechaEstimada | date('H:i A') }}</td>
+								                <td>{{ orden.detalle }}</td>
+								                <td>{{ orden.prioridad }}</td>                
+								                <td>{{ orden.responsableProduccion }}</td>
+								                <td>{{ orden.estado }}</td>
+								                <td>
+								                    <div class="btn-group">
+								                        <a href="{{ path('orden_produccion_show', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-check"></i>
+								                        </a>
+								                        <a href="{{ path('orden_produccion_edit', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+								                            <i class="fa fa-pencil"></i>
+								                        </a>
+								                    </div>
+								                </td>
+	                                        </tr>
+                                    	{% endif %}	    		
+									{% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        
+                </div><!-- /.col -->
+            </div><!-- /.row -->

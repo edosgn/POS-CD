@@ -1,0 +1,114 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('referencia_index') }}">Referencias</a>
+            </li>
+            <li class="active">
+                Ver
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Referencia
+                <small>Ver</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('referencia_index') }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('referencia_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Referencia">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('referencia_edit',{'id':referencia.id}) }}" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a href="{{ path('referencia_edit',{'id':referencia.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-3"><!-- .col -->
+                    <div class="panel panel-profile">
+                        <div class="panel-heading">
+                            <h2>Detalles</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-newspaper-o"></i> 
+                                    <strong>Identificación:</strong>
+                                    <span>{{ referencia.identificacion }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-asterisk"></i> 
+                                    <strong>Nombres y Apellidos:</strong>
+                                    <span>{{ referencia }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-user"></i> 
+                                    <strong>Parentesco:</strong>
+                                    <span>{{ referencia.parentesco }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-phone"></i>
+                                    <strong>Telefono:</strong>
+                                    <span>{{ referencia.telefono }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-home"></i>
+                                    <strong>Direccion:</strong>
+                                    <span>{{ referencia.direccion }}</span>
+                                </div><!-- /.personel-info -->
+                                {% if referencia.correo %}
+                                    <div class="personel-info pt-n"><!-- .personel-info -->
+                                        <i class="fa fa-envelope"></i>
+                                        <strong>Correo:</strong>
+                                        <span>{{ referencia.correo }}</span>
+                                    </div><!-- /.personel-info -->
+                                {% endif %}
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-calendar"></i>
+                                    <strong>Fecha especial:</strong>
+                                    <span>{% if referencia.fechaEspecial %}{{ referencia.fechaEspecial|date('Y-m-d') }}{% endif %}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-calendar-check-o"></i>
+                                    <strong>Descripcion de la fecha:</strong>
+                                    <span>{{ referencia.descripcionFecha }}</span>
+                                </div><!-- /.personel-info -->
+                                {% if referencia.intereses %}
+                                    <div class="personel-info pt-n"><!-- .personel-info -->
+                                        <i class="fa fa-info"></i>
+                                        <strong>Intereses:</strong>
+                                        <span>{{ referencia.intereses|length }}</span>
+                                    </div><!-- /.personel-info -->
+                                {% endif %}
+                            </div>
+
+                            <ul class="list-inline text-center">
+                                <li>
+                                    <a href="{{ path('referencia_edit',{'id':referencia.id}) }}" class="btn btn-default btn-raised btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('referencia_edit',{'id':referencia.id}) }}" class="btn btn-default btn-raised btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->        
+    </div><!-- /.page-content -->
+{% endblock %}

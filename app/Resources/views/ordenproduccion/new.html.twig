@@ -1,0 +1,204 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('cliente_index') }}">Clientes</a>
+            </li>
+            <li>
+                <a href="{{ path('cliente_show',{'id':pedido.cliente.id}) }}">{{pedido.cliente}}</a>
+            </li>
+            <li>
+                <a href="{{ path('pedido_show',{'id':pedido.id}) }}">{{pedido}}</a>
+            </li>
+            <li class="active">
+                Orden de Producción
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Orden de Producción</h1>
+            <div class="options">
+                <a href="{{ path('pedido_show',{'id':pedido.id}) }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Volver a Pedido">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+    </div><!-- /.page-content -->
+
+    <div class="container-fluid"><!-- .container-fluid -->
+        <div class="col-md-6"><!-- .col -->
+            <div class="panel panel-info" data-widget='{"draggable": "false"}'><!-- .panel -->
+                <div class="panel-body"><!-- .panel-body -->
+                    {{ form_start(form, { 'attr': {'class':'form-vertical', 'id':'wizard', 'enctype':'multipart/form-data', 'data-step':step }}) }}
+                        {{ form_widget(form.pedido, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':pedido.id }}) }}
+                        {{ form_widget(form.numero, { 'type':'hidden'}) }}
+                            
+                        <fieldset title="1" id="step-1" class="stepy-step">
+                            <legend>Datos Principales</legend>
+
+                            <div class="radio radio-inline radio-primary">
+                                <label>
+                                    <input type="radio" name="entrega" value="depascho" onclick="metodoEntrega();" checked>
+                                    <span class="circle"></span>
+                                    Despacho
+                                </label>
+                                <label>
+                                    <input type="radio" name="entrega" value="punto_venta" onclick="metodoEntrega();">
+                                    <span class="circle"></span>
+                                    Punto de venta
+                                </label>
+                            </div>
+                            
+                            <div id="datos_envio" style="display:block;"><!-- .datosEnvio-->
+                                <label class="control-label">Enviar  a</label>
+                                <div class="row"><!-- .row -->
+                                    <div class="col-md-5"><!-- .col --> 
+                                        <div class="col-md-12 input-group">
+                                            {{ form_widget(form.destinatarioNombres, { 'attr': {'placeholder':'Nombres', 'class':'form-control' }, 'id':'textDestinatarioNombres'}) }}
+                                        </div>
+                                    </div><!-- /.col -->
+                                    <div class="col-md-7"><!-- .col -->
+                                        <div class="input-group">
+                                            {{ form_widget(form.destinatarioApellidos, { 'attr': {'placeholder':'Apellidos', 'class':'form-control' }, 'id':'textDestinatarioApellidos'}) }}
+                                            <span class="input-group-btn">
+                                                <a href="{{path('referencia_list',{'idCliente':pedido.cliente.id})}}" class="btn btn-info btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Buscar Preferido">
+                                                    <i class="fa fa-search"></i>
+                                                </a>
+                                                <a href="{{path('referencia_add',{'idCliente':pedido.cliente.id})}}" class="btn btn-inverse btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Agregar Preferido">
+                                                    <i class="fa fa-star"></i>
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div><!-- /.col -->
+                                </div><!-- /.row -->
+
+                                <div class="row"><!-- .row -->
+                                    <div class="col-md-3"><!-- .col -->
+                                        <div class="form-group">
+                                            <label class="control-label">Fecha de Entrega</label>
+                                            <input type='text' class="form-control datepicker" name="fechaEntrega" value="{{ 'now'|date('Y-m-d') }}" />
+                                        </div>
+                                    </div><!-- /.col -->
+                                    <div class="col-md-3"><!-- .col -->
+                                        <div class="form-group">
+                                            <label class="control-label">Hora estimada</label>
+                                            {{ form_widget(form.horario, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div><!-- /.col -->
+                               
+                                    <div class="col-md-3"><!-- .col -->
+                                        <div class="form-group">
+                                            <label class="control-label">Telefono</label>
+                                            {{ form_widget(form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control'}, 'id':'textDestinatarioTelefono'}) }}
+                                        </div>
+                                    </div><!-- /.col -->
+
+                                    <div class="col-md-3"><!-- .col -->
+                                        <div class="form-group input-icon right">
+                                            <label class="control-label">Zona</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            {{ form_widget(form.zonaEnvio, { 'attr': {'class':'form-control','onchange':'valorEnvio(this)' }, 'id':'zona'}) }}
+                                        </div>
+                                    </div><!-- /.col -->
+                                </div><!-- /.row -->
+
+                                <div class="row"><!-- .row -->
+                                    <div class="col-md-12"><!-- .col -->
+                                        <div class="form-group">
+                                            <label class="control-label">Dirección Entrega</label>
+                                            {{ form_widget(form.direccionEntrega, { 'attr': {'placeholder':'Digite Dirección','class':'form-control' }, 'id':'textDestinatarioDireccion' }) }}
+                                        </div>
+                                    </div><!-- /.col -->
+                                </div><!-- /.row -->
+
+                                <div class="row"><!-- .row -->
+                                    <div class="col-md-12"><!-- .col -->
+                                        <div class="form-group">
+                                            <label class="control-label">Descripción Dirección</label>
+                                            {{ form_widget(form.descripcionDireccion, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div><!-- /.col -->
+                                </div><!-- /.row -->
+                            </div><!-- /.datosEnvio -->                           
+                        </fieldset>
+                        <div class="col-sm-12 text-right">
+                            <button type="submit" class="finish btn-success btn">
+                                Siguiente <i class="fa fa-angle-right"></i>
+                            </button>
+                        </div>
+                            
+
+                        {{ form_widget(form.tipoPago, { 'attr': {'class':'form-control select-hidden' }}) }}
+                        {{ form_widget(form.prioridad, { 'attr': {'class':'form-control select-hidden' }}) }}
+                    {{ form_end(form) }}<!-- .form -->
+                </div><!-- /.panel-body -->
+            </div><!-- /.panel -->
+        </div><!-- /.col -->
+        
+        <div class="col-xs-12 col-sm-6 col-md-6"><!-- .col -->
+            <div class="well" id="container-load">
+                <h2 class="text-center">Aquí podra visualizar las busquedas dinamicas.</h2>
+            </div>
+        </div><!-- /.col -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $('.load-in-progress').click(function(e){
+            e.preventDefault();
+
+            var url = $(this).attr('href');
+            var content = $(this).data('id');
+            $(content).html(spinner);
+            
+            $.ajax({
+                method: 'GET',
+                url: url,
+                success: function(data) {
+                    $(content).fadeIn().html(data);
+                },
+                error: function() {
+                    console.log('Error!');
+                }
+            });
+        });
+
+        function metodoEntrega(){
+            if (document.orden_produccion.entrega[1].checked == true) {
+              document.getElementById('datos_envio').style.display='none';
+              document.getElementById('textDestinatario').value="{{pedido.cliente}}";
+              document.getElementById('textTelefono').value="{{pedido.cliente.telefono}}";
+              document.getElementById('textDireccion').value="Floristeria";
+              document.getElementById('zona').value=6;
+              document.getElementById('envio').value=0;
+              document.getElementById('hRecoger').style.display='block';
+              document.getElementById('hestimada').style.display='none';
+              //document.getElementById('hEstimada').value = 5 ;
+            } else {
+              document.getElementById('datos_envio').style.display='block';
+              document.getElementById('envio').value=4000;
+              document.getElementById('textDestinatario').value=null;
+              document.getElementById('textTelefono').value=null;
+              document.getElementById('textDireccion').value=null;
+              document.getElementById('hRecoger').style.display='none';
+              document.getElementById('hestimada').style.display='block';
+            }
+        }
+
+        function valorEnvio(obj){
+            num=obj.selectedIndex;
+            if (num==0 || num==1 || num==2 || num==3) {
+              document.getElementById('envio').value=4000;
+            }else if(num==4){
+              document.getElementById('envio').value=10000;
+            }else{
+              document.getElementById('envio').value=2000;
+            }
+        }
+    </script>
+{% endblock %}

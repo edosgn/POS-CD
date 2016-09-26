@@ -1,0 +1,141 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{path('homepage')}}">Inicio</a>
+            </li>
+            <li class="">
+                <a href="{{path('cliente_index')}}">Clientes</a>
+            </li>
+            <li class="active">Editar</li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Clientes
+                <small>Editar</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('cliente_index') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="left" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('cliente_new') }}" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="left" title="Cliente">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-6"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>Formulario</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {{ form_start(edit_form) }}
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group input-icon right">
+                                            <label>Tipo:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            <select class="form-control" name="tipo" onchange="habilitar(this)">
+                                                <option value="natural">Natural</option>
+                                                <option value="empresa">Empresa</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" id="empresa" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Empresa:</label>
+                                            {{ form_widget(edit_form.empresa, { 'attr': {'placeholder':'Nombre de la empresa','class':'form-control', 'required':'required' }}) }}
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-sm-4" id="nit" style="display:none;">
+                                        <div class="form-group">
+                                            <label>Nit:</label>
+                                            {{ form_widget(edit_form.nit, { 'attr': {'placeholder':'Digite nit', 'class':'form-control', 'required':'required' }}) }}
+                                        </div>
+                                    </div>                                    
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Nombre:</label>
+                                            {{ form_widget(edit_form.nombre, { 'attr': {'placeholder':'Digite Nombre','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Apellido:</label>
+                                            {{ form_widget(edit_form.apellido, { 'attr': {'placeholder':'Digite Apellido','class':'form-control' }}) }}
+                                        </div>
+                                    </div>                                    
+                                    <div class="col-sm-3">
+                                        <div class='form-group'>
+                                            <label>Fecha Nacimiento:</label>
+                                            <input type='text' class="form-control datepicker" name="fechaNacimiento" value="{{ cliente.fechaNacimiento|date('Y-m-d') }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Identificación:</label>
+                                            {{ form_widget(edit_form.identificacion, { 'attr': {'placeholder':'Digite Identificación','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                                    
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Telefono:</label>
+                                            {{ form_widget(edit_form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Correo:</label>
+                                            {{ form_widget(edit_form.correo, { 'attr': {'placeholder':'Digite Correo','class':'form-control' }}) }}
+                                        </div>
+                                    </div>                                    
+                                </div>                                
+                                        
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Preferencias:</label>
+                                            {{ form_widget(edit_form.preferencias, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-raised">
+                                            Guardar
+                                        </button>                                        
+                                    </div>
+                                </div>      
+                            {{ form_end(edit_form) }}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript"> 
+        function habilitar(obj){
+          num=obj.selectedIndex;
+          if (num==1) {
+            document.getElementById('empresa').style.display='block';
+            document.getElementById('nit').style.display='block';
+          }else{
+            document.getElementById('empresa').style.display='none';
+            document.getElementById('nit').style.display='none';
+          }
+        } 
+    </script>
+{% endblock %}

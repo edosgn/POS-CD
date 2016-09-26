@@ -1,0 +1,70 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('abono_index') }}">Abonos</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Abonos
+                <small>Listado</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('abono_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Abono">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Pedido</th>
+                                            <th>Fecha de abono</th>
+                                            <th>Valor abono</th>
+                                            <th>Saldo</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for abono in abonos %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ abono.pedido }}</td>
+                                            <td>{% if abono.fechaPago %}{{ abono.fechaPago|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                            <td>{{ abono.valorAbono }}</td>
+                                            <td>{{ abono.saldo }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ path('abono_show', { 'id': abono.id }) }}" class="btn btn-default btn-raised btn-xs"><i class="fa fa-check"></i>
+                                                    </a>                        
+                                                    <a href="{{ path('abono_edit', { 'id': abono.id }) }}" class="btn btn-default btn-raised btn-xs"><i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

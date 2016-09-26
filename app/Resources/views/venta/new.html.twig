@@ -1,0 +1,79 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li>
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('venta_index') }}">Ventas</a>
+            </li>
+            <li class="active">
+                Crear
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Venta
+                <small>Crear</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('venta_index') }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('venta_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Venta">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-3"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>Formulario</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {{ form_start(form)}}                                
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Pedido: {{pedido}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Articulo:</label>
+                                            {{ form_widget(form.articulo, { 'attr': {'placeholder':'Digite articulo','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Precio:</label>
+                                            {{ form_widget(form.valor, { 'attr': {'placeholder':'Digite valor','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-raised">
+                                            Crear
+                                        </button>
+                                    </div>
+                                </div>  
+                                {{ form_widget(form.pedido, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':pedido.id }}) }}    
+                            {{ form_end(form) }}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->        
+    </div><!-- /.page-content -->
+{% endblock %}

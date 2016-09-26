@@ -1,0 +1,155 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{path('homepage')}}">Inicio</a>
+            </li>
+            <li class="">
+                <a href="{{path('cliente_index')}}">Clientes</a>
+            </li>
+            <li class="active">Crear</li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Clientes
+                <small>Crear</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('cliente_index') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="left" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+        
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-6"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>Formulario</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group input-icon right">
+                                            <label>Tipo:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            {{ form_widget(form.tipo, { 'attr': {'class':'form-control' }, 'id':'selectTipo'}) }}
+                                        </div>
+                                    </div>
+                                    <div id="div-persona-juridica" class="display-none">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Empresa:</label>
+                                                <input type="text" placeholder="Nombre de la empresa" class="form-control" name="textEmpresa" />
+                                            </div>                                        
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Nit:</label>
+                                                <input type="text" placeholder="NIT de la empresa" class="form-control" name="textNit" />
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Identificación:</label>
+                                            {{ form_widget(form.identificacion, { 'attr': {'placeholder':'Digite Identificación','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Nombre:</label>
+                                            {{ form_widget(form.nombre, { 'attr': {'placeholder':'Digite Nombre','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Apellido:</label>
+                                            {{ form_widget(form.apellido, { 'attr': {'placeholder':'Digite Apellido','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class='form-group'>
+                                            <label>Fecha Nacimiento:</label>
+                                            <input type='text' class="form-control datepicker" name="fechaNacimiento" value="{{ 'now'|date('Y-m-d') }}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                                                                        
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Telefono:</label>
+                                            {{ form_widget(form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Correo:</label>
+                                            {{ form_widget(form.correo, { 'attr': {'placeholder':'Digite Correo','class':'form-control' } }) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group input-icon right">
+                                            <label>Dominio correo:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            <select class="form-control" name="dominioCorreo">
+                                                <option value="">Selecciona...</option>
+                                                <option value="@gmail.com">@gmail.com</option>
+                                                <option value="@hotmail.com">@hotmail.com</option>
+                                                <option value="@yahoo.com">@yahoo.com</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Preferencias del Cliente:</label>
+                                            {{ form_widget(form.preferencias, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-raised">
+                                            Crear
+                                        </button>
+                                    </div>
+                                </div>      
+                            {{ form_end(form) }}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $('#selectTipo').change(function(e){
+            var valor = $(this).val();
+            if (valor != "") {
+                switch(valor) {
+                    case 'natural':
+                        $('#div-persona-natural').removeClass('display-none').addClass('display-block');
+                        $('#div-persona-juridica').removeClass('display-block').addClass('display-none');
+                        break;
+                    case 'juridica':
+                        $('#div-persona-natural').removeClass('display-block').addClass('display-none');
+                        $('#div-persona-juridica').removeClass('display-none').addClass('display-block');
+                        break;
+                }
+            }
+        })
+    </script>
+{% endblock %}

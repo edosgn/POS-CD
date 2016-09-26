@@ -1,0 +1,322 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('usuario_index') }}">Usuarios</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Usuarios
+                <small>Listado</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('usuario_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Usuario">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+
+
+                    <ul class="nav nav-tabs" role="tablist"><!-- .nav -->
+                        <li role="presentation" class="active">
+                            <a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab">
+                                Administrador
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab">
+                                Comercial
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab-3" aria-controls="tab-3" role="tab" data-toggle="tab">
+                                Producción
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab-4" aria-controls="tab-4" role="tab" data-toggle="tab">
+                                Despacho
+                            </a>
+                        </li>
+                    </ul><!-- /.nav -->
+
+                    <div class="tab-content"><!-- .tab-content -->
+                        <div role="tabpanel" class="tab-pane fade in active" id="tab-1"><!-- .tabpanel -->
+                            <div class="panel panel-default"><!-- . panel -->
+                                <div class="panel-heading"><!-- . panel-heading -->
+                                    <h3>Usuarios Administrador</h3>
+                                </div><!-- /. panel-heading -->
+                                <div class="panel-body"><!-- . panel-body -->
+                                    {% if usuariosAdmin|length != 0 %}
+                                    <div class="table-responsive"><!-- .table-responsive -->
+                                        <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombres y Apellidos</th>
+                                                    <th>Identificacion</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Correo</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 0 %}
+                                            {% for usuario in usuariosAdmin %}
+                                                {% set count = count + 1 %}
+                                                <tr>
+                                                    <td>{{ count }}</td>
+                                                    <td>
+                                                        <a href="{{ path('usuario_show', { 'id': usuario.id }) }}">
+                                                            {{ usuario.nombre }} {{ usuario.apellido }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ usuario.identificacion }}</td>
+                                                    <td>{{ usuario.telefono }}</td>
+                                                    <td>{{ usuario.correo }}</td>
+                                                    <td>
+                                                        {% if usuario.estado == 1 %}
+                                                            Activo
+                                                        {% else %}
+                                                            Inactivo
+                                                        {% endif %}
+                                                    </td>            
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="{{ path('usuario_show', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-check"></i>
+                                                            </a>
+                                                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table><!-- /.table -->
+                                    </div><!-- /.table-responsive -->
+                                    {% else %}
+                                    <h1 class="text-center">
+                                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                        <br>
+                                        No existen registros.
+                                    </h1>
+                                    {% endif %}
+                                </div><!-- /. panel-body -->
+                            </div><!-- /. panel -->
+                        </div><!-- /.tabpanel -->
+                        <div role="tabpanel" class="tab-pane fade" id="tab-2"><!-- .tabpanel -->
+                            <div class="panel panel-default"><!-- . panel -->
+                                <div class="panel-heading"><!-- . panel-heading -->
+                                    <h3>Usuarios Comercial</h3>
+                                </div><!-- /. panel-heading -->
+                                <div class="panel-body"><!-- . panel-body -->
+                                    {% if usuariosComercial|length != 0 %}
+                                    <div class="table-responsive"><!-- .table-responsive -->
+                                        <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombres y Apellidos</th>
+                                                    <th>Identificacion</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Correo</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 0 %}
+                                            {% for usuario in usuariosComercial %}
+                                                {% set count = count + 1 %}
+                                                <tr>
+                                                    <td>{{ count }}</td>
+                                                    <td>
+                                                        <a href="{{ path('usuario_show', { 'id': usuario.id }) }}">
+                                                            {{ usuario.nombre }} {{ usuario.apellido }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ usuario.identificacion }}</td>
+                                                    <td>{{ usuario.telefono }}</td>
+                                                    <td>{{ usuario.correo }}</td>
+                                                    <td>
+                                                        {% if usuario.estado == 1 %}
+                                                            Activo
+                                                        {% else %}
+                                                            Inactivo
+                                                        {% endif %}
+                                                    </td>            
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="{{ path('usuario_show', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-check"></i>
+                                                            </a>
+                                                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table><!-- /.table -->
+                                    </div><!-- /.table-responsive -->
+                                    {% else %}
+                                    <h1 class="text-center">
+                                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                        <br>
+                                        No existen registros.
+                                    </h1>
+                                    {% endif %}
+                                </div><!-- /. panel-body -->
+                            </div><!-- /. panel -->
+                        </div><!-- /.tabpanel -->
+                        <div role="tabpanel" class="tab-pane fade" id="tab-3"><!-- .tabpanel -->
+                            <div class="panel panel-default"><!-- . panel -->
+                                <div class="panel-heading"><!-- . panel-heading -->
+                                    <h3>Usuarios Producción</h3>
+                                </div><!-- /. panel-heading -->
+                                <div class="panel-body"><!-- . panel-body -->
+                                    {% if usuariosProduccion|length != 0 %}
+                                    <div class="table-responsive"><!-- .table-responsive -->
+                                        <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombres y Apellidos</th>
+                                                    <th>Identificacion</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Correo</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 0 %}
+                                            {% for usuario in usuariosProduccion %}
+                                                {% set count = count + 1 %}
+                                                <tr>
+                                                    <td>{{ count }}</td>
+                                                    <td>
+                                                        <a href="{{ path('usuario_show', { 'id': usuario.id }) }}">
+                                                            {{ usuario.nombre }} {{ usuario.apellido }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ usuario.identificacion }}</td>
+                                                    <td>{{ usuario.telefono }}</td>
+                                                    <td>{{ usuario.correo }}</td>
+                                                    <td>
+                                                        {% if usuario.estado == 1 %}
+                                                            Activo
+                                                        {% else %}
+                                                            Inactivo
+                                                        {% endif %}
+                                                    </td>            
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="{{ path('usuario_show', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-check"></i>
+                                                            </a>
+                                                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table><!-- /.table -->
+                                    </div><!-- /.table-responsive -->
+                                    {% else %}
+                                    <h1 class="text-center">
+                                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                        <br>
+                                        No existen registros.
+                                    </h1>
+                                    {% endif %}
+                                </div><!-- /. panel-body -->
+                            </div><!-- /. panel -->
+                        </div><!-- /.tabpanel -->
+                        <div role="tabpanel" class="tab-pane fade" id="tab-4"><!-- .tabpanel -->
+                            <div class="panel panel-default"><!-- . panel -->
+                                <div class="panel-heading"><!-- . panel-heading -->
+                                    <h3>Usuarios Despacho</h3>
+                                </div><!-- /. panel-heading -->
+                                <div class="panel-body"><!-- . panel-body -->
+                                    {% if usuariosDespacho|length != 0 %}
+                                    <div class="table-responsive"><!-- .table-responsive -->
+                                        <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Nombres y Apellidos</th>
+                                                    <th>Identificacion</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Correo</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% set count = 0 %}
+                                            {% for usuario in usuariosDespacho %}
+                                                {% set count = count + 1 %}
+                                                <tr>
+                                                    <td>{{ count }}</td>
+                                                    <td>
+                                                        <a href="{{ path('usuario_show', { 'id': usuario.id }) }}">
+                                                            {{ usuario.nombre }} {{ usuario.apellido }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ usuario.identificacion }}</td>
+                                                    <td>{{ usuario.telefono }}</td>
+                                                    <td>{{ usuario.correo }}</td>
+                                                    <td>
+                                                        {% if usuario.estado == 1 %}
+                                                            Activo
+                                                        {% else %}
+                                                            Inactivo
+                                                        {% endif %}
+                                                    </td>            
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a href="{{ path('usuario_show', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-check"></i>
+                                                            </a>
+                                                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table><!-- /.table -->
+                                    </div><!-- /.table-responsive -->
+                                    {% else %}
+                                    <h1 class="text-center">
+                                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                        <br>
+                                        No existen registros.
+                                    </h1>
+                                    {% endif %}
+                                </div><!-- /. panel-body -->
+                            </div><!-- /. panel -->
+                        </div><!-- /.tabpanel -->
+                    </div><!-- /.tab-content -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

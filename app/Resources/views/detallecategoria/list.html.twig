@@ -1,0 +1,20 @@
+<div class="no-padding"><!-- .panel-body -->
+    {% if detalleCategorias|length != 0 %}
+    <small><i class="fa fa-tags"></i> Categorias de Detalles</small>
+    <div class="row"><!-- .row -->
+        {% for detalleCategoria in detalleCategorias %}
+            <div class="col-xs-12 col-sm-2 col-md-2 text-center">
+                <a href="{{path('detalle_list',{'idDetalleCategoria':detalleCategoria.id})}}" class="find-detalle btn btn-success btn-raised load-in-progress" data-id="#container-load">
+                    {{ detalleCategoria.nombre }}
+                </a>
+            </div>     
+        {% endfor %}
+    </div><!-- /.row -->
+    {% else %}
+    <h1 class="text-center">
+        <i class="fa fa-exclamation-triangle fa-2x"></i>
+        <br>
+        No existen registros.
+    </h1>
+    {% endif %}
+</div><!-- /.well -->

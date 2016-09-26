@@ -1,0 +1,396 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content">
+        <ol class="breadcrumb">
+            <li class="">
+                <a href="index.html">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="index.html">Escritorio</a>
+            </li>
+        </ol>
+        <div class="page-heading">            
+            <h1>Escritorio
+                <small>Novedades</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('despacho_camino') }}" class="btn btn-warning btn-raised" data-toggle="tooltip" data-placement="top" title="Ordenes en camino">
+                    <i class="fa fa-bus"></i>
+                </a>
+                <a href="{{ path('despacho_entregadas') }}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="top" title="Ordenes etregadas">
+                    <i class="fa fa-search"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+          <div data-widget-group="group1">
+            <div class="row"> 
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-indigo">
+                  <div class="info">
+                    <div class="tile-heading"><span>Zona Sur</span></div>
+                    <div class="tile-body"><span>5,921</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-danger">
+                  <div class="info">
+                    <div class="tile-heading"><span>Zona Norte</span></div>
+                    <div class="tile-body "><span>2,344</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>             
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-primary">
+                  <div class="info">
+                    <div class="tile-heading"><span>Zona Occidente</span></div>
+                    <div class="tile-body "><span>1,032</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-success clearfix">
+                  <div class="info">
+                    <div class="tile-heading"><span>Zona Oriente</span></div>
+                    <div class="tile-body "><span>1,454</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes en Despacho Zona Norte</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Enviar a</th>
+                                            <th>Direccion de entrega</th>
+                                            <th>Zona Envio</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha y hora de entrega</th>
+                                            <th>Detalle</th>
+                                            <th>Prioridad</th>
+                                            <th>Estadp</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.zonaEnvio == 'Norte' %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ orden.numero }}</td>
+                                            <td>{{ orden.destinatario }}</td>
+                                            <td>{{ orden.direccionEntrega }}</td>
+                                            <td>{{ orden.zonaEnvio }}</td>
+                                            <td>{{ orden.telefono }}</td>
+                                            <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d H:i A') }}{% endif %}</td>
+                                            <td>{{ orden.detalle }}</td>
+                                            <td>{{ orden.prioridad }}</td>
+                                            <td>{{ orden.estado }}</td>
+                                            <td>
+                                                <a href="{{path('despacho_estado', {'orden': orden.id, 'estado':'En Camino'})}}">En Camino</a>                                                    
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes en Despacho Zona Sur</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Enviar a</th>
+                                            <th>Direccion de entrega</th>
+                                            <th>Zona Envio</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha y hora de entrega</th>
+                                            <th>Detalle</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.zonaEnvio == 'Sur' %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ orden.numero }}</td>
+                                            <td>{{ orden.destinatario }}</td>
+                                            <td>{{ orden.direccionEntrega }}</td>
+                                            <td>{{ orden.zonaEnvio }}</td>
+                                            <td>{{ orden.telefono }}</td>
+                                            <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d H:i A') }}{% endif %}</td>
+                                            <td>{{ orden.detalle }}</td>
+                                            <td>{{ orden.prioridad }}</td>
+                                            <td>
+                                                <a href="{{path('despacho_estado', {'orden': orden.id, 'estado':'En Camino'})}}">En Camino</a>                                                    
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes en Despacho Zona Oriente</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Enviar a</th>
+                                            <th>Direccion de entrega</th>
+                                            <th>Zona Envio</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha y hora de entrega</th>
+                                            <th>Detalle</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.zonaEnvio == 'Oriente' %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ orden.numero }}</td>
+                                            <td>{{ orden.destinatario }}</td>
+                                            <td>{{ orden.direccionEntrega }}</td>
+                                            <td>{{ orden.zonaEnvio }}</td>
+                                            <td>{{ orden.telefono }}</td>
+                                            <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d H:i A') }}{% endif %}</td>
+                                            <td>{{ orden.detalle }}</td>
+                                            <td>{{ orden.prioridad }}</td>
+                                            <td>
+                                                <a href="{{path('despacho_estado', {'orden': orden.id, 'estado':'En Camino'})}}">En Camino</a>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes en Despacho Zona Occidente</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Enviar a</th>
+                                            <th>Direccion de entrega</th>
+                                            <th>Zona Envio</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha y hora de entrega</th>
+                                            <th>Detalle</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.zonaEnvio == 'Occidente' %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ orden.numero }}</td>
+                                            <td>{{ orden.destinatario }}</td>
+                                            <td>{{ orden.direccionEntrega }}</td>
+                                            <td>{{ orden.zonaEnvio }}</td>
+                                            <td>{{ orden.telefono }}</td>
+                                            <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d H:i A') }}{% endif %}</td>
+                                            <td>{{ orden.detalle }}</td>
+                                            <td>{{ orden.prioridad }}</td>
+                                            <td>
+                                                <a href="{{path('despacho_estado', {'orden': orden.id, 'estado':'En Camino'})}}">En Camino</a>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes en Despacho Zona Periferica</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Enviar a</th>
+                                            <th>Direccion de entrega</th>
+                                            <th>Zona Envio</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha y hora de entrega</th>
+                                            <th>Detalle</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.zonaEnvio == 'Perifericos' %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ orden.numero }}</td>
+                                            <td>{{ orden.destinatario }}</td>
+                                            <td>{{ orden.direccionEntrega }}</td>
+                                            <td>{{ orden.zonaEnvio }}</td>
+                                            <td>{{ orden.telefono }}</td>
+                                            <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d H:i A') }}{% endif %}</td>
+                                            <td>{{ orden.detalle }}</td>
+                                            <td>{{ orden.prioridad }}</td>
+                                            <td>
+                                                <a href="{{path('despacho_estado', {'orden': orden.id, 'estado':'En Camino'})}}">En Camino</a>                                                    
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes en Despacho Zona Centro</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Enviar a</th>
+                                            <th>Direccion de entrega</th>
+                                            <th>Zona Envio</th>
+                                            <th>Telefono</th>
+                                            <th>Fecha y hora de entrega</th>
+                                            <th>Detalle</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.zonaEnvio == 'Centro' %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ orden.numero }}</td>
+                                            <td>{{ orden.destinatario }}</td>
+                                            <td>{{ orden.direccionEntrega }}</td>
+                                            <td>{{ orden.zonaEnvio }}</td>
+                                            <td>{{ orden.telefono }}</td>
+                                            <td>{% if orden.fechaEntrega %}{{ orden.fechaEntrega|date('Y-m-d H:i A') }}{% endif %}</td>
+                                            <td>{{ orden.detalle }}</td>
+                                            <td>{{ orden.prioridad }}</td>
+                                            <td>
+                                                <a href="{{path('despacho_estado', {'orden': orden.id, 'estado':'En Camino'})}}">En Camino</a>                                                   
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div>
+        </div> <!-- /.container-fluid -->        
+    </div> <!-- #page-content -->
+{% endblock %}

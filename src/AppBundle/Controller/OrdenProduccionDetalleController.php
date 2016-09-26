@@ -1,0 +1,203 @@
+<?php
+
+namespace AppBundle\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Entity\OrdenProduccionDetalle;
+use AppBundle\Form\OrdenProduccionDetalleType;
+
+/**
+ * OrdenProduccionDetalle controller.
+ *
+ * @Route("/orden_produccion_detalle")
+ */
+class OrdenProduccionDetalleController extends Controller
+{
+    /**
+     * Change state OrdenProduccionDetalle entities.
+     *
+     * @Route("/state", name="orden_produccion_detalle_state")
+     * @Method("GET")
+     */
+    public function stateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($request->query->get('id'));
+
+        $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find($request->query->get('idEstado'));
+
+        $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+
+        $em->persist($ordenProduccionDetalle);
+        $em->flush();
+
+        return $this->redirectToRoute('orden_produccion_detalle_show',array(
+            'id' => $request->query->get('id'),
+        ));
+    }
+
+    /**
+     * Lists all OrdenProduccionDetalle entities.
+     *
+     * @Route("/list", name="orden_produccion_detalle_list")
+     * @Method("GET")
+     */
+    public function listAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenProduccion = $em->getRepository('AppBundle:OrdenProduccion')->find($request->query->get('idOrdenProduccion'));
+
+        return $this->render('ordenproducciondetalle/list.html.twig', array(
+            'ordenProduccion' => $ordenProduccion,
+        ));
+    }
+
+    /**
+     * Lists all OrdenProduccionDetalle entities.
+     *
+     * @Route("/", name="orden_produccion_detalle_index")
+     * @Method("GET")
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenProduccionDetalles = $em->getRepository('AppBundle:OrdenProduccionDetalle')->findAll();
+
+        return $this->render('ordenproducciondetalle/index.html.twig', array(
+            'ordenProduccionDetalles' => $ordenProduccionDetalles,
+        ));
+    }
+
+    /**
+     * Creates a new OrdenProduccionDetalle entity.
+     *
+     * @Route("/new", name="orden_produccion_detalle_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $ordenProduccionDetalle = new OrdenProduccionDetalle();
+        $form = $this->createForm('AppBundle\Form\OrdenProduccionDetalleType', $ordenProduccionDetalle, array(
+            'action' => $this->generateUrl('orden_produccion_detalle_new'),
+            'method' => 'POST',
+        ));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            if ($request->files->get('inputFotoObservacion') != null) {
+                $file = $request->files->get('inputFotoObservacion');
+                $originalName = $file->getClientOriginalName();
+                $dir=__DIR__.'/../../../web/img/uploads/observations';
+                $extension = $file->guessExtension();
+                $file->move($dir,$originalName);
+
+                $ordenProduccionDetalle->setFotoObservacion($originalName);
+            }
+            
+            $em->persist($ordenProduccionDetalle);
+            $em->flush();
+
+            return $this->redirectToRoute('orden_produccion_detalle_list', array(
+                'idOrdenProduccion' => $ordenProduccionDetalle->getOrdenProduccion()->getId()
+                )
+            );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ordenProduccion = $em->getRepository('AppBundle:OrdenProduccion')->find($request->query->get('idOrdenProduccion'));
+
+        return $this->render('ordenproducciondetalle/new.html.twig', array(
+            'ordenProduccionDetalle' => $ordenProduccionDetalle,
+            'ordenProduccion' => $ordenProduccion,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Finds and displays a OrdenProduccionDetalle entity.
+     *
+     * @Route("/{id}", name="orden_produccion_detalle_show")
+     * @Method("GET")
+     */
+    public function showAction(OrdenProduccionDetalle $ordenProduccionDetalle)
+    {
+        $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
+
+        return $this->render('ordenproducciondetalle/show.html.twig', array(
+            'ordenProduccionDetalle' => $ordenProduccionDetalle,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Displays a form to edit an existing OrdenProduccionDetalle entity.
+     *
+     * @Route("/{id}/edit", name="orden_produccion_detalle_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request, OrdenProduccionDetalle $ordenProduccionDetalle)
+    {
+        $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
+        $editForm = $this->createForm('AppBundle\Form\OrdenProduccionDetalleType', $ordenProduccionDetalle);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ordenProduccionDetalle);
+            $em->flush();
+
+            return $this->redirectToRoute('orden_produccion_detalle_edit', array('id' => $ordenProduccionDetalle->getId()));
+        }
+
+        return $this->render('ordenproducciondetalle/edit.html.twig', array(
+            'ordenProduccionDetalle' => $ordenProduccionDetalle,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+    /**
+     * Deletes a OrdenProduccionDetalle entity.
+     *
+     * @Route("/{id}", name="orden_produccion_detalle_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, OrdenProduccionDetalle $ordenProduccionDetalle)
+    {
+        $form = $this->createDeleteForm($ordenProduccionDetalle);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($ordenProduccionDetalle);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('orden_produccion_detalle_index');
+    }
+
+    /**
+     * Creates a form to delete a OrdenProduccionDetalle entity.
+     *
+     * @param OrdenProduccionDetalle $ordenProduccionDetalle The OrdenProduccionDetalle entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createDeleteForm(OrdenProduccionDetalle $ordenProduccionDetalle)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('orden_produccion_detalle_delete', array('id' => $ordenProduccionDetalle->getId())))
+            ->setMethod('DELETE')
+            ->getForm()
+        ;
+    }
+}

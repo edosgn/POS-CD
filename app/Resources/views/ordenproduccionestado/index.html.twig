@@ -1,0 +1,74 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('orden_produccion_estado_index') }}">Estados</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Estados de Orden de Producción
+                <small>Listado</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('orden_produccion_estado_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Estado">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    {% if ordenProduccionEstados|length != 0 %}
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for ordenProduccionEstado in ordenProduccionEstados %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ ordenProduccionEstado }}</td>
+                                            <td>{{ ordenProduccionEstado.estado }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ path('orden_produccion_estado_show', { 'id': ordenProduccionEstado.id }) }}" class="btn btn-default btn-raised btn-xs"><i class="fa fa-check"></i>
+                                                    </a>                        
+                                                    <a href="{{ path('orden_produccion_estado_edit', { 'id': ordenProduccionEstado.id }) }}" class="btn btn-default btn-raised btn-xs"><i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                    {% else %}
+                    <h1 class="text-center">
+                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                        <br>
+                        No existen registros.
+                    </h1>
+                    {% endif %}
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>OrdenProduccionDetalle list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Estado</th>
+                <th>Precio</th>
+                <th>Valorenvio</th>
+                <th>Descripcionmensaje</th>
+                <th>Observacion</th>
+                <th>Fotobservacion</th>
+                <th>Firma</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ordenProduccionDetalle in ordenProduccionDetalles %}
+            <tr>
+                <td><a href="{{ path('orden_produccion_detalle_show', { 'id': ordenProduccionDetalle.id }) }}">{{ ordenProduccionDetalle.id }}</a></td>
+                <td>{{ ordenProduccionDetalle.estado }}</td>
+                <td>{{ ordenProduccionDetalle.precio }}</td>
+                <td>{{ ordenProduccionDetalle.valorEnvio }}</td>
+                <td>{{ ordenProduccionDetalle.descripcionMensaje }}</td>
+                <td>{{ ordenProduccionDetalle.observacion }}</td>
+                <td>{{ ordenProduccionDetalle.fotObservacion }}</td>
+                <td>{{ ordenProduccionDetalle.firma }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('orden_produccion_detalle_show', { 'id': ordenProduccionDetalle.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('orden_produccion_detalle_edit', { 'id': ordenProduccionDetalle.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('orden_produccion_detalle_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

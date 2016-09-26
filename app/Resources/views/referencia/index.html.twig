@@ -1,0 +1,94 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('referencia_index') }}">Referencias</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Referencias
+                <small>Listado</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('referencia_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Prioridad">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    {% if referencias|length != 0 %}
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Identificación</th>
+                                            <th>Nombres y apellidos</th>
+                                            <th>Parentesco</th>
+                                            <th>Telefono</th>
+                                            <th>Correo</th>
+                                            <th>Direccion</th>
+                                            <th>Fecha especial</th>
+                                            <th>Descripcion de la fecha</th>
+                                            <th>Intereses de la persona</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for referencia in referencias %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>{{ referencia.identificacion }}</td>
+                                            <td>
+                                                <a href="{{ path('referencia_show', { 'id': referencia.id }) }}">
+                                                    {{ referencia }}
+                                                </a>
+                                            </td>
+                                            <td>{{ referencia.parentesco }}</td>
+                                            <td>{{ referencia.telefono }}</td>
+                                            <td>{{ referencia.correo }}</td>
+                                            <td>{{ referencia.direccion }}</td>
+                                            <td>{% if referencia.fechaEspecial %}{{ referencia.fechaEspecial|date('Y-m-d') }}{% endif %}</td>
+                                            <td>{{ referencia.descripcionFecha }}</td>
+                                            <td>{{ referencia.intereses|length }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ path('referencia_show', { 'id': referencia.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                    <a href="{{ path('referencia_edit', { 'id': referencia.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel -->
+                    {% else %}
+                    <h1 class="text-center">
+                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                        <br>
+                        No existen registros.
+                    </h1>
+                    {% endif %}
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

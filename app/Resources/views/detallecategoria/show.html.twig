@@ -1,0 +1,66 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('detalle_categoria_index') }}">Categorias de Detalle</a>
+            </li>
+            <li class="active">
+                Ver
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Categorias de Detalle
+                <small>Ver</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('detalle_categoria_index') }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('detalle_categoria_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Categoria">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('detalle_categoria_edit',{'id':detalleCategoria.id}) }}" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a href="{{ path('detalle_categoria_edit',{'id':detalleCategoria.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-3"><!-- .col -->
+
+                    <div class="card profile-card"><!-- .card -->
+                        <div class="card-content"><!-- .card-content -->
+                            <div class="pt-n text-center">
+                                <div class="btn-group">
+                                    <a href="{{ path('detalle_categoria_edit',{'id':detalleCategoria.id}) }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a href="{{ path('detalle_categoria_edit',{'id':detalleCategoria.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body pt-n"><!-- .card-body -->
+                                <h1 class="card-image-headline text-center"><!-- .card-image-headline -->
+                                    <i class="fa fa-tag fa-4x img-responsive"></i>
+                                    <small>{{ detalleCategoria }}</small>
+                                </h1><!-- /.card-image-headline -->
+                            </div><!-- /.card-body -->
+                        </div><!-- /.card-content -->
+                    </div><!-- /.card -->
+
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        
+    </div><!-- /.page-content -->
+{% endblock %}

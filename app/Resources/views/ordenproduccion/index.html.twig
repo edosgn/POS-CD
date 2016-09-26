@@ -1,0 +1,88 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('orden_produccion_index') }}">Ordenes de Producción</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Ordenes de Producción
+                <small>Listado</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('orden_produccion_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Orden de Producción">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Cliente</th>
+                                            <th>Enviar a</th>
+                                            <th>Dirección de entrega</th>
+                                            <th>Teléfono</th>
+                                            <th>Fecha de entrega</th>
+                                            <th>Hora estimada entrega</th>
+                                            <th>Prioridad</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for ordenProduccion in ordenProduccions %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('orden_produccion_show', { 'id': ordenProduccion.id }) }}">
+                                                    {{ ordenProduccion.numero }}
+                                                </a>
+                                            </td>
+                                            <td>{% if ordenProduccion.pedido.cliente %}{{ ordenProduccion.pedido.cliente }}{% endif %}</td>
+                                            <td>{{ ordenProduccion.destinatarioNombres ~ ordenProduccion.destinatarioApellidos }}</td>
+                                            <td>{{ ordenProduccion.direccionEntrega }}</td>
+                                            <td>{{ ordenProduccion.telefono }}</td>
+                                            <td>
+                                                {% if ordenProduccion.fechaEntrega %}{{ ordenProduccion.fechaEntrega|date('Y-m-d') }}{% endif %}
+                                            </td>
+                                            <td>
+                                                {{ ordenProduccion.horario }}
+                                            </td>
+                                            <td>{{ ordenProduccion.prioridad }}</td>   
+                                            <td>{{ ordenProduccion.estado }}</td>          
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ path('orden_produccion_show', { 'id': ordenProduccion.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                    <a href="{{ path('orden_produccion_edit', { 'id': ordenProduccion.id, 'idStep':1 }) }}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

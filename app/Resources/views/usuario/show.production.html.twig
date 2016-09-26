@@ -1,0 +1,167 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('usuario_index') }}">Usuarios</a>
+            </li>
+            <li class="active">
+                Ver
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Usuarios
+                <small>Ver</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('usuario_index') }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('usuario_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Usuario">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('usuario_edit',{'id':usuario.id}) }}" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a href="{{ path('usuario_edit',{'id':usuario.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+
+                <div class="col-sm-3"><!-- .col -->
+                    <div class="card profile-card"><!-- .card -->
+                        <div class="card-content"><!-- .card-content -->
+                            <div class="card-image">
+                                <img src="{{asset('img/avatar/' ~ usuario.foto)}}" alt="Avatar" class="img-responsive">
+                                <h3 class="card-image-headline text-shadow">{{ usuario }}
+                                    <small>{{ usuario.role }}</small>
+                                </h3>
+                                <div class="ripple-container"></div>
+                            </div>
+
+                            <div class="card-body"><!-- .card-body -->
+                                <p><!-- .p -->
+                                    <i class="fa fa-credit-card"></i>
+                                    <strong>Identificación: </strong>
+                                    {{ usuario.identificacion }}  
+                                </p><!-- /.p -->
+                                <p><!-- .p -->
+                                    <i class="fa fa-phone"></i> 
+                                    <strong>Telefono: </strong>
+                                    {{ usuario.telefono }}
+                                </p><!-- /.p -->
+                                <p><!-- .p -->
+                                    <i class="fa fa-envelope"></i>
+                                    <strong>Correo:</strong>
+                                    {{ usuario.correo }}
+                                </p><!-- /.p -->
+                                <p><!-- .p -->
+                                    <i class="fa fa-asterisk"></i>
+                                    <strong>Estado:</strong>
+                                        {% if usuario.estado == 1 %}
+                                            Activo
+                                        {% else %}
+                                            Inactivo
+                                        {% endif %}
+                                </p><!-- /.p -->
+                                <p><!-- .p -->
+                                    <i class="fa fa-calendar"></i>
+                                    <strong>Creacion:</strong>
+                                    {% if usuario.createdAt %}{{ usuario.createdAt|date('Y-m-d') }}{% endif %}
+                                </p><!-- /.p -->
+                                <p><!-- .p -->
+                                    <i class="fa fa-calendar"></i>
+                                    <strong>Ultima modificación:</strong>
+                                    {% if usuario.updatedAt %}{{ usuario.updatedAt|date('Y-m-d') }}{% endif %}
+                                </p><!-- /.p -->
+                            </div><!-- .card-body -->
+
+                            <footer class="card-footer pt-n text-center"><!-- .card-footer -->
+                                <div class="btn-group">
+                                    <a href="{{ path('usuario_edit',{'id':usuario.id}) }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a href="{{ path('usuario_edit',{'id':usuario.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </footer><!-- /.card-footer -->
+                        </div><!-- /.card-content -->
+                    </div><!-- /.card -->
+                </div><!-- /.col -->
+
+                <div class="col-sm-9"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>CATEGORIAS ASIGNADAS</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {% if detalleCategorias|length != 0 %}
+                            <form action="{{path('usuario_categoria_register')}}" method="POST">
+                                <div class="table-responsive"><!-- .table-responsive -->
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                            <th>Nombre</th>
+                                            <th>
+                                                <div class="btn-group">
+                                                    <a href="#" class="btn btn-info btn-raised btn-xs check-all" data-name="select[]" data-toggle="tooltip" data-placement="left" title="Todos">
+                                                        <i class="fa fa-link"></i>
+                                                    </a>
+                                                    <a href="#" class="btn btn-danger btn-raised btn-xs check-none" data-name="select[]" data-toggle="tooltip" data-placement="right" title="Ninguno">
+                                                        <i class="fa fa-unlink"></i>
+                                                    </a>
+                                                </div>   
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            {% for categoria in detalleCategorias %}
+                                                {% set flag = 0 %}
+                                                {% for usuarioCategoria in usuario.usuarioCategoria %}
+                                                    {% if usuarioCategoria.detalleCategoria.id == categoria.id %}
+                                                        {% set flag = 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <tr>
+                                                    <td>{{ categoria.nombre }}</td>
+                                                    <td>
+                                                        {% if flag == 1 %}
+                                                            <input type="checkbox" name="select[]" value="{{categoria.id}}" checked>
+                                                        {% else %}
+                                                            <input type="checkbox" name="select[]" value="{{categoria.id}}">
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div><!-- .table-responsive -->
+                                <input type="hidden" name="idUsuario" value="{{usuario.id}}">
+                                <button type="submit" class="btn btn-inverse btn-raised">
+                                    Actualizar
+                                </button>
+                            </form>
+                                
+                            {% else %}
+                            <h1 class="text-center">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No existen registros.
+                            </h1>
+                            {% endif %}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+        
+    </div><!-- /.page-content -->
+{% endblock %}

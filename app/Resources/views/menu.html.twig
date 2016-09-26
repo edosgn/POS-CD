@@ -1,0 +1,226 @@
+<div class="static-sidebar-wrapper sidebar-blue"><!-- .static-sidebar-wrapper -->
+  <div class="static-sidebar"><!-- .static-sidebar -->
+    <div class="sidebar"><!-- .sidebar -->
+      <div class="widget" id="widget-profileinfo"><!-- .widget-profileinfo -->
+        <div class="widget-body"><!-- .widget-body -->
+          <div class="userinfo "><!-- .userinfo -->
+            <div class="avatar pull-left">
+              <img src="{{asset('img/avatar/default.jpg')}}" class="img-responsive img-circle"> 
+            </div>
+            <div class="info text-shadow">
+              <span class="username">{{app.user}}</span>
+              <span class="useremail">{{app.user.correo}}</span>
+            </div>
+
+            <div class="acct-dropdown clearfix dropdown">
+              <span class="pull-left">
+                <span class="online-status online"></span>
+                Online
+              </span>
+            </div>
+          </div><!-- /.userinfo -->
+        </div><!-- /.widget-body -->
+      </div><!-- /.widget-profileinfo -->
+      <div class="widget stay-on-collapse" id="widget-sidebar"><!-- #widget-sidebar -->
+        <nav role="navigation" class="widget-body">
+          <ul class="acc-menu">
+            <li class="nav-separator">
+              <span>Navegacion</span>
+            </li>
+            <li>
+              <a class="withripple" href="{{path('homepage')}}">
+                <span class="icon">
+                  <i class="fa fa-home"></i>
+                </span>
+                <span>Inicio</span>
+                <span class="badge badge-teal">0</span>
+              </a>
+            </li>
+            <li>
+              <a class="withripple" href="{{path('usuario_index')}}">
+                <span class="icon">
+                  <i class="fa fa-laptop"></i>
+                </span>
+                <span>Usuarios</span>
+              </a>
+            </li>
+            <li>
+              <a class="withripple" href="javascript:;">
+                <span class="icon">
+                  <i class="fa fa-users"></i>
+                </span>
+                <span>Clientes</span>
+              </a>
+              <ul class="acc-menu">
+                <li>
+                  <a href="{{path('cliente_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-list"></i> 
+                    </span>
+                    <span>Listado</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="withripple" href="{{path('referencia_index')}}">
+                    <span class="icon">
+                      <i class="fa fa-star"></i>
+                    </span>
+                    <span>Preferidos</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="withripple" href="{{path('parentesco_index')}}">
+                    <span class="icon">
+                      <i class="fa fa-link"></i>
+                    </span>
+                    <span>Parentescos</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Pedidos -->
+            <li>
+              <a class="withripple" href="javascript:;">
+                <span class="icon">
+                  <i class="fa fa-shopping-cart"></i>
+                </span>
+                <span>Pedidos</span>
+              </a>
+              <ul class="acc-menu">
+                <li>
+                  <a href="{{path('pedido_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-list"></i> 
+                    </span>
+                    <span>Listado</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="withripple" href="javascript:;">
+                    <span>Ordenes de Produccion</span>
+                  </a>
+                  <ul class="acc-menu">
+                    <li>
+                      <a href="{{path('orden_produccion_index')}}" class="withripple">
+                        <span class="icon">
+                          <i class="fa fa-list"></i> 
+                        </span>
+                        <span>Listado</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{path('orden_produccion_estado_index')}}" class="withripple">
+                        <span class="icon">
+                          <i class="fa fa-flag"></i> 
+                        </span>
+                        <span>Estados</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a class="withripple" href="{{path('venta_index')}}">
+                    <span class="icon">
+                      <i class="fa fa-dollar"></i>
+                    </span>
+                    <span>Ventas</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{path('horario_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-clock-o"></i> 
+                    </span>
+                    <span>Horarios</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="withripple" href="{{path('abono_index')}}">
+                    <span class="icon">
+                      <i class="fa fa-money"></i>
+                    </span>
+                    <span>Abonos</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="withripple" href="{{path('prioridad_index')}}">
+                    <span class="icon">
+                      <i class="fa fa-sort-numeric-asc"></i>
+                    </span>
+                    <span>Prioridades</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Detalles -->
+            <li>
+              <a class="withripple" href="javascript:;">
+                <span class="icon">
+                  <i class="fa fa-gift"></i>
+                </span>
+                <span>Detalles</span>
+              </a>
+              <ul class="acc-menu">
+                <li>
+                  <a href="{{path('detalle_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-list"></i> 
+                    </span>
+                    <span>Listado</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{path('detalle_categoria_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-tags"></i> 
+                    </span>
+                    <span>Categorias</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{path('zona_envio_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-map-marker"></i> 
+                    </span>
+                    <span>Zonas de Envio</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Mensajes -->
+            <li>
+              <a class="withripple" href="javascript:;">
+                <span class="icon">
+                  <i class="fa fa-envelope"></i>
+                </span>
+                <span>Mensajes</span>
+              </a>
+              <ul class="acc-menu">
+                <li>
+                  <a href="{{path('mensaje_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-list"></i> 
+                    </span>
+                    <span>Listado</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{path('mensaje_categoria_index')}}" class="withripple">
+                    <span class="icon">
+                      <i class="fa fa-tags"></i> 
+                    </span>
+                    <span>Categorias</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </nav>
+      </div><!-- /#widget-sidebar -->
+    </div><!-- /.sidebar -->
+  </div><!-- /.static-sidebar -->
+</div><!-- .static-sidebar-wrapper -->

@@ -1,0 +1,144 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content">
+        <ol class="breadcrumb">
+            <li class="">
+                <a href="index.html">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="index.html">Escritorio</a>
+            </li>
+        </ol>
+        <div class="page-heading">            
+            <h1>Escritorio
+                <small>Novedades</small>
+            </h1>
+            <div class="options">
+                <a href="{{path('produccion_finalizadas', {'user': app.user.id})}}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="top" title="Ordenes Finalizadas">
+                    <i class="fa fa-check"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+          <div data-widget-group="group1">
+            <div class="row">
+
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-indigo">
+                  <div class="info">
+                    <div class="tile-heading"><span>Ordenes Asignadas</span></div>
+                    <div class="tile-body"><span>5,921</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-danger">
+                  <div class="info">
+                    <div class="tile-heading"><span>Ordenes Pendientes</span></div>
+                    <div class="tile-body "><span>2,344</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-primary">
+                  <div class="info">
+                    <div class="tile-heading"><span>Ordenes En Proceso</span></div>
+                    <div class="tile-body "><span>1,032</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                <div class="info-tile info-tile-alt tile-success clearfix">
+                  <div class="info">
+                    <div class="tile-heading"><span>Ordenes Finalizadas</span></div>
+                    <div class="tile-body "><span>1,454</span></div>
+                  </div>
+                  <div class="stats">
+                    <div class="tile-content">
+                        <div id="dashboard-sparkline-indigo">
+                            <i class="fa fa-check fa-3x"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+
+            <div class="row"><!-- .row -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><!-- .col -->
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <h3 class="text-center">Listado de Ordenes asignadas al usuario {{app.user}}</h3>
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Detalle</th>
+                                            <th>Numero Orden produccion</th>
+                                            <th>Fecha</th>
+                                            <th>Hora de entrega</th>
+                                            <th>Precio</th>                                            
+                                            <th>Observacion</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for orden in ordenes %}                                        
+                                        {% if orden.estado == "Asignada" or orden.estado == "En Proceso" %}
+                                            {% set count = count + 1 %}
+                                            <tr>
+                                                <td>{{ count }}</td>
+                                                <td>{{ orden.detalle | capitalize }}</td>
+                                                <td>{{ orden.numero }}</td>
+                                                <td>{{ orden.fechaEntrega|date('m-d') }}</td>
+                                                <td>{{ orden.fechaEstimada | date('h:i A') }}</td>
+                                                <td>{{ orden.precio }}</td>                                                
+                                                <td>{{ orden.observacion }}</td>
+                                                <td>{{ orden.prioridad }}</td>
+                                                <td>                                                    
+                                                    <div class="btn-group">
+                                                        <a href="{{ path('produccion_ver', { 'id': orden.id }) }}" class="btn btn-xs btn-default">
+                                                            <i class="fa fa-check"></i>
+                                                        </a>                        
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel --> 
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+          </div>
+        </div> <!-- /.container-fluid -->        
+    </div> <!-- #page-content -->
+{% endblock %}

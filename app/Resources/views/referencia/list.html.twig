@@ -1,0 +1,58 @@
+<div class="row"><!-- .no-padding -->
+    {% if referencias|length != 0 %}
+    <h3 class="text-center">Listado de Preferidos</h3>
+    <div class="table-responsive"><!-- .table-responsive -->
+        {% for referencia in referencias %}
+            <div class="col-xs-12 col-sm-3 text-center">
+                <img src="{{asset('img/avatar/default.jpg')}}" class="img-responsive img-circle"><br>
+                <a href="{{path('referencia_preferido_json',{'id':referencia.id})}}" class="find-referencia load-in">{{ referencia.nombres | title }} {{ referencia.apellidos | title}}</a><br>
+                <span>{{ referencia.parentesco }}</span><br>
+                <span>{% if referencia.fechaEspecial %}{{ referencia.fechaEspecial|date('Y-m-d') }}{% endif %}</span>
+            </div>
+        {% endfor %}
+    </div><!-- /.table-responsive -->
+    <div class="col-sm-12"><!-- .col -->
+        <button type="button" class="btn btn-danger btn-raised" id="btn-cancel">
+            <i class="fa fa-times"></i>
+        </button>
+    </div><!-- /.col -->
+    {% else %}
+    <h1 class="text-center">
+        <i class="fa fa-exclamation-triangle fa-2x"></i>
+        <br>
+        No existen registros.
+    </h1>
+    {% endif %}
+</div><!-- /.no-padding -->
+
+{% block javascripts %}
+    <!-- Datatables -->
+    <script src="{{asset('js/my/my-datatables.js')}}"></script>
+
+    <script type="text/javascript">
+        $('#btn-cancel').click(function(e){
+            e.preventDefault();
+
+            $('#container-load').fadeIn().html('<h2 class="text-center">Aquí podra visualizar las busquedas dinamicas.</h2>');
+        });
+
+        $('.find-referencia').click(function(e){
+            e.preventDefault();
+
+            var url = $(this).attr('href');
+
+            $.getJSON( url, function( data ) {
+                $.each( data, function( i, item ) {
+                    setData(item);
+                });
+            });
+        });
+
+        function setData(item){
+            $('#textDestinatarioNombres').val(item.nombres);
+            $('#textDestinatarioApellidos').val(item.apellidos);
+            $('#textDestinatarioTelefono').val(item.telefono);
+            $('#textDestinatarioDireccion').val(item.direccion);
+        }            
+    </script>
+{% endblock %}

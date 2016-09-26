@@ -1,0 +1,25 @@
+security:
+    firewalls:
+        frontend:
+            pattern: ^/*
+            anonymous: ~
+            form_login:
+                login_path: usuario_login
+                check_path: usuario_login_check
+                default_target_path: homepage
+            logout:
+                path: usuario_logout
+                target: /
+                invalidate_session: false
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario/password/recovery, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #-{ path: ^/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/*, roles: [ROLE_ADMIN, ROLE_COMMERCIAL, ROLE_PRODUCTION, ROLE_SHIPPING] }
+
+    providers:
+        usuarios:
+            entity: { class: AppBundle\Entity\Usuario, property: correo }
+
+    encoders:
+        AppBundle\Entity\Usuario: { algorithm: sha512, iterations: 10 }

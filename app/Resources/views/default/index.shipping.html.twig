@@ -1,0 +1,184 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+	<div class="page-content">
+		<ol class="breadcrumb">
+			<li class="">
+				<a href="index.html">Inicio</a>
+			</li>
+			<li class="active">
+				<a href="index.html">Escritorio</a>
+			</li>
+		</ol>
+		<div class="page-heading">            
+			<h1>Escritorio
+				<small>Novedades</small>
+			</h1>
+		</div>
+		
+		<div class="container-fluid">
+			<div class="row"><!-- .row -->
+
+                <div class="col-xs-12 col-md-4"><!-- .col -->
+                    <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Terminada <span class="bagde">{{ ordenProduccionDetalleTerminada|length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                            {% if ordenProduccionDetalleTerminada|length != 0 %}
+                            <table class="table table-data">
+                                <thead>
+                                    <tr>
+                                        <th>Detalles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ordenProduccionDetalle in ordenProduccionDetalleTerminada %}
+                                        <tr>
+                                            <td>
+                                                <div class="col-xs-8"><!-- .col -->
+                                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                                    <br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                                    <br>
+                                                    <strong>Detalle:</strong>
+                                                    <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                                    <br>
+                                                    <strong>Estado:</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                                    <br>
+                                                    <strong>Prioridad:</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                                </div><!-- /.col -->
+                                                <div class="col-xs-4 text-center"><!-- .col -->
+                                                    <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
+                                                        <i class="fa fa-chevron-right fa-2x"></i>
+                                                    </a>
+                                                    
+                                                </div><!-- /.col -->
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <h1 class="text-center">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No existen registros.
+                            </h1>
+                            {% endif %}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+
+                <div class="col-xs-12 col-md-4"><!-- .col -->
+                    <div class="panel panel-blue" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Despacho <span class="bagde">{{ ordenProduccionDetalleDespacho|length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                            {% if ordenProduccionDetalleDespacho|length != 0 %}
+                            <table class="table table-data">
+                                <thead>
+                                    <tr>
+                                        <th>Detalles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ordenProduccionDetalle in ordenProduccionDetalleDespacho %}
+                                        <tr>
+                                            <td>
+                                                <div class="col-xs-8"><!-- .col -->
+                                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                                    <br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                                    <br>
+                                                    <strong>Detalle:</strong>
+                                                    <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                                    <br>
+                                                    <strong>Estado:</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                                    <br>
+                                                    <strong>Prioridad:</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                                </div><!-- /.col -->
+                                                <div class="col-xs-4 text-center"><!-- .col -->
+                                                    <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
+                                                        <i class="fa fa-chevron-right fa-2x"></i>
+                                                    </a>
+                                                    
+                                                </div><!-- /.col -->
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <h1 class="text-center">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No existen registros.
+                            </h1>
+                            {% endif %}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+
+                <div class="col-xs-12 col-md-4"><!-- .col -->
+                    <div class="panel panel-teal" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Entregada <span class="bagde">{{ ordenProduccionDetalleEntregada|length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                            {% if ordenProduccionDetalleEntregada|length != 0 %}
+                            <table class="table table-data">
+                                <thead>
+                                    <tr>
+                                        <th>Detalles</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ordenProduccionDetalle in ordenProduccionDetalleEntregada %}
+                                        <tr>
+                                            <td>
+                                                <div class="col-xs-8"><!-- .col -->
+                                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                                    <br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                                    <br>
+                                                    <strong>Detalle:</strong>
+                                                    <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                                    <br>
+                                                    <strong>Estado:</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                                    <br>
+                                                    <strong>Prioridad:</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                                </div><!-- /.col -->
+                                                <div class="col-xs-4 text-center"><!-- .col -->
+                                                    <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
+                                                        <i class="fa fa-chevron-right fa-2x"></i>
+                                                    </a>
+                                                    
+                                                </div><!-- /.col -->
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <h1 class="text-center">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No existen registros.
+                            </h1>
+                            {% endif %}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+		</div> <!-- /.container-fluid -->
+	</div> <!-- #page-content -->
+{% endblock %}

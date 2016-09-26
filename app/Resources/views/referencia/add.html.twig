@@ -1,0 +1,158 @@
+<div class="no-padding"><!-- .panel-body -->
+    <div class="row"><!-- .row -->
+        <h4 class="text-center">Agregar referencias de {{ cliente }} </h4>
+        <div class="panel-body"><!-- .panel-body -->
+            {{ form_start(form, { 'attr': {'id':'form-referencia', 'data-id':'#container-load' }}) }}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            {{ form_widget(form.nombres, { 'attr': {'placeholder':'Digite Nombres','class':'form-control' }, 'id':'textNombre'}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Apellido:</label>
+                            {{ form_widget(form.apellidos, { 'attr': {'placeholder':'Digite Apellidos','class':'form-control' }, 'id':'textApellido'}) }}
+                        </div>
+                    </div>                    
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Identificación:</label>
+                            {{ form_widget(form.identificacion, { 'attr': {'placeholder':'Identificación','class':'form-control' }}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group input-icon right">
+                            <label>Parentesco:</label>
+                            <i class="fa fa-chevron-down"></i>
+                            {{ form_widget(form.parentesco, { 'attr': {'class':'form-control' }}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Teléfono:</label>
+                            {{ form_widget(form.telefono, { 'attr': {'placeholder':'Digite Teléfono','class':'form-control', 'required':'required' }, 'id':'textTelefonoReferencia'}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>Correo:</label>
+                            {{ form_widget(form.correo, { 'attr': {'placeholder':'Digite Correo','class':'form-control' }}) }}
+                        </div>
+                    </div>              
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label>Dirección:</label>
+                            {{ form_widget(form.direccion, { 'attr': {'placeholder':'Digite Dirección','class':'form-control', 'required':'required' }, 'id':'textDirecciònReferencia'}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class='form-group'>
+                            <label>Fecha Especial:</label>
+                            <input type='text' class="form-control datepicker" name="fechaEspecial" value="{{ 'now'|date('Y-m-d') }}" />
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group input-icon right">
+                            <label>Descripción de la fecha:</label>
+                            <i class="fa fa-chevron-down"></i>
+                            {{ form_widget(form.descripcionFecha, { 'attr': {'placeholder':'Digite Descripción','class':'form-control' }}) }}
+                        </div>
+                    </div>
+                </div>
+                        
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Intereses:</label>
+                            {{ form_widget(form.intereses, { 'attr': {'class':'input-tags form-control ', "data-role":"tagsinput" }}) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary btn-raised" id="btn-referencia" data-id="content-load">
+                            Agregar
+                        </button>
+                        <button type="button" class="btn btn-danger btn-raised" id="btn-cancel">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+
+                {{ form_widget(form.cliente, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':cliente.id }}) }}   
+            {{ form_end(form) }}
+        </div><!-- /.panel-body -->
+    </div><!-- /.row -->
+</div><!-- /.well -->
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(".input-tags").tagsinput('items');
+
+        $(".select-entity").each(function(){
+            var id = $(this).data('id');
+            $(this).val(id);
+        });
+
+        if ($('#textDestinatarioNombres').val() != "") {
+            $('#textNombre').val($('#textDestinatarioNombres').val());
+        }
+
+        if ($('#textDestinatarioApellidos').val() != "") {
+            $('#textApellido').val($('#textDestinatarioApellidos').val());
+        }
+
+        if ($('#textTelefono').val() != "") {
+            $('#textTelefonoReferencia').val($('#textTelefono').val());
+        }
+
+        if ($('#textDireccion').val() != "") {
+            $('#textDireccionReferencia').val($('#textDireccion').val());
+        }
+
+        $('#btn-referencia').click(function(e){
+            e.preventDefault();
+
+            $('#form-referencia').submit();
+        });
+
+        $('#btn-cancel').click(function(e){
+            e.preventDefault();
+
+            $('#container-load').fadeIn().html('<h2 class="text-center">Aquí podra visualizar las busquedas dinamicas.</h2>');
+        });          
+
+        $('#form-referencia').submit(function(e){
+            e.preventDefault();
+
+            var url = $(this).attr('action');
+            var content = $(this).data('id');
+            var formData = $(this).serialize();
+            $(content).html(spinner);
+            
+            $.ajax({
+                method: 'POST',
+                url: url,
+                data : formData,
+                success: function(dataResponse) {
+                    $(content).fadeIn().html(dataResponse);
+                },
+                error: function() {
+                    console.log('Error!');
+                }
+            });
+        });
+    </script>
+{% endblock %}

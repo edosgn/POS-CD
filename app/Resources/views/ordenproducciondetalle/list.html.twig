@@ -1,0 +1,32 @@
+{% if ordenProduccion.ordenProduccionDetalle|length != 0 %}
+    <div class="table-responsive"><!-- .table-responsive -->
+    	<table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+            <thead>
+                <tr>
+                    <th>Detalle</th>
+                    <th>Precio</th>
+                    <th>Responsable</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set count = 0 %}
+            {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
+                {% set count = count + 1 %}
+                <tr>                 
+                    <td>{{ ordenProduccionDetalle.detalle }}</td>
+                    <td>{{ ordenProduccionDetalle.precio }}</td>
+                    <td>{{ ordenProduccionDetalle.responsable }}</td>
+                    <td>{{ ordenProduccionDetalle.ordenProduccionEstado }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table><!-- /.table -->
+    </div><!-- /.table-responsive -->
+{% else %}
+<h1 class="text-center">
+    <i class="fa fa-exclamation-triangle fa-2x"></i>
+    <br>
+    No existen registros.
+</h1>
+{% endif %}

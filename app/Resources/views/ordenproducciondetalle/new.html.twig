@@ -1,0 +1,135 @@
+<div class="no-padding"><!-- .panel-body -->
+    <div class="row"><!-- .row -->
+        <div class="panel-body"><!-- .panel-body -->
+            <hr>
+            <div class="row"><!-- .row -->
+                <div class="col-xs-12" id="container-new"><!-- .col -->
+                    {{ form_start(form, { 'attr': { 'id':'form-detail', 'data-id':'#container-load-details' } }) }}
+                        <div class="row"><!-- .row -->
+                            <div class="col-md-6"><!-- .col -->
+                                <label class="control-label">Detalle</label>
+                                <div class="col-sm-12 input-group">
+                                    {{ form_widget(form.detalle, { 'attr': {'class':'form-control', 'readonly':'readonly', 'required':'required' }, 'id':'textDetalle'}) }}
+                                    <span class="input-group-btn">
+                                        <a href="{{path('detalle_categoria_list')}}" class="btn btn-info btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Buscar Detalle">
+                                            <i class="fa fa-gift"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div><!-- /.col -->
+                            <div class="col-md-3"><!-- .col -->
+                                <div class="input-group">
+                                    <label class="control-label">Precio</label>
+                                    {{ form_widget(form.precio, { 'attr': {'class':'form-control','step':'5000','required':'required'}, 'id':'textPrecio'}) }}
+                                </div>
+                            </div><!-- /.col -->
+                            <div class="col-md-3"><!-- .col -->
+                                <div class="input-group">
+                                    <label class="control-label">Valor Envio</label>
+                                    {{ form_widget(form.valorEnvio, { 'attr': {'placeholder':'Digite Valor Envio','step':'500','min':'0','class':'form-control'},'id':'envio','value':'4000'}) }}
+                                </div>
+                            </div><!-- /.col -->
+                            
+                        </div><!-- /.row -->
+
+                        <div class="row"><!-- .row -->
+                            <div class="col-md-12"><!-- .col -->
+                                <label class="control-label">Mensaje</label>
+                                <div class="col-sm-12 input-group">
+                                    {{ form_widget(form.descripcionMensaje, { 'attr': {'class':'form-control text-message', 'placeholder':'Descripción mensaje', 'required':'required' }, 'id':'textDescipcionMensaje'}) }}
+                                    <span class="input-group-btn">
+                                        <a href="{{path('mensaje_categoria_list')}}" class="btn btn-info btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Buscar Mensaje">
+                                            <i class="fa fa-envelope"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12"><!-- .col -->
+                                <div class="input-group col-md-12">
+                                    <label class="control-label">Firma</label>
+                                    {{ form_widget(form.firma, { 'attr': {'placeholder':'Firma','class':'form-control' }}) }}
+                                </div>
+                            </div><!-- /.col -->
+
+                            <div class="col-md-12"><!-- .col -->
+                                <label class="control-label">Observación del Detalle</label>
+                                    <div class="col-sm-12 input-group">
+                                    {{ form_widget(form.observacion, { 'attr': {'placeholder':'Observación','class':'form-control text-message' }}) }}
+                                        <span class="input-group-btn btn btn-inverse" data-toggle="tooltip" data-placement="top" title="Foto de Observación">
+                                            <input type="file" name="inputFotoObservacion" class="form-control" />
+                                            <i class="fa fa-camera fa-2x"></i>
+                                        </span>
+                                    </div>
+                            </div><!-- /.col -->
+
+                            
+                            <div class="col-md-6"><!-- .col -->
+                                <label class="control-label">Responsable</label>
+                                <div class="col-sm-12 input-group">
+                                    {{ form_widget(form.responsable, { 'attr': {'class':'form-control' }, 'id':'textResponsable'}) }}
+                                    <span class="input-group-btn">
+                                        <a href="{{path('usuario_production_list')}}" class="btn btn-info btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Buscar Responsable">
+                                            <i class="fa fa-users"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div><!-- /.row -->
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-inverse btn-raised" id="btnDetalle" data-toggle="tooltip" data-placement="top" title="Guardar">
+                                    <i class="fa fa-floppy-o"></i>
+                                </button>
+                                <a href="{{path('orden_produccion_detalle_list',{'idOrdenProduccion':ordenProduccion.id})}}" class="btn btn-danger btn-raised load-in-progress" data-id="#container-load-details" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        {{ form_widget(form.ordenProduccion, { 'attr': {'class':'select-hidden select-entity', 'data-id':ordenProduccion.id }}) }}
+                        {{ form_widget(form.mensaje, { 'attr': {'class':'select-hidden' }, 'id':'textMensaje'}) }}
+                        {{ form_widget(form.ordenProduccionEstado, { 'attr': {'class':'select-hidden' }}) }}
+                    {{ form_end(form) }}
+                </div><!-- /.col -->                    
+            </div><!-- /.row -->                
+        </div><!-- /.panel-body -->
+    </div><!-- /.row -->
+</div><!-- /.well -->
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $(".select-entity").each(function(){
+            var id = $(this).data('id');
+            $(this).val(id);
+        });
+
+        $('#form-detail').submit(function(e){
+            e.preventDefault();
+
+            var content = $(this).data('id');
+            var formData = new FormData($(this)[0]);
+            var url = $(this).attr('action');
+            
+            $.ajax({ 
+                method: 'POST',
+                url: url,
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(dataResponse) {
+                    $(content).fadeIn().html(dataResponse);
+                    $('#container-load').fadeIn().html('<h2 class="text-center">Aquí podra visualizar las busquedas dinamicas.</h2>');
+                },
+                error: function() {
+                    console.log('Error!');
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

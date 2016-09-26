@@ -1,0 +1,75 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('zona_envio_index') }}">Zonas de Envio</a>
+            </li>
+            <li class="active">
+                Ver
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Zona de Envio
+                <small>Ver</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('zona_envio_index') }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('zona_envio_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Zona de Envio">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a href="{{ path('zona_envio_edit',{'id':zonaEnvio.id}) }}" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                <a href="{{ path('zona_envio_edit',{'id':zonaEnvio.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-4"><!-- .col -->
+                    <div class="panel panel-profile">
+                        <div class="panel-heading">
+                            <h2>Detalles</h2>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="personel-info pt-n">
+                                    <i class="fa fa-asterisk"></i> 
+                                    <strong>Nombre:</strong>
+                                    <span>{{ zonaEnvio }}</span>
+                                </div>
+                                <div class="personel-info pt-n">
+                                    <i class="fa fa-asterisk"></i> 
+                                    <strong>Descripción:</strong>
+                                    <span>{{ zonaEnvio.descripcion }}</span>
+                                </div>
+                            </div>
+
+                            <ul class="list-inline text-center">
+                                <li>
+                                    <a href="{{ path('zona_envio_edit',{'id':zonaEnvio.id}) }}" class="btn btn-default btn-raised btn-xs" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('zona_envio_edit',{'id':zonaEnvio.id}) }}" class="btn btn-default btn-raised btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->        
+    </div><!-- /.page-content -->
+{% endblock %}

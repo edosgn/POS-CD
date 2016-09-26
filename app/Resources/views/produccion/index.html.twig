@@ -1,0 +1,130 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+  <div class="page-content">
+    <ol class="breadcrumb">
+        <li class="">
+            <a href="{{path('produccion_index')}}">Inicio</a>
+        </li>
+        <li class="active">
+            <a href="index.html">Escritorio</a>
+        </li>
+    </ol>
+    <div class="page-heading">            
+        <h1>Escritorio
+            <small>Novedades</small>
+        </h1>
+        <div class="options"></div>
+    </div>
+      
+    <div class="container-fluid">
+      <div data-widget-group="group1">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-tile info-tile-alt tile-indigo">
+              <div class="info">
+                <div class="tile-heading"><span>Ordenes Asignadas</span></div>
+                <div class="tile-body"><span>5,921</span></div>
+              </div>
+              <div class="stats">
+                <div class="tile-content">
+                    <div id="dashboard-sparkline-indigo">
+                        <i class="fa fa-check fa-3x"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-tile info-tile-alt tile-danger">
+              <div class="info">
+                <div class="tile-heading"><span>Ordenes Pendientes</span></div>
+                <div class="tile-body "><span>2,344</span></div>
+              </div>
+              <div class="stats">
+                <div class="tile-content">
+                    <div id="dashboard-sparkline-indigo">
+                        <i class="fa fa-check fa-3x"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-tile info-tile-alt tile-primary">
+              <div class="info">
+                <div class="tile-heading"><span>Ordenes En Proceso</span></div>
+                <div class="tile-body "><span>1,032</span></div>
+              </div>
+              <div class="stats">
+                <div class="tile-content">
+                    <div id="dashboard-sparkline-indigo">
+                        <i class="fa fa-check fa-3x"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <div class="info-tile info-tile-alt tile-success clearfix">
+              <div class="info">
+                <div class="tile-heading"><span>Ordenes Finalizadas</span></div>
+                <div class="tile-body "><span>1,454</span></div>
+              </div>
+              <div class="stats">
+                <div class="tile-content">
+                    <div id="dashboard-sparkline-indigo">
+                        <i class="fa fa-check fa-3x"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% if app.user != null %}
+        <div class="row"><!-- .row -->
+          <div class="col-md-3">
+            <div class="panel panel-default"><!-- .panel -->         
+              <div class="panel-body no-padding table-responsive"><!-- .panel-body -->
+                <div class="list-group"><!-- .list-group -->                  
+                  <div class="list-group-item withripple">
+                    <div class="row-action-primary">
+                      <div class="progress-pie-chart" data-percent="22"></div>
+                    </div>
+                    <div class="row-content">
+                      <div class="least-content">
+                        <a href="{{path('produccion_list', {'user': app.user.id})}}">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                      </div>
+                      <h4 class="list-group-item-heading">Ordenes</h4>
+                      <p class="list-group-item-text">asignadas al Usuario</p>
+                    </div>
+                  </div>
+                  <div class="list-group-separator"></div>
+                  <div class="list-group-item withripple">
+                    <div class="row-action-primary">
+                      <div class="progress-pie-chart" data-percent="67"></div>
+                    </div>
+                    <div class="row-content">
+                      <div class="least-content">
+                        <a href="{{path('despacho_list')}}">
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                      </div>
+                      <h4 class="list-group-item-heading">Ordenes</h4>
+                      <p class="list-group-item-text">para entregar</p>
+                    </div>
+                  </div>
+                </div><!-- /.list-group -->
+              </div><!-- /.panel-body -->
+            </div><!-- /.panel -->
+          </div>
+        </div><!-- /.row -->
+        {% endif %} 
+      </div>
+    </div> <!-- /.container-fluid -->        
+  </div> <!-- #page-content -->
+{% endblock %}

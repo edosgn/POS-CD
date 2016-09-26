@@ -1,0 +1,152 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{path('homepage')}}">Inicio</a>
+            </li>
+            <li class="">
+                <a href="{{path('cliente_index')}}">Clientes</a>
+            </li>
+            <li class="">
+                <a href="{{path('cliente_show',{'id':referencia.cliente.id})}}">
+                    {{referencia.cliente}}
+                </a>
+            </li>
+            <li class="">
+                {{referencia}}
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Referencia
+                <small>Editar</small>
+            </h1>
+            <div class="options">
+                <a href="{{path('cliente_show',{'id':referencia.cliente.id})}}" class="btn btn-inverse btn-raised">
+                    <i class="fa fa-chevron-left"></i> Listado
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-6"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>Formulario</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {{ form_start(edit_form) }}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Cliente:</label>
+                                            <strong>{{referencia.cliente}}</strong>
+                                            {{ form_widget(edit_form.cliente, { 'attr': {'class':'form-control select-hidden' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Identificación:</label>
+                                            {{ form_widget(edit_form.identificacion, { 'attr': {'placeholder':'Ingrese la identificación','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Nombre:</label>
+                                            {{ form_widget(edit_form.nombre, { 'attr': {'placeholder':'Digite Nombre','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Apellido:</label>
+                                            {{ form_widget(edit_form.apellido, { 'attr': {'placeholder':'Digite Apellido','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-icon right">
+                                            <label>Parentesco:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            {{ form_widget(edit_form.parentesco, { 'attr': {'placeholder':'Parentesco','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Telefono:</label>
+                                            {{ form_widget(edit_form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control','required':'required' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Correo:</label>
+                                            {{ form_widget(edit_form.correo, { 'attr': {'placeholder':'Digite Correo','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group input-icon right">
+                                            <label>Dominio correo:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            <select class="form-control" name="dominioCorreo">
+                                                <option value="@gmail.com">@gmail.com</option>
+                                                <option value="@hotmail.com">@hotmail.com</option>
+                                                <option value="@yahoo.com">@yahoo.com</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Dirección:</label>
+                                            {{ form_widget(edit_form.direccion, { 'attr': {'placeholder':'Digite Dirección','class':'form-control','required':'required' }}) }}
+                                        </div>
+                                    </div>                                    
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class='form-group'>
+                                            <label>Fecha Especial:</label>                                            
+                                            <input type='text' class="form-control datepicker" name="fechaEspecial" value="{{referencia.fechaEspecial|date('Y-m-d')}}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group input-icon right">
+                                            <label>Descripción de la Fecha:</label>
+                                            <i class="fa fa-chevron-down"></i>
+                                            {{ form_widget(edit_form.descripcionFecha, { 'attr': {'placeholder':'Digite descripción','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Intereses:</label>
+                                            {{ form_widget(edit_form.interesPersona, { 'attr': {'class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-raised">
+                                            Guardar
+                                        </button>
+                                    </div>
+                                </div>      
+                            {{ form_end(edit_form) }}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+    </div><!-- .page-content -->
+
+{% endblock %}

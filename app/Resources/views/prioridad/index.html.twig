@@ -1,0 +1,84 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('prioridad_index') }}">Prioridades</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Prioridades
+                <small>Listado</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('prioridad_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Prioridad">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12"><!-- .col -->
+                    {% if prioridads|length != 0 %}
+                    <div class="panel panel-default"><!-- .panel -->    
+                        <div class="panel-body no-padding"><!-- .panel-body -->
+                            <div class="table-responsive"><!-- .table-responsive -->
+                                <table class="table table-bordered table-hover table-striped table-data"><!-- .table -->
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Nombre</th>
+                                            <th>Color</th>
+                                            <th>Rango</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set count = 0 %}
+                                    {% for prioridad in prioridads %}
+                                        {% set count = count + 1 %}
+                                        <tr>
+                                            <td>{{ count }}</td>
+                                            <td>
+                                                <a href="{{ path('prioridad_show', { 'id': prioridad.id }) }}">
+                                                    {{ prioridad.nombre }}
+                                                </a>
+                                            </td>
+                                            <td style="background-color:{{prioridad.color}};">
+                                                {{ prioridad.color }}
+                                            </td>
+                                            <td>{{ prioridad.rango }}</td>  
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ path('prioridad_show', { 'id': prioridad.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-check"></i>
+                                                    </a>
+                                                    <a href="{{ path('prioridad_edit', { 'id': prioridad.id }) }}" class="btn btn-default btn-raised btn-xs">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table><!-- /.table -->
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- .panel -->
+                    {% else %}
+                    <h1 class="text-center">
+                        <i class="fa fa-exclamation-triangle fa-2x"></i>
+                        <br>
+                        No existen registros.
+                    </h1>
+                    {% endif %}
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

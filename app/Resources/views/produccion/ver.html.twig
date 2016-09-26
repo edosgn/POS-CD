@@ -1,0 +1,123 @@
+{% set ordenexpirada=ordenProduccion.fechaEntrega | date('Ymdhi') < 'now' | date('Ymdhi') %}
+{% set entrega = ordenProduccion.fechaEntrega | date('Ymdhi') %}
+{% set ahora = 'now' | date('Ymdhi') %}
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{path('produccion_list', {'user': app.user.id})}}">Ordenes Producción</a>
+            </li>
+            <li class="active">
+                <a href="{{ path('produccion_ver',{'id':ordenProduccion.id}) }}">{{ordenProduccion.numero}}</a>
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Orden de Produccion
+                <small>{{ordenProduccion.numero}}</small>
+            </h1>
+            <div class="options">
+                <a href="{{path('produccion_list', {'user': app.user.id})}}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al Listado">
+                    <i class="fa fa-chevron-left"></i>
+                </a>                
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-3"><!-- .col -->
+                    <div class="panel panel-profile">
+                        <div class="panel-heading">
+                            <h2>Detalles de la Orden de Producción</h2><br>
+                            {{entrega}}-{{ahora}}
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-asterisk"></i> 
+                                    <strong>Numero de pedido: </strong>
+                                    <span>{{ ordenProduccion.pedido }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-hashtag"></i> 
+                                    <strong>Numero de Orden de produccion: </strong>
+                                    <span>{{ ordenProduccion.numero }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-calendar"></i>
+                                    <strong>Fecha de entrega: </strong>
+                                    <span>{{ ordenProduccion.fechaEntrega|date('m-d') }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-clock-o"></i>
+                                    <strong>Hora de entrega: </strong>
+                                    <span>{{ ordenProduccion.fechaEntrega|date('h:i A') }}</span>
+                                </div><!-- /.personel-info -->                                
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-gift"></i>
+                                    <strong>Detalle: </strong>
+                                    <span>{{ ordenProduccion.detalle }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-dollar"></i>
+                                    <strong>Precio: </strong>
+                                    <span>{{ ordenProduccion.precio }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-question"></i>
+                                    <strong>Observación del detalle: </strong>
+                                    <span>{{ ordenProduccion.observacion }}</span>
+                                </div><!-- /.personel-info -->
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-sort-numeric-asc"></i>
+                                    <strong>Prioridad: </strong>
+                                    <span>{{ ordenProduccion.prioridad }}</span>
+                                </div><!-- /.personel-info -->                                
+                                <div class="personel-info pt-n"><!-- .personel-info -->
+                                    <i class="fa fa-info"></i>
+                                    <strong>Estado:</strong>
+                                    <span>{{ ordenProduccion.estado }}</span>
+                                </div><!-- /.personel-info -->
+                                {% if not ordenexpirada %}
+                                    <div class="personel-info pt-n" id="tiempo"><!-- .personel-info -->
+                                        <i class="fa fa-clock"></i>
+                                        <strong>Tiempo restante: </strong>
+                                        <span><strong>Faltan</strong>: {{ordenProduccion.fechaEntrega | cuenta_atras }}</span>
+                                    </div><!-- /.personel-info -->
+                                {% endif %}
+                            </div>
+
+                            
+                            <ul class="list-inline text-center">
+                                {% if ordenProduccion.estado != "En Proceso" %}
+                                <li>
+                                    <a href="{{path('produccion_aceptar', {'id': ordenProduccion.id})}}" class="btn btn-default btn-raised btn-lg" data-toggle="tooltip" data-placement="top" title="Aceptar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="{{path('produccion_finalizar', {'id': ordenProduccion.id})}}" class="btn btn-default btn-raised btn-lg" data-toggle="tooltip" data-placement="top" title="Finalizar">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                </li> 
+                                {% endif %}                         
+                            </ul>
+                        </div>
+                    </div><!-- panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}
+
+
+
+
+
+
+

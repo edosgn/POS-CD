@@ -1,0 +1,95 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('cliente_index') }}">Clientes</a>
+            </li>
+            <li>
+                <a href="{{ path('cliente_show',{'id':cliente.id}) }}">{{cliente}}</a>
+            </li>
+            <li class="active">
+                Pedido
+            </li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Pedido
+                <small>Nuevo</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('cliente_show',{'id':cliente.id}) }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="left" title="Volver">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                <div class="col-sm-4"><!-- .col -->
+                    <div class="panel panel-primary" data-widget='{"draggable": "false"}'><!-- .panel -->
+                        <div class="panel-heading">
+                            <h2>PEDIDO {{ numero }}</h2>
+                        </div>
+                        <div class="panel-body"><!-- .panel-body -->
+                            {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Cliente: {{cliente}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Telefono:</label>
+                                            <input type="text" name="textTelefono" class="form-control" value="{{ cliente.telefono }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Correo:</label>
+                                            <input type="text" name="textCorreo" class="form-control" value="{{ cliente.correo }}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Comercial:</label>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                {{ form_widget(form.usuario, { 'attr': {'class':'form-control' }}) }}
+                                            {% else %}
+                                                {{ form_widget(form.usuario, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':app.user.id }}) }}
+                                                {{ app.user }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                            
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Guardar">
+                                            <i class="fa fa-floppy-o"></i>
+                                        </button>
+                                        <a href="{{ path('cliente_show',{'id':cliente.id}) }}" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                {{ form_widget(form.numero, { 'attr': {'placeholder':'Número','class':'form-control', 'value':numero, 'readonly':'readonly' }, 'type':'hidden'}) }}
+                                {{ form_widget(form.cliente, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':cliente.id }}) }}   
+                            {{ form_end(form) }}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div><!-- /.page-content -->
+{% endblock %}

@@ -1,0 +1,324 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div class="page-content"><!-- .page-content -->
+        <ol class="breadcrumb"><!-- .breadcrumb -->
+            <li class="">
+                <a href="{{ path('homepage') }}">Inicio</a>
+            </li>
+            <li>
+                <a href="{{ path('orden_produccion_index') }}">Ordenes de Producción</a>
+            </li>
+            <li class="active">Editar</li>
+        </ol><!-- /.breadcrumb -->
+        <div class="page-heading"><!-- .page-heading -->
+            <h1>Orden de Producción
+                <small>Editar</small>
+            </h1>
+            <div class="options">
+                <a href="{{ path('orden_produccion_show', {'id':ordenProduccion.id}) }}" class="btn btn-warning btn-raised" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                    <i class="fa fa-chevron-left"></i>
+                </a>
+                <a href="{{ path('orden_produccion_new') }}" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Orden de Producción">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </div>
+        </div><!-- /.page-heading -->
+
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="col-md-6"><!-- .col -->
+                <div class="panel panel-info" data-widget='{"draggable": "false"}'><!-- .panel -->
+                    <div class="panel-heading">
+                        <h2><strong>{{ordenProduccion.numero}}</strong></h2>
+                        <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                    </div>
+                    <div class="panel-body"><!-- .panel-body -->
+                        
+                        {{ form_start(edit_form, { 'attr': {'class':'form-vertical', 'id':'wizard', 'data-step':step }}) }}
+                            
+                                              
+                            <fieldset title="1" class="stepy-step">
+                            {{ form_widget(edit_form.pedido, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':ordenProduccion.pedido.id }}) }}
+                            {{ form_widget(edit_form.numero, { 'type':'hidden'}) }}
+                            <legend>Datos Principales</legend>
+
+                            <div class="row"><!-- .row -->
+                                <div class="col-xs-12 col-sm-12 col-md-12"><!-- .col -->
+                                    <div class="radio radio-inline radio-primary">
+                                        <label>
+                                            <input type="radio" name="entrega" value="depascho" onclick="metodoEntrega();" checked>
+                                            <span class="circle"></span>
+                                            Despacho
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="entrega" value="punto_venta" onclick="metodoEntrega();">
+                                            <span class="circle"></span>
+                                            Punto de venta
+                                        </label>
+                                    </div>
+                                    
+                                    <div id="datos-envio" style="display:block;"><!-- .datosEnvio-->
+                                        <label class="control-label">Enviar  a</label>
+                                        <div class="row"><!-- .row -->
+                                            <div class="col-md-5"><!-- .col --> 
+                                                <div class="col-md-12 input-group">
+                                                    {{ form_widget(edit_form.destinatarioNombres, { 'attr': {'placeholder':'Nombres', 'class':'form-control' }, 'id':'textDestinatarioNombres'}) }}
+                                                </div>
+                                            </div><!-- /.col -->
+                                            <div class="col-md-7"><!-- .col -->
+                                                <div class="input-group">
+                                                    {{ form_widget(edit_form.destinatarioApellidos, { 'attr': {'placeholder':'Apellidos', 'class':'form-control' }, 'id':'textDestinatarioApellidos'}) }}
+                                                    <span class="input-group-btn">
+                                                        <a href="{{path('referencia_list',{'idCliente':ordenProduccion.pedido.cliente.id})}}" class="btn btn-info btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Buscar Preferido">
+                                                            <i class="fa fa-search"></i>
+                                                        </a>
+                                                        <a href="{{path('referencia_add',{'idCliente':ordenProduccion.pedido.cliente.id})}}" class="btn btn-inverse btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Agregar Preferido">
+                                                            <i class="fa fa-star"></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+
+                                        <div class="row"><!-- .row -->
+                                            <div class="col-md-3"><!-- .col -->
+                                                <div class="form-group">
+                                                    <label class="control-label">Fecha de Entrega</label>
+                                                    <input type='text' class="form-control datepicker" name="fechaEntrega" value="{{ordenProduccion.fechaEntrega|date('Y-m-d')}}" />
+                                                </div>
+                                            </div><!-- /.col -->
+                                            <div class="col-md-3"><!-- .col -->
+                                                <div class="form-group input-icon right">
+                                                    <label class="control-label">Hora estimada</label>
+                                                    <i class="fa fa-chevron-down"></i>
+                                                    {{ form_widget(edit_form.horario, { 'attr': {'class':'form-control' }}) }}
+                                                </div>
+                                            </div><!-- /.col -->
+                                       
+                                            <div class="col-md-3"><!-- .col -->
+                                                <div class="form-group">
+                                                    <label class="control-label">Telefono</label>
+                                                    {{ form_widget(edit_form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }, 'id':'textTelefono'}) }}
+                                                </div>
+                                            </div><!-- /.col -->
+
+                                            <div class="col-md-3"><!-- .col -->
+                                                <div class="form-group input-icon right">
+                                                    <label class="control-label">Zona</label>
+                                                    <i class="fa fa-chevron-down"></i>
+                                                    {{ form_widget(edit_form.zonaEnvio, { 'attr': {'class':'form-control','onchange':'valorEnvio(this)' }, 'id':'zona'}) }}
+                                                </div>
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+
+                                        <div class="row"><!-- .row -->
+                                            <div class="col-md-12"><!-- .col -->
+                                                <div class="form-group">
+                                                    <label class="control-label">Dirección Entrega</label>
+                                                    {{ form_widget(edit_form.direccionEntrega, { 'attr': {'placeholder':'Digite Dirección','class':'form-control' }, 'id':'textDireccion' }) }}
+                                                </div>
+                                            </div><!-- /.col -->
+                                            <div class="col-md-12"><!-- .col -->
+                                                <ul class="demo-btns"><!-- .demo-btns -->
+                                                    <li>
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Calle">
+                                                                Cll
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Carrera">
+                                                                Cra
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Barrio">
+                                                                Barrio
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Conjunto">
+                                                                Conjunto
+                                                            </button>
+                                                            <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" data-value="Apartamento">
+                                                                Apto
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                </ul><!-- /.demo-btns -->
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+
+                                        <div class="row"><!-- .row -->
+                                            <div class="col-md-12"><!-- .col -->
+                                                <div class="form-group">
+                                                    <label class="control-label">Descripción Dirección</label>
+                                                    {{ form_widget(edit_form.descripcionDireccion, { 'attr': {'class':'form-control' }}) }}
+                                                </div>
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+                                    </div><!-- /.datosEnvio -->
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                                
+                        </fieldset>
+
+                        <fieldset title="2" class="stepy-step">
+                            <legend>Agregar Detalles</legend>
+
+                            <div class="row"><!-- .row -->
+                                <div class="col-xs-12 col-sm-12 col-md-12"><!-- .col -->
+                                    <div class="row"><!-- .row -->
+                                        <div class="col-md-12"><!-- .col -->
+                                            <div class="btn-group"><!-- .btn-group -->
+                                                <a href="{{path('orden_produccion_detalle_new',{'idOrdenProduccion':ordenProduccion.id})}}" class="btn btn-warning btn-raised load-in" data-id="#container-load-details" data-toggle="tooltip" data-placement="top" title="Agregar Detalle">
+                                                    <i class="fa fa-plus"></i>
+                                                </a>
+                                            </div><!-- /.btn-group -->
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+                                    <div class="row"><!-- .row -->
+                                        <div class="col-md-12" id="container-load-details"><!-- .col -->
+                                            {% if ordenProduccion.ordenProduccionDetalle|length != 0 %}
+                                                <div class="table-responsive"><!-- .table-responsive -->
+                                                    <table class="table table-bordered table-hover table-striped"><!-- .table -->
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Detalle</th>
+                                                                <th>Precio</th>
+                                                                <th>Responsable</th>
+                                                                <th>Estado</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% set count = 0 %}
+                                                        {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
+                                                            {% set count = count + 1 %}
+                                                            <tr>                 
+                                                                <td>{{ ordenProduccionDetalle.detalle }}</td>
+                                                                <td>{{ ordenProduccionDetalle.precio }}</td>
+                                                                <td>{{ ordenProduccionDetalle.responsable }}</td>
+                                                                <td>{{ ordenProduccionDetalle.ordenProduccionEstado }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table><!-- /.table -->
+                                                </div><!-- /.table-responsive -->
+                                            {% else %}
+                                            <h1 class="text-center">
+                                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                                <br>
+                                                No existen registros.
+                                            </h1>
+                                            {% endif %}
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->
+                        </fieldset>
+
+                        <fieldset title="3" class="stepy-step">
+                            <legend>Finalizar</legend>
+                            <div class="row"><!-- .row -->
+                                <div class="col-md-12"><!-- .col -->
+                                    <ul class="demo-btns"><!-- .demo-btns -->
+                                        <li>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="contado">
+                                                    <i class="fa fa-dollar"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="credito">
+                                                    Credito
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="consignacion">
+                                                    Consignación
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="giro">
+                                                    Giro
+                                                </button>
+                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="tarjeta">
+                                                    <i class="fa fa-credit-card"></i>
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul><!-- /.demo-btns -->
+                                </div><!-- /.col -->
+                                <div class="col-md-4"><!-- .col -->
+                                    <div class="form-group">
+                                        <label class="control-label">Tipo Pago</label>
+                                        {{ form_widget(edit_form.tipoPago, { 'attr': {'class':'form-control select-readonly' }, 'id':'select-pago'}) }}
+                                    </div>
+                                </div><!-- /.col -->
+                                <div class="col-md-4"><!-- .col -->
+                                    <div class="form-group input-icon right">
+                                        <label class="control-label">Prioridad</label>
+                                        <i class="fa fa-chevron-down"></i>
+                                        {{ form_widget(edit_form.prioridad, { 'attr': {'class':'form-control' }}) }}
+                                    </div>
+                                </div><!-- /.col -->
+                            </div><!-- /.row -->                            
+                        </fieldset>
+
+                        <input type="submit" class="finish btn-success btn" value="Guardar" />
+                            
+                        {{ form_end(edit_form) }}<!-- .form -->
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div><!-- /.col -->
+
+            <div class="col-xs-12 col-sm-6 col-md-6"><!-- .col -->
+                <div class="well" id="container-load">
+                    <h2 class="text-center">Aquí podra visualizar las busquedas dinamicas.</h2>
+                </div>
+            </div><!-- /.col -->
+        </div><!-- /.container-fluid -->     
+    </div><!-- /.page-content -->
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        function metodoEntrega(){
+            if (document.orden_produccion.entrega[1].checked == true) {
+              document.getElementById('datos-envio').style.display='none';
+              document.getElementById('textDestinatario').value="{{ordenProduccion.pedido.cliente}}";
+              document.getElementById('textTelefono').value="{{ordenProduccion.pedido.cliente.telefono}}";
+              document.getElementById('textDireccion').value="Floristeria";
+              document.getElementById('zona').value=6;
+              document.getElementById('envio').value=0;
+              document.getElementById('hRecoger').style.display='block';
+              document.getElementById('hestimada').style.display='none';
+              //document.getElementById('hEstimada').value = 5 ;
+            } else {
+              document.getElementById('datos-envio').style.display='block';
+              document.getElementById('envio').value=4000;
+              document.getElementById('textDestinatario').value=null;
+              document.getElementById('textTelefono').value=null;
+              document.getElementById('textDireccion').value=null;
+              document.getElementById('hRecoger').style.display='none';
+              document.getElementById('hestimada').style.display='block';
+            }
+        }
+
+        function valorEnvio(obj){
+            num=obj.selectedIndex;
+            if (num==0 || num==1 || num==2 || num==3) {
+              document.getElementById('envio').value=4000;
+            }else if(num==4){
+              document.getElementById('envio').value=10000;
+            }else{
+              document.getElementById('envio').value=2000;
+            }
+        }
+
+        $('.select-btn').click(function(e){
+            e.preventDefault();
+            var select = $(this).data('id');
+            var value = $(this).data('value');
+
+            $(select).val(value);
+        });
+
+        $('.btn-address').click(function(e){
+            e.preventDefault();
+            var input = $(this).data('id');
+            var value = $(this).data('value');
+
+            $(input).val($(input).val() + " " + value);
+        });
+
+    </script>
+{% endblock %}
