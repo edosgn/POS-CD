@@ -23,3 +23,4 @@ $('.table-data').dataTable({
     }
 });
 $('.dataTables_filter input').attr('placeholder','Buscar...');
+

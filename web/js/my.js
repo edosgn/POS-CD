@@ -95,3 +95,4 @@ $('body').delegate('.element-show','click', function(e){
     var element = $(this).data('id');
     $(element).show('slow');
 });
+
