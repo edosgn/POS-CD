@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -118,22 +119,29 @@ class OrdenProduccionController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            //$user=$this->get('security.context')->getToken()->getUser()->getRole();
-            $usuario=$em->getRepository('AppBundle:Usuario')->findOneByRole('ROLE_ADMIN');
-            $pin=$usuario->getPin();
-            if($request->request->get('ingresarPin') == $pin){
-                $em->persist($ordenProduccion);
-                $em->flush();
+            $rolUser=$this->get('security.context')->getToken()->getUser()->getRole();
+            if($rolUser == 'ROLE_COMMERCIAL'){
+                $usuario=$em->getRepository('AppBundle:Usuario')->findOneByRole('ROLE_ADMIN');
+                $pin=$usuario->getPin();
+                if($request->request->get('ingresarPin') == $pin){
+                    $em->persist($ordenProduccion);
+                    $em->flush();
 
-                return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
+                    return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
+                }
+                else{
+                    return $this->render('ordenproduccion/edit.html.twig', array(
+                    'ordenProduccion' => $ordenProduccion,
+                    'step' => $request->query->get('idStep'),
+                    'edit_form' => $editForm->createView(),
+                    'delete_form' => $deleteForm->createView(),
+                    'error' => 'error',));
+                }
             }
             else{
-                return $this->render('ordenproduccion/edit.html.twig', array(
-                'ordenProduccion' => $ordenProduccion,
-                'step' => $request->query->get('idStep'),
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),
-                'error' => 'error',));
+                $em->persist($ordenProduccion);
+                $em->flush();
+                return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
             }
         }
 
@@ -195,5 +203,48 @@ class OrdenProduccionController extends Controller
             'ordenProduccion' => $ordenProduccion,
         ));
     }
-    
+
+    /**
+     * cambia el estado de pendiente a asignada la orden para q sea visible desde produccion.
+     *
+     * @Route("/valida/pago", name="orden_produccion_valida_pago")
+     * @Method("POST")
+     */
+    public function validaPagoAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $id= $request->request->get('textIdentificacion');
+        $pin= $request->request->get('textPin');
+        $ban=false;$resultado="";
+        if($usuario=$em->getRepository('AppBundle:Usuario')->findOneByIdentificacion($id)){
+            if($usuario->getRole() == "ROLE_ADMIN"){
+                $pinuser=$usuario->getPin();
+                if($pinuser == $pin){
+                    $ban=true;
+                }else{
+                    $ban=false;
+                    $resultado="pin incorrecto";
+                }
+            }
+            else{
+                $resultado="usuario con id ".$id." no es admin";
+            }
+        }
+        else{
+            $resultado="usuario con id ".$id." no existe";
+        }
+
+        $response = new JsonResponse();
+
+        $entidades = array();
+        $entidades[] = array(
+            'ban'=>$ban, 
+            //'resultado'=>$resultado
+        );
+
+        $response->setData($entidades);
+
+        return $response;
+    }    
 }
