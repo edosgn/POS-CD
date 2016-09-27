@@ -111,7 +111,8 @@
                                 {% if ordenProduccionDetalle.fotoObservacion == null%}
                                     <i class="fa fa-camera fa-4x"></i>
                                 {% else %}
-                                     <img width="200" src="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}"/>
+                                     
+                                     <a class="ejemplo_1" href="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}"><img src="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" width="200" height="150" /></a>
                                 {% endif %}
 
                             </strong>
@@ -123,4 +124,14 @@
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->        
     </div><!-- /.page-content -->
+{% block javascripts %}
+<script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('js/fancy/source/jquery.fancybox.css')}}" />
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".ejemplo_1").fancybox({ });
+});
+</script>
+{% endblock %}
 {% endblock %}
