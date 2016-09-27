@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\OrdenProduccionDetalle;
+use AppBundle\Entity\OrdenProduccionEstado;
+use AppBundle\Entity\Despacho;
 use AppBundle\Form\OrdenProduccionDetalleType;
 
 /**
@@ -39,6 +41,8 @@ class OrdenProduccionDetalleController extends Controller
             'id' => $request->query->get('id'),
         ));
     }
+
+   
 
     /**
      * Lists all OrdenProduccionDetalle entities.
@@ -130,6 +134,7 @@ class OrdenProduccionDetalleController extends Controller
      */
     public function showAction(OrdenProduccionDetalle $ordenProduccionDetalle)
     {
+
         $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
 
          $user = $this->getUser();
@@ -234,4 +239,67 @@ class OrdenProduccionDetalleController extends Controller
             ));
 
     }
+
+
+     /**
+     * cambia el orden de despacho
+     *
+     * @Route("/despacho", name="orden_despacho")
+     * @Method("POST")
+     */
+    public function OrdenDespacho(Request $request){    
+
+
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
+
+        $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregada();
+
+        $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleDespacho();
+
+        $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTerminada();
+
+        if ($request->request->get('destino')) {
+            if ($request->getMethod('POST')) 
+               {
+
+                    foreach ($request->request->get('destino') as $idOrdenProduccionDetalle) {
+                        $despacho = new Despacho();
+                        
+                        $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($idOrdenProduccionDetalle);
+
+                        $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find(4);
+
+                        $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+                        $em->persist($ordenProduccionDetalle);
+                        $despacho->setUsuario($user);
+                        $despacho->setOrdenProduccionDetalle($ordenProduccionDetalle);
+
+
+                        $em->persist($despacho);
+
+                        $em->flush();
+                        
+                    }
+
+                        
+
+
+                        return $this->redirectToRoute('homepage');
+               }
+        }else{
+                        return $this->redirectToRoute('homepage');
+
+           
+        }
+        
+        
+
+    }
+
+
+
+
+    
 }

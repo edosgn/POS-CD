@@ -1,5 +1,14 @@
 {% extends 'frontend.html.twig' %}
 
+{% block stylesheets %}
+    <style type="text/css">
+        .form-group .form-control {
+        margin-left: -36px !important;
+    }
+    </style>
+    
+{% endblock %}
+
 {% block content %}
 	<div class="page-content">
 		<ol class="breadcrumb">
@@ -19,21 +28,91 @@
 		<div class="container-fluid">
 			<div class="row"><!-- .row -->
 
-                <div class="col-xs-12 col-md-4"><!-- .col -->
+                <div class="col-xs-12 col-md-3"><!-- .col -->
                     <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
                         <div class="panel-heading"><!-- .panel-heading -->
                             <h2>Terminada <span class="bagde">{{ ordenProduccionDetalleTerminada|length }}</span></h2>
+
                         </div><!-- /.panel-heading -->
                         <div class="panel-body"><!-- .panel-body -->
                             {% if ordenProduccionDetalleTerminada|length != 0 %}
-                            <table class="table table-data">
-                                <thead>
+                        
+                                <ol data-draggable="target" class="list-homepage">
+                                    {% for ordenProduccionDetalle in ordenProduccionDetalleTerminada %}
+                                    <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
+
+                                        <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
+                                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                        <br>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                        <br>
+                                        <strong>Detalle:</strong>
+                                        <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                        <br>
+                                        <strong>Estado:</strong>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                        <br>
+                                        <strong>Prioridad:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                            
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+
+                            {% else %}
+                            <h1 class="text-center">
+                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+                                <br>
+                                No existen registros.
+                            </h1>
+                            {% endif %}
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+                <div class="col-xs-12 col-md-3"><!-- .col -->
+
+                    <div class="panel panel-blue" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Definir Ruta de Despacho</h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+
+                            <button type="button" id="btn-revisar" class="btn btn-inverse btn-raised">
+                                Guardar
+                            </button>
+
+                            <form enctype='multipart/form-data' id="form-ruta" method="POST" action="{{path('orden_despacho')}}">
+
+                                <select hidden="" id="select-ruta" multiple="multiple" name='destino[]'>
+                                  
+                                </select>
+
+                            </form>
+
+                            <ol data-draggable="target" id="list-destino"></ol>
+
+
+                        </div><!-- /.panel-body -->
+
+                    </div><!-- /.panel -->
+                </div><!-- /.col -->
+
+                <div class="col-xs-12 col-md-3"><!-- .col -->
+                    <div class="panel panel-danger" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Despacho <span class="bagde">{{ ordenProduccionDetalleDespacho|length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                            {% if ordenProduccionDetalleDespacho|length != 0 %}
+                            <table class="table table-data" class="col-md-3">
+                                <thead class="col-md-3">
                                     <tr>
                                         <th>Detalles</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for ordenProduccionDetalle in ordenProduccionDetalleTerminada %}
+                                    {% for ordenProduccionDetalle in ordenProduccionDetalleDespacho %}
                                         <tr>
                                             <td>
                                                 <div class="col-xs-8"><!-- .col -->
@@ -68,64 +147,13 @@
                                 No existen registros.
                             </h1>
                             {% endif %}
+
                         </div><!-- /.panel-body -->
                     </div><!-- /.panel -->
+                    
                 </div><!-- /.col -->
 
-                <div class="col-xs-12 col-md-4"><!-- .col -->
-                    <div class="panel panel-blue" data-widget="{'draggable':'false'}"><!-- .panel -->
-                        <div class="panel-heading"><!-- .panel-heading -->
-                            <h2>Despacho <span class="bagde">{{ ordenProduccionDetalleDespacho|length }}</span></h2>
-                        </div><!-- /.panel-heading -->
-                        <div class="panel-body"><!-- .panel-body -->
-                            {% if ordenProduccionDetalleDespacho|length != 0 %}
-                            <table class="table table-data">
-                                <thead>
-                                    <tr>
-                                        <th>Detalles</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for ordenProduccionDetalle in ordenProduccionDetalleDespacho %}
-                                        <tr>
-                                            <td>
-                                                <div class="col-xs-8"><!-- .col -->
-                                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
-                                                    <br>
-                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
-                                                    <br>
-                                                    <strong>Detalle:</strong>
-                                                    <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
-                                                    <br>
-                                                    <strong>Estado:</strong>
-                                                    <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
-                                                    <br>
-                                                    <strong>Prioridad:</strong>
-                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
-                                                </div><!-- /.col -->
-                                                <div class="col-xs-4 text-center"><!-- .col -->
-                                                    <a href="{{path('orden_produccion_detalle_show',{'id':ordenProduccionDetalle.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
-                                                        <i class="fa fa-chevron-right fa-2x"></i>
-                                                    </a>
-                                                    
-                                                </div><!-- /.col -->
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            {% else %}
-                            <h1 class="text-center">
-                                <i class="fa fa-exclamation-triangle fa-2x"></i>
-                                <br>
-                                No existen registros.
-                            </h1>
-                            {% endif %}
-                        </div><!-- /.panel-body -->
-                    </div><!-- /.panel -->
-                </div><!-- /.col -->
-
-                <div class="col-xs-12 col-md-4"><!-- .col -->
+                <div class="col-xs-12 col-md-3"><!-- .col -->
                     <div class="panel panel-teal" data-widget="{'draggable':'false'}"><!-- .panel -->
                         <div class="panel-heading"><!-- .panel-heading -->
                             <h2>Entregada <span class="bagde">{{ ordenProduccionDetalleEntregada|length }}</span></h2>
@@ -174,11 +202,21 @@
                                 No existen registros.
                             </h1>
                             {% endif %}
+
                         </div><!-- /.panel-body -->
                     </div><!-- /.panel -->
+                    
                 </div><!-- /.col -->
+
+                            
+                            
 
             </div><!-- /.row -->
 		</div> <!-- /.container-fluid -->
+                            
 	</div> <!-- #page-content -->
+
+
+
 {% endblock %}
+

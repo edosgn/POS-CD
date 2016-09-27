@@ -42,28 +42,29 @@
             </div>
         </div><!-- /.page-heading -->
 
-        <div class="container-fluid"><!-- .container-fluid -->
+
+               <div class="container-fluid"><!-- .container-fluid -->
                
-               <div class="col-md-6">
-	               	<h4>Ordenes detalles terminadas</h4>
-	                <ol data-draggable="target" class="col-md-6">
-	                	{% for ordenProduccionDetalleEstado in ordenProduccionDetalleEstados %}
-					        <li data-draggable="item">{{ordenProduccionDetalleEstado.ordenProduccion}}</li>
-	                	{% endfor %}
-
-
-					</ol>
-               </div>
-
-				<div class="col-md-6">
-	               	<h4>Rutas</h4>
-	               	<ol data-draggable="target" class="col-md-6">
-				  
-					</ol>
-	                
-               </div>        	
-
+                    <form action="{{ path('orden_despacho') }}" method="POST" id="formulario">
+                        <div class="col-md-5">
+                            <select name="origen[]" id="origen" multiple="multiple" size="8" class="col-md-12">
+                            {% for ordenProduccionDetalleEstado in ordenProduccionDetalleEstados %}
+                                <option value="{{ordenProduccionDetalleEstado.id}}">{{ordenProduccionDetalleEstado.ordenProduccion}}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                        <input type="button" class="pasar izq" value="Pasar »"><input type="button" class="quitar der" value="« Quitar"><br />
+                        <input type="button" class="pasartodos izq" value="Todos »"><input type="button" class="quitartodos der" value="« Todos">
+                        </div>
+                        <div class="col-md-5">
+                            
+                        <select class="col-md-12" name="destino[]" id="destino" multiple="multiple" size="8"></select>
+                        </div>
+                        <p class="clear col-md-offset-5"><input type="submit" class="submit" value="Procesar formulario"></p>
+                    </form>
                     
-        </div><!-- /.container-fluid -->        
+               </div><!-- /.container-fluid -->          	
+                    
     </div><!-- /.page-content -->
 {% endblock %}
