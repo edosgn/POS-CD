@@ -271,16 +271,9 @@
                                 </div><!-- /.col -->                                
                             </div><!-- /.row -->
 
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <div class="row" id="pin" style="display:none">                                    
-                                    <div class="col-md-4"><!-- .col -->
-                                        <div class="form-group">
-                                            <label class="control-label">PIN</label>
-                                            <input type="password" name="ingresarPin" class="form-control" required maxlength="4">
-                                        </div>
-                                    </div><!-- /.col -->
-                                </div>   
-                            {% endif %}                                                   
+                            {#{% if is_granted('ROLE_COMMERCIAL') %}#}
+                                                                  
+                            {#{% endif %}#}
                         </fieldset>
 
                         <input type="submit" class="finish btn-success btn" value="Guardar" />
@@ -288,6 +281,18 @@
                         {{ form_end(edit_form) }}<!-- .form -->
                     </div><!-- /.panel-body -->
                 </div><!-- /.panel -->
+            </div><!-- /.col -->
+
+             <div id="pin">
+                <form id="form-pin" method="post">
+                    <label class="control-label">Identificación</label>
+                    <input type="number" name="textIdentificacion" id="txt-id" class="form-control" required >                                  
+                    <label class="control-label">PIN</label>
+                    <input type="password" name="textPin" id="txt-pin" class="form-control" required maxlength="4">
+                    <button type="button" class="btn btn-default btn-raised" name="btn-pin" data-url="{{path('orden_produccion_valida_pago')}}" id="btn-pin">
+                        Validar PIN
+                    </button>
+                </form>
             </div><!-- /.col -->
 
             <div class="col-xs-12 col-sm-6 col-md-6"><!-- .col -->
@@ -390,8 +395,10 @@
 
 
         function metodoPago(){
+            //e.preventDefault();
+            
             if(document.getElementById('select-pago').value == 'credito'){
-                document.getElementById('pin').style.display='block';
+                $('#pin').bPopup();
             }
             else{
                 document.getElementById('pin').style.display='none';   
@@ -399,6 +406,50 @@
         }
 
 
+        $('#btn-pin').click(function(e){
+            e.preventDefault();
+            var pin = $('#txt-pin').val();
+            var id = $('#txt-id').val();
+            var url = $(this).data('url');
+            var formData = $( "#form-pin" ).serialize();
+
+            /*$.ajax({
+                url : "{{path('orden_produccion_valida_pago')}}",
+                data : { id:id, pin:pin },
+                type : 'GET',
+                dataType : 'json',
+                success : function(json) {
+                    $('<h1/>').text(json.title).appendTo('body');
+                    $('<div class="content"/>')
+                        .html(json.html).appendTo('body');
+                },
+                error : function(xhr, status) {
+                    alert('Disculpe, existió un problema');
+                },
+                complete : function(xhr, status) {
+                    //$('·id-form').submit();
+                    alert('Petición realizada');
+                }
+            });*/
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data : formData,
+                success: function(data) {
+                    console.log(data);
+                    if (data == true) {
+                        //$('#form-pin').submit();
+                        alert('Petición realizada '.data);
+                    }else{
+                        alert('Petición rechazada '.data);
+                    }
+                },
+                error: function() {
+                    console.log('Error!');
+                }
+            });
+        })
 
     </script>
 {% endblock %}
