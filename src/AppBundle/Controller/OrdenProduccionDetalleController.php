@@ -160,15 +160,17 @@ class OrdenProduccionDetalleController extends Controller
     public function editAction(Request $request, OrdenProduccionDetalle $ordenProduccionDetalle)
     {
         $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
-        $editForm = $this->createForm('AppBundle\Form\OrdenProduccionDetalleType', $ordenProduccionDetalle);
+        $editForm = $this->createForm('AppBundle\Form\OrdenProduccionDetalleType', $ordenProduccionDetalle, array(
+            'action' => $this->generateUrl('orden_produccion_detalle_edit', array('id' => $ordenProduccionDetalle->getId())),
+            'method' => 'POST',
+        ));
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($ordenProduccionDetalle);
             $em->flush();
-
-            return $this->redirectToRoute('orden_produccion_detalle_edit', array('id' => $ordenProduccionDetalle->getId()));
+            return $this->redirectToRoute('orden_produccion_detalle_list', array('idOrdenProduccion' => $ordenProduccionDetalle->getOrdenProduccion()->getId()));
         }
 
         return $this->render('ordenproducciondetalle/edit.html.twig', array(
