@@ -21,12 +21,7 @@ class Despacho
      */
     private $id;
 
-    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", inversedBy="despachos") */
-    private $ordenProduccionDetalle;
-
-
-    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Usuario", inversedBy="despachos") */
-    private $usuario; 
+    
 
     /**
      * @var \DateTime
@@ -49,8 +44,14 @@ class Despacho
      */
     private $observaciones;
 
-     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Detalle", inversedBy="despachos") */
-    private $detalle;
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", inversedBy="despachos") */
+    private $ordenProduccionDetalle;
+
+
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Usuario", inversedBy="despachos") */
+    private $usuario; 
+
+     
 
 
     /**
@@ -63,6 +64,7 @@ class Despacho
         return $this->id;
     }
 
+
     /**
      * Set fechaEntrega
      *
@@ -71,7 +73,7 @@ class Despacho
      */
     public function setFechaEntrega($fechaEntrega)
     {
-        $this->fechaEntrega = new \DateTime($fechaEntrega);
+        $this->fechaEntrega = $fechaEntrega;
 
         return $this;
     }
@@ -89,7 +91,7 @@ class Despacho
     /**
      * Set receptor
      *
-     * @param \stdClass $receptor
+     * @param string $receptor
      * @return Despacho
      */
     public function setReceptor($receptor)
@@ -102,7 +104,7 @@ class Despacho
     /**
      * Get receptor
      *
-     * @return \stdClass 
+     * @return string 
      */
     public function getReceptor()
     {
@@ -132,53 +134,6 @@ class Despacho
         return $this->observaciones;
     }
 
-    
-    /**
-     * Set usuario
-     *
-     * @param \AppBundle\Entity\Usuario $usuario
-     * @return Despacho
-     */
-    public function setUsuario(\AppBundle\Entity\Usuario $usuario = null)
-    {
-        $this->usuario = $usuario;
-
-        return $this;
-    }
-
-    /**
-     * Get usuario
-     *
-     * @return \AppBundle\Entity\Usuario 
-     */
-    public function getUsuario()
-    {
-        return $this->usuario;
-    }
-
-    /**
-     * Set detalle
-     *
-     * @param \AppBundle\Entity\Detalle $detalle
-     * @return Despacho
-     */
-    public function setDetalle(\AppBundle\Entity\Detalle $detalle = null)
-    {
-        $this->detalle = $detalle;
-
-        return $this;
-    }
-
-    /**
-     * Get detalle
-     *
-     * @return \AppBundle\Entity\Detalle 
-     */
-    public function getDetalle()
-    {
-        return $this->detalle;
-    }
-
     /**
      * Set ordenProduccionDetalle
      *
@@ -200,5 +155,28 @@ class Despacho
     public function getOrdenProduccionDetalle()
     {
         return $this->ordenProduccionDetalle;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \AppBundle\Entity\Usuario $usuario
+     * @return Despacho
+     */
+    public function setUsuario(\AppBundle\Entity\Usuario $usuario = null)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \AppBundle\Entity\Usuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

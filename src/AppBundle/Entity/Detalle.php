@@ -50,10 +50,7 @@ class Detalle
      **/
     private $ordenProduccionDetalle;
 
-     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Despacho", mappedBy="detalle")
-     */
-    protected $despachos;
+     
 
     public function __construct() {
         $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
@@ -201,36 +198,5 @@ class Detalle
         return $this->ordenProduccionDetalle;
     }
 
-    /**
-     * Add despachos
-     *
-     * @param \AppBundle\Entity\Despacho $despachos
-     * @return Detalle
-     */
-    public function addDespacho(\AppBundle\Entity\Despacho $despachos)
-    {
-        $this->despachos[] = $despachos;
-
-        return $this;
-    }
-
-    /**
-     * Remove despachos
-     *
-     * @param \AppBundle\Entity\Despacho $despachos
-     */
-    public function removeDespacho(\AppBundle\Entity\Despacho $despachos)
-    {
-        $this->despachos->removeElement($despachos);
-    }
-
-    /**
-     * Get despachos
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDespachos()
-    {
-        return $this->despachos;
-    }
+ 
 }
