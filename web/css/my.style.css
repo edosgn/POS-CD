@@ -132,10 +132,21 @@ select.select-readonly, div.date input[readonly]{
   text-align: justify;
 }
 
+<<<<<<< HEAD
 .list-homepage li hr{
   margin-top: 16px !important;
   margin-bottom: 16px !important;
   height: 1px !important;
   border: 0 !important;
   border-top: 1px solid #f1f1f1 !important;
+=======
+#pin{
+  background-color: #fff;
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 0 0 25px 5px #999;
+  color: #111;
+  display: none;
+  min-width: 450px;
+  padding: 25px;
+>>>>>>> origin/master
 }
