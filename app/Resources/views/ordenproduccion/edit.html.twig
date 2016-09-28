@@ -244,40 +244,41 @@
                         <fieldset title="3" class="stepy-step">
                             <legend>Finalizar</legend>
                             <div class="row"><!-- .row -->
-                                <div class="col-md-2"><!-- .col -->
+                                <div class="col-md-12"><!-- .col -->
                                     {{ form_widget(edit_form.tipoPago, { 'attr': {'class':'select-hidden select-readonly' }, 'id':'select-pago'}) }}
-                                    <label class="control-label">Tipo Pago</label>
-                                    <ul class="list-group">
-                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="contado" data-toggle="tooltip" data-placement="top" title="Contado">
+                                    <label class="control-label">Tipo Pago: <strong id="text-pago">{{ ordenProduccion.tipoPago }}</strong></label>
+                                    <br>
+                                    <div class="btn-group" role="group"> 
+                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Contado" data-toggle="tooltip" data-placement="top" title="Contado">
                                             <i class="fa fa-money fa-3x"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="credito" data-toggle="tooltip" data-placement="top" title="Credito">
+                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Credito" data-toggle="tooltip" data-placement="top" title="Credito">
                                             <i class="fa fa-hourglass-half fa-3x"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="consignacion" data-toggle="tooltip" data-placement="top" title="Consignacion">
+                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Consignacion" data-toggle="tooltip" data-placement="top" title="Consignacion">
                                             <i class="fa fa-bank fa-3x"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="giro" data-toggle="tooltip" data-placement="top" title="Giro">
+                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Giro" data-toggle="tooltip" data-placement="top" title="Giro">
                                             <i class="fa fa-refresh fa-3x"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="tarjeta" data-toggle="tooltip" data-placement="top" title="Tarjeta">
+                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Tarjeta" data-toggle="tooltip" data-placement="top" title="Tarjeta">
                                             <i class="fa fa-credit-card fa-3x"></i>
                                         </a>
-                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="contraEntrega" data-toggle="tooltip" data-placement="top" title="Contra Entrega">
+                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="ContraEntrega" data-toggle="tooltip" data-placement="top" title="Contra Entrega">
                                             <i class="fa fa-truck fa-3x"></i>
                                         </a>
-                                    </ul>
+                                    </div>
                                 </div><!-- /.col -->
 
-                                <div class="col-md-2"><!-- .col -->
+                                <div class="col-md-3"><!-- .col -->
                                     {{ form_widget(edit_form.prioridad, { 'attr': {'class':'select-hidden' }, 'id':'select-prioridad'}) }}
                                     <ul class="demo-btns"><!-- .demo-btns -->
-                                        <label class="control-label">Prioridad</label>
+                                        <label class="control-label">Prioridad: <strong id="text-prioridad">{{ ordenProduccion.prioridad }}</strong></label><br>
                                         <ul class="list-group">
-                                            <a type="button" class="btn btn-success btn-raised list-group-item select-btn" data-id="#select-prioridad" data-value="1" data-toggle="tooltip" data-placement="top" title="Normal">
+                                            <a type="button" class="btn btn-success btn-raised list-group-item select-btn" data-id="#select-prioridad" data-text="#text-prioridad" data-value="1" data-toggle="tooltip" data-placement="top" title="Normal">
                                                 <i class="fa fa-check"></i>
                                             </a>
-                                            <a type="button" class="btn btn-danger btn-raised list-group-item select-btn" data-id="#select-prioridad" data-value="4" data-toggle="tooltip" data-placement="top" title="Importante">
+                                            <a type="button" class="btn btn-danger btn-raised list-group-item select-btn" data-id="#select-prioridad" data-text="#text-prioridad" data-value="4" data-toggle="tooltip" data-placement="top" title="Importante">
                                                 <i class="fa fa-exclamation-triangle"></i>
                                             </a>
                                         </ul>
@@ -288,13 +289,40 @@
 
                         </fieldset>
 
-                        <input type="submit" class="finish btn-success btn" value="Guardar" />
+                        <input type="submit" class="finish btn-success btn" id="btn-guardar" value="Guardar" data-url="{{path('orden_produccion_valida_credito',{'idCliente':ordenProduccion.pedido.cliente.id})}}" />
                             
                         {{ form_end(edit_form) }}<!-- .form -->
                     </div><!-- /.panel-body -->
                 </div><!-- /.panel -->
             </div><!-- /.col -->
 
+            <div class="modal fade" tabindex="-1" role="dialog" id="modal-pin">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Validar PIN</h4>
+                  </div>
+                  <form id="form-pin" method="post">
+                      <div class="modal-body">
+                        
+                            <label class="control-label">Identificación</label>
+                            <input type="number" name="textIdentificacion" id="txt-id" class="form-control" required >                                  
+                            <label class="control-label">PIN</label>
+                            <input type="password" name="textPin" id="txt-pin" class="form-control" required maxlength="4">
+                            
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default btn-raised" name="btn-pin" data-url="{{path('orden_produccion_valida_pago')}}" id="btn-pin">
+                             Validar PIN
+                        </button>
+                      </div>
+                </form>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
             
 
             <div class="col-xs-12 col-sm-6 col-md-6"><!-- .col -->
@@ -345,18 +373,12 @@
             e.preventDefault();
             var select = $(this).data('id');
             var value = $(this).data('value');
+            var title = $(this).attr('data-original-title');
+            var label = $(this).data('text');
 
             $(select).val(value);
+            $(label).text(title);
         });
-
-        /*$('.btn-address').click(function(e){
-            e.preventDefault();
-            var input = $(this).data('id');
-            var value = $(this).data('value');
-
-            $(input).val($(input).val() + " " + value);
-        });*/
-
 
         function insertAtCaret(areaId, text) {
             var txtarea = document.getElementById(areaId);
@@ -408,6 +430,34 @@
         }
 
 
+        $('#btn-guardar').click(function(e){
+            e.preventDefault();
+            var url = $(this).data('url');
+
+            if ($('#text-pago').text() == "Credito" || $('#text-prioridad').text() == "Importante") {
+                
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType : 'json',
+                    success: function(data) {
+                        $.each(data,function(i,item){
+                            if (item.ban == false) {                               
+                                $('#modal-pin').modal('show');
+                            }else{
+                                $('#wizard').submit();
+                            }
+                        });
+                    },
+                    error: function() {
+                        console.log('Error!');
+                    }
+                });                
+            }else{
+                $('#wizard').submit();
+            }             
+        })
+
         $('#btn-pin').click(function(e){
             e.preventDefault();
             var pin = $('#txt-pin').val();
@@ -415,44 +465,31 @@
             var url = $(this).data('url');
             var formData = $( "#form-pin" ).serialize();
 
-            /*$.ajax({
-                url : "{{path('orden_produccion_valida_pago')}}",
-                data : { id:id, pin:pin },
-                type : 'GET',
-                dataType : 'json',
-                success : function(json) {
-                    $('<h1/>').text(json.title).appendTo('body');
-                    $('<div class="content"/>')
-                        .html(json.html).appendTo('body');
-                },
-                error : function(xhr, status) {
-                    alert('Disculpe, existió un problema');
-                },
-                complete : function(xhr, status) {
-                    //$('·id-form').submit();
-                    alert('Petición realizada');
-                }
-            });*/
-
             $.ajax({
                 type: 'POST',
                 url: url,
                 data : formData,
                 dataType : 'json',
                 success: function(data) {
-                    //var json = $.parseJSON(data);
-                    console.log(JSON.stringify(data.ban));
-                    if (data.ban == true) {
-                        //$('#form-pin').submit();
-                        alert("PIN Correcto");
-                    }else{
-                        alert("PIN Incorrecto");
-                    }
+                    $.each(data,function(i,item){
+                        validatePin(item)
+                    });
                 },
                 error: function() {
                     console.log('Error!');
                 }
             });
+              
         })
+        
+        function validatePin(item){
+            console.log(item.ban);
+            if (item.ban == true) {
+                alert("PIN Correcto");
+                $('#wizard').submit();
+            }else{
+                alert("PIN Incorrecto");
+            }
+        }
     </script>
 {% endblock %}

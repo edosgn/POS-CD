@@ -33,11 +33,11 @@ class OrdenProduccionType extends AbstractType
             ->add('numero')
             ->add('tipoPago','choice',array(
                 'choices'=>array(
-                    'contado'=>'Contado',
-                    'credito'=>'Credito',
-                    'consignacion'=>'Consignación',
-                    'giro'=>'Giro',
-                    'tarjeta'=>'Tarjeta'),
+                    'Contado'=>'Contado',
+                    'Credito'=>'Credito',
+                    'Consignacion'=>'Consignación',
+                    'Giro'=>'Giro',
+                    'Tarjeta'=>'Tarjeta'),
                 'empty_value'=>false,
             ))
             ->add('prioridad','entity',array(

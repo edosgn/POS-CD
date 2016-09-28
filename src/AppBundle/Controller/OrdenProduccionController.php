@@ -242,15 +242,8 @@ class OrdenProduccionController extends Controller
                     $ban=true;
                 }else{
                     $ban=false;
-                    $resultado="pin incorrecto";
                 }
             }
-            else{
-                $resultado="usuario con id ".$id." no es admin";
-            }
-        }
-        else{
-            $resultado="usuario con id ".$id." no existe";
         }
 
         $response = new JsonResponse();
@@ -259,6 +252,36 @@ class OrdenProduccionController extends Controller
         $entidades[] = array(
             'ban'=>$ban, 
             //'resultado'=>$resultado
+        );
+
+        $response->setData($entidades);
+
+        return $response;
+    }
+
+
+    /**
+     * cambia el estado de pendiente a asignada la orden para q sea visible desde produccion.
+     *
+     * @Route("/valida/credito", name="orden_produccion_valida_credito")
+     * @Method("GET")
+     */
+    public function validaCreditoAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $creditos=$em->getRepository('AppBundle:OrdenProduccion')->findOrdenProduccionCredito($request->query->get('idCliente'));
+
+        $ban = false;
+        if (count($creditos) != 0) {
+            $ban = true;
+        }
+
+        $response = new JsonResponse();
+
+        $entidades = array();
+        $entidades[] = array(
+            'ban'=>$ban,
         );
 
         $response->setData($entidades);

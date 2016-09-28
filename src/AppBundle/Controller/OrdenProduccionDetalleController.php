@@ -192,6 +192,17 @@ class OrdenProduccionDetalleController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            if ($request->files->get('inputFotoObservacion') != null) {
+                $file = $request->files->get('inputFotoObservacion');
+                $originalName = $file->getClientOriginalName();
+                $dir=__DIR__.'/../../../web/img/uploads/observations';
+                $extension = $file->guessExtension();
+                $file->move($dir,$originalName);
+
+                $ordenProduccionDetalle->setFotoObservacion($originalName);
+            }
+            
             $em->persist($ordenProduccionDetalle);
             $em->flush();
             return $this->redirectToRoute('orden_produccion_detalle_list', array('idOrdenProduccion' => $ordenProduccionDetalle->getOrdenProduccion()->getId()));

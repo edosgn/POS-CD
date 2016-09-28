@@ -53,4 +53,19 @@ class OrdenProduccionRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    //Obtiene las ordenes de produccion de un cliente q sean de tipo credito
+    public function findOrdenProduccionCredito($idCliente)
+    {
+        $em = $this->getEntityManager();
+        $dql = "SELECT op
+            FROM AppBundle:OrdenProduccion op
+            JOIN op.pedido p
+            WHERE p.cliente = :idCliente
+            AND op.tipoPago = :tipo";
+        $consulta = $em->createQuery($dql);
+        $consulta->setParameter('idCliente', $idCliente);
+        $consulta->setParameter('tipo', 'Credito');
+        return $consulta->getResult();
+    }
 }
