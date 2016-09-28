@@ -93,8 +93,13 @@ class OrdenProduccionDetalleController extends Controller
         ));
         $form->handleRequest($request);
 
+        $em = $this->getDoctrine()->getManager();
+        //$pedido=$em->getRepository('AppBundle:Pedido')->find($request->query->get('idOrdenProduccion'));
+        var_dump($request->query->get('idOrdenProduccion'));
+        die();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            
 
             if ($request->files->get('inputFotoObservacion') != null) {
                 $file = $request->files->get('inputFotoObservacion');

@@ -30,6 +30,13 @@ class Pedido
      */
     private $numero;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="total_pedido", type="bigint")
+     */
+    private $totalPedido='0';
+
     /** 
     * created Time/Date 
     * 
@@ -112,6 +119,29 @@ class Pedido
     public function getNumero()
     {
         return $this->numero;
+    }
+
+    /**
+     * Set totalPedido
+     *
+     * @param integer $totalPedido
+     * @return Pedido
+     */
+    public function setTotalPedido($totalPedido)
+    {
+        $this->totalPedido = $totalPedido;
+
+        return $this;
+    }
+
+    /**
+     * Get totalPedido
+     *
+     * @return integer 
+     */
+    public function getTotalPedido()
+    {
+        return $this->totalPedido;
     }
 
     /** 
