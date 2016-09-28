@@ -21,7 +21,7 @@ class OrdenProduccionDetalleRepository extends EntityRepository
 	        ->join('op.pedido', 'p')
 	        ->where('opd.ordenProduccionEstado = 1')
 	        ->orderBy('op.prioridad', 'DESC')
-	        ->getQuery();
+	        ->getQuery(); 
     	}else{
     		$query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
@@ -121,6 +121,30 @@ class OrdenProduccionDetalleRepository extends EntityRepository
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
 	        ->where('opd.ordenProduccionEstado = 5 AND opd.responsable = :idUsuario')
+	        ->setParameter('idUsuario', $idUsuario)
+	        ->orderBy('op.prioridad', 'DESC')
+	        ->getQuery();	
+	    }
+
+        return $query->getResult();
+    }
+
+    public function getOrdenProduccionDetalleEntregadaZona($zona,$idUsuario = null)
+    {
+    	if ($idUsuario == null) {
+	        $query = $this->createQueryBuilder('opd')
+	        ->join('opd.ordenProduccion', 'op')
+	        ->join('op.pedido', 'p')
+	        ->join('op.zonaEnvio','ze')
+	        ->where('opd.ordenProduccionEstado = 3 AND ze.nombre = :nombre_zona')
+	        ->setParameter('nombre_zona', $zona)
+	        ->orderBy('op.prioridad', 'DESC')
+	        ->getQuery();
+	    }else{
+	    	$query = $this->createQueryBuilder('opd')
+	        ->join('opd.ordenProduccion', 'op')
+	        ->join('op.pedido', 'p')
+	        ->where('opd.ordenProduccionEstado = 3 AND opd.responsable = :idUsuario')
 	        ->setParameter('idUsuario', $idUsuario)
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();	

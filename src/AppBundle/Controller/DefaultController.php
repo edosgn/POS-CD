@@ -84,6 +84,25 @@ class DefaultController extends Controller
     			
                 $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregada();
 
+                $getOrdenProduccionDetalleEntregadaZonaNorte = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Norte");
+
+                $OrdenProduccionDetalleEntregadaZonaSur = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Sur");
+
+                $OrdenProduccionDetalleEntregadaZonaPeriferico = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Periferico");
+
+                $OrdenProduccionDetalleEntregadaZonaEste = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Este");
+
+                $OrdenProduccionDetalleEntregadaZonaOeste = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Oeste");
+
+                $OrdenProduccionDetalleEntregadaZonaCentro = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Centro");
+
+
+
+                foreach ($OrdenProduccionDetalleEntregadaZonaSur as $array) {
+                    var_dump($array->getOrdenProduccion()->getZonaEnvio()->getNombre()) ;
+                }
+                //die();
+
                 $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleDespacho();
 
 
@@ -92,6 +111,12 @@ class DefaultController extends Controller
            
 
                 return $this->render('default/index.shipping.html.twig', array(
+                    'OrdenProduccionDetalleEntregadaZonaCentro' => $OrdenProduccionDetalleEntregadaZonaCentro,
+                    'OrdenProduccionDetalleEntregadaZonaOeste' => $OrdenProduccionDetalleEntregadaZonaOeste,
+                    'OrdenProduccionDetalleEntregadaZonaEste' => $OrdenProduccionDetalleEntregadaZonaEste,
+                    'OrdenProduccionDetalleEntregadaZonaPeriferico' => $OrdenProduccionDetalleEntregadaZonaPeriferico,
+                    'OrdenProduccionDetalleEntregadaZonaSur' => $OrdenProduccionDetalleEntregadaZonaSur,
+                    'getOrdenProduccionDetalleEntregadaZonaNorte'=>$getOrdenProduccionDetalleEntregadaZonaNorte, 
                     'ordenProduccionDetalleEntregada' => $ordenProduccionDetalleEntregada,
                     'ordenProduccionDetalleDespacho' => $ordenProduccionDetalleDespacho,
                     'ordenProduccionDetalleTerminada' => $ordenProduccionDetalleTerminada,
