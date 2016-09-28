@@ -286,9 +286,6 @@
                                 </div><!-- /.col -->                               
                             </div><!-- /.row -->
 
-                            {#{% if is_granted('ROLE_COMMERCIAL') %}#}
-                                                                  
-                            {#{% endif %}#}
                         </fieldset>
 
                         <input type="submit" class="finish btn-success btn" value="Guardar" />
@@ -298,17 +295,7 @@
                 </div><!-- /.panel -->
             </div><!-- /.col -->
 
-             <div id="pin">
-                <form id="form-pin" method="post">
-                    <label class="control-label">Identificación</label>
-                    <input type="number" name="textIdentificacion" id="txt-id" class="form-control" required >                                  
-                    <label class="control-label">PIN</label>
-                    <input type="password" name="textPin" id="txt-pin" class="form-control" required maxlength="4">
-                    <button type="button" class="btn btn-default btn-raised" name="btn-pin" data-url="{{path('orden_produccion_valida_pago')}}" id="btn-pin">
-                        Validar PIN
-                    </button>
-                </form>
-            </div><!-- /.col -->
+            
 
             <div class="col-xs-12 col-sm-6 col-md-6"><!-- .col -->
                 <div class="well" id="container-load">
