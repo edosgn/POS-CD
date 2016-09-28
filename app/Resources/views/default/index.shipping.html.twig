@@ -29,16 +29,17 @@
 			<div class="row"><!-- .row -->
 
                 <div class="col-xs-12 col-md-3"><!-- .col -->
+
+                    {% if getOrdenProduccionDetalleEntregadaZonaNorte |length != 0 %}
                     <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
                         <div class="panel-heading"><!-- .panel-heading -->
-                            <h2>Terminada <span class="bagde">{{ ordenProduccionDetalleTerminada|length }}</span></h2>
+                            <h2>Terminada Zona Norte <span class="bagde">{{ getOrdenProduccionDetalleEntregadaZonaNorte| length }}</span></h2>
 
                         </div><!-- /.panel-heading -->
                         <div class="panel-body"><!-- .panel-body -->
-                            {% if ordenProduccionDetalleTerminada|length != 0 %}
                         
                                 <ol data-draggable="target" class="list-homepage">
-                                    {% for ordenProduccionDetalle in ordenProduccionDetalleTerminada %}
+                                    {% for ordenProduccionDetalle in getOrdenProduccionDetalleEntregadaZonaNorte %}
                                     <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
 
                                         <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
@@ -54,21 +55,203 @@
                                         <br>
                                         <strong>Prioridad:</strong>
                                         <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                        <br>
+                                        <strong>Zona:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.zonaEnvio.nombre }}</small>
                                             
                                         <hr>
                                     </li>
                                     {% endfor %}
                                 </ol>
-
-                            {% else %}
-                            <h1 class="text-center">
-                                <i class="fa fa-exclamation-triangle fa-2x"></i>
-                                <br>
-                                No existen registros.
-                            </h1>
-                            {% endif %}
                         </div><!-- /.panel-body -->
                     </div><!-- /.panel -->
+                    {% endif %}
+
+
+                    {% if OrdenProduccionDetalleEntregadaZonaSur|length != 0 %}
+                    <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Terminada Zona Sur <span class="bagde">{{ OrdenProduccionDetalleEntregadaZonaSur| length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                        
+                                <ol data-draggable="target" class="list-homepage">
+                                    {% for ordenProduccionDetalle in OrdenProduccionDetalleEntregadaZonaSur %}
+                                    <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
+
+                                        <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
+                                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                        <br>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                        <br>
+                                        <strong>Detalle:</strong>
+                                        <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                        <br>
+                                        <strong>Estado:</strong>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                        <br>
+                                        <strong>Prioridad:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                        <br>
+                                        <strong>Zona:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.zonaEnvio.nombre }}</small>
+                                            
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                   {% endif %}
+
+                   {% if OrdenProduccionDetalleEntregadaZonaPeriferico|length != 0 %}
+                    <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Terminada Zona Periferico <span class="bagde">{{ OrdenProduccionDetalleEntregadaZonaPeriferico| length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                        
+                                <ol data-draggable="target" class="list-homepage">
+                                    {% for ordenProduccionDetalle in OrdenProduccionDetalleEntregadaZonaPeriferico %}
+                                    <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
+
+                                        <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
+                                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                        <br>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                        <br>
+                                        <strong>Detalle:</strong>
+                                        <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                        <br>
+                                        <strong>Estado:</strong>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                        <br>
+                                        <strong>Prioridad:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                        <br>
+                                        <strong>Zona:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.zonaEnvio.nombre }}</small>
+                                            
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                   {% endif %}
+
+                   {% if OrdenProduccionDetalleEntregadaZonaEste|length != 0 %}
+                    <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Terminada Zona Este <span class="bagde">{{ OrdenProduccionDetalleEntregadaZonaEste| length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                        
+                                <ol data-draggable="target" class="list-homepage">
+                                    {% for ordenProduccionDetalle in OrdenProduccionDetalleEntregadaZonaEste %}
+                                    <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
+
+                                        <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
+                                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                        <br>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                        <br>
+                                        <strong>Detalle:</strong>
+                                        <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                        <br>
+                                        <strong>Estado:</strong>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                        <br>
+                                        <strong>Prioridad:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                        <br>
+                                        <strong>Zona:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.zonaEnvio.nombre }}</small>
+                                            
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                   {% endif %}
+
+                   {% if OrdenProduccionDetalleEntregadaZonaOeste|length != 0 %}
+                    <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Terminada Zona Oeste <span class="bagde">{{ OrdenProduccionDetalleEntregadaZonaOeste| length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                        
+                                <ol data-draggable="target" class="list-homepage">
+                                    {% for ordenProduccionDetalle in OrdenProduccionDetalleEntregadaZonaOeste %}
+                                    <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
+
+                                        <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
+                                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                        <br>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                        <br>
+                                        <strong>Detalle:</strong>
+                                        <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                        <br>
+                                        <strong>Estado:</strong>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                        <br>
+                                        <strong>Prioridad:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                        <br>
+                                        <strong>Zona:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.zonaEnvio.nombre }}</small>
+                                            
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                   {% endif %}
+
+
+                   {% if OrdenProduccionDetalleEntregadaZonaCentro|length != 0 %}
+                    <div class="panel panel-orange" data-widget="{'draggable':'false'}"><!-- .panel -->
+                        <div class="panel-heading"><!-- .panel-heading -->
+                            <h2>Terminada Zona Centro <span class="bagde">{{ OrdenProduccionDetalleEntregadaZonaCentro| length }}</span></h2>
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body"><!-- .panel-body -->
+                        
+                                <ol data-draggable="target" class="list-homepage">
+                                    {% for ordenProduccionDetalle in OrdenProduccionDetalleEntregadaZonaCentro %}
+                                    <li data-draggable="item" data-id="{{ordenProduccionDetalle.id}}">
+
+                                        <p style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};height:5px;"></p>
+                                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }}</strong>
+                                        <br>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small>
+                                        <br>
+                                        <strong>Detalle:</strong>
+                                        <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small>
+                                        <br>
+                                        <strong>Estado:</strong>
+                                        <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small>
+                                        <br>
+                                        <strong>Prioridad:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
+                                        <br>
+                                        <strong>Zona:</strong>
+                                        <small >{{ ordenProduccionDetalle.ordenProduccion.zonaEnvio.nombre }}</small>
+                                            
+                                        <hr>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                   {% endif %}
+
+
+
+
                 </div><!-- /.col -->
                 <div class="col-xs-12 col-md-3"><!-- .col -->
 

@@ -33,7 +33,19 @@ cuentaAtras = (horas < 10 ? '0' + horas : horas) + 'h '
 + (segundos < 10 ? '0' + segundos : segundos) + 's ';
 setTimeout('muestraCuentaAtras()', 1000);
 }
-document.getElementById('tiempo').innerHTML = '<h2>Faltan: ' + cuentaAtras + '</h2>';
+document.getElementById('tiempo').innerHTML = '<div class="clock" id="clock">'+
+	'<div class="date"><small>Tiempo Restante</small></div>'+
+	'<div class="time">'+
+		
+		'<span class="hour">'+horas+'</span>:'+
+		'<span class="minute">'+minutos+'</span>:'+
+		'<span class="second">'+segundos+'</span>'+
+		'<h1>'+
+		'<small> H:M:S</small>'+
+		'</h1>'+
+		
+	'</div>'+
+'</div>';
 }
 muestraCuentaAtras();
 </script>

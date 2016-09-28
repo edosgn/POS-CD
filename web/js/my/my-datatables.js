@@ -1,5 +1,6 @@
 $('.table-data').dataTable({
     stateSave: true,
+    ordering: false,
     lengthMenu: [ 15 ],
     language: {
         "sProcessing":     "Procesando...",

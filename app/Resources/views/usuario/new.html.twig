@@ -93,6 +93,19 @@
                                             {{ form_widget(form.role, { 'attr': {'class':'form-control' }}) }}
                                         </div>
                                     </div>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Pin:</label>
+                                                {{ form_widget(form.pin, { 'attr': {'placeholder':'Digite Pin','class':'form-control' }}) }}
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                            {{ form_widget(form.pin, { 'attr': {'class':'input-hidden' }}) }}
+                                    {% endif %}
+                                    
+
                                 </div>
 
                                 <div class="row">
