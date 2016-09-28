@@ -105,10 +105,10 @@
                                 {% if ordenProduccionDetalle.fotoObservacion == null%}
                                     <i class="fa fa-camera fa-4x"></i>
                                 {% else %}
-                                     
-                                     <a class="ejemplo_1" href="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}"><img src="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" width="200" height="150" /></a>
+                                    <a class="ejemplo_1" href="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" >
+                                        <img src="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" width="310" height="250" />
+                                    </a>
                                 {% endif %}
-
                             </strong>
                         </h1>
                     </div><!-- /.col -->
@@ -122,10 +122,19 @@
 <script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{asset('js/fancy/source/jquery.fancybox.css')}}" />
-<script type="text/javascript">
-$(document).ready(function(){
-    $(".ejemplo_1").fancybox({ });
-});
-</script>
+<script type="text/javascript">  
+$(document).ready(function(){  
+    $(".ejemplo_1").fancybox({  
+        'autoScale'     : false,  
+        'transitionIn'      : 'none',  
+        'transitionOut'     : 'none',  
+        'width'         : 800,  
+        'height'        : 760,  
+        'type'          : 'iframe',
+        'scrolling'   : 'no'
+        
+    });  
+});  
+</script>  
 {% endblock %}
 {% endblock %}
