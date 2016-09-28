@@ -244,42 +244,46 @@
                         <fieldset title="3" class="stepy-step">
                             <legend>Finalizar</legend>
                             <div class="row"><!-- .row -->
-                                <div class="col-md-12"><!-- .col -->
+                                <div class="col-md-2"><!-- .col -->
+                                    {{ form_widget(edit_form.tipoPago, { 'attr': {'class':'select-hidden select-readonly' }, 'id':'select-pago'}) }}
+                                    <label class="control-label">Tipo Pago</label>
+                                    <ul class="list-group">
+                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="contado" data-toggle="tooltip" data-placement="top" title="Contado">
+                                            <i class="fa fa-money fa-3x"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="credito" data-toggle="tooltip" data-placement="top" title="Credito">
+                                            <i class="fa fa-hourglass-half fa-3x"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="consignacion" data-toggle="tooltip" data-placement="top" title="Consignacion">
+                                            <i class="fa fa-bank fa-3x"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="giro" data-toggle="tooltip" data-placement="top" title="Giro">
+                                            <i class="fa fa-refresh fa-3x"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="tarjeta" data-toggle="tooltip" data-placement="top" title="Tarjeta">
+                                            <i class="fa fa-credit-card fa-3x"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-default btn-raised list-group-item select-btn" data-id="#select-pago" data-value="contraEntrega" data-toggle="tooltip" data-placement="top" title="Contra Entrega">
+                                            <i class="fa fa-truck fa-3x"></i>
+                                        </a>
+                                    </ul>
+                                </div><!-- /.col -->
+
+                                <div class="col-md-2"><!-- .col -->
+                                    {{ form_widget(edit_form.prioridad, { 'attr': {'class':'select-hidden' }, 'id':'select-prioridad'}) }}
                                     <ul class="demo-btns"><!-- .demo-btns -->
-                                        <li>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="contado" onclick="metodoPago();">
-                                                    <i class="fa fa-dollar"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="credito" onclick="metodoPago();">
-                                                    Credito
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="consignacion" onclick="metodoPago();">
-                                                    Consignación
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="giro" onclick="metodoPago();">
-                                                    Giro
-                                                </button>
-                                                <button type="button" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-value="tarjeta" onclick="metodoPago();">
-                                                    <i class="fa fa-credit-card"></i>
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </ul><!-- /.demo-btns -->
-                                </div><!-- /.col -->
-                                <div class="col-md-4"><!-- .col -->
-                                    <div class="form-group">
-                                        <label class="control-label">Tipo Pago</label>
-                                        {{ form_widget(edit_form.tipoPago, { 'attr': {'class':'form-control select-readonly' }, 'id':'select-pago'}) }}
-                                    </div>
-                                </div><!-- /.col -->
-                                <div class="col-md-4"><!-- .col -->
-                                    <div class="form-group input-icon right">
                                         <label class="control-label">Prioridad</label>
-                                        <i class="fa fa-chevron-down"></i>
-                                        {{ form_widget(edit_form.prioridad, { 'attr': {'class':'form-control' }}) }}
-                                    </div>
-                                </div><!-- /.col -->                                
+                                        <ul class="list-group">
+                                            <a type="button" class="btn btn-success btn-raised list-group-item select-btn" data-id="#select-prioridad" data-value="1" data-toggle="tooltip" data-placement="top" title="Normal">
+                                                <i class="fa fa-check"></i>
+                                            </a>
+                                            <a type="button" class="btn btn-danger btn-raised list-group-item select-btn" data-id="#select-prioridad" data-value="4" data-toggle="tooltip" data-placement="top" title="Importante">
+                                                <i class="fa fa-exclamation-triangle"></i>
+                                            </a>
+                                        </ul>
+
+                                    </ul><!-- /.demo-btns -->
+                                </div><!-- /.col -->                               
                             </div><!-- /.row -->
 
                             {#{% if is_granted('ROLE_COMMERCIAL') %}#}
