@@ -133,21 +133,37 @@ select.select-readonly, div.date input[readonly]{
   text-align: justify;
 }
 
-<<<<<<< HEAD
-.list-homepage li hr{
-  margin-top: 16px !important;
-  margin-bottom: 16px !important;
-  height: 1px !important;
-  border: 0 !important;
-  border-top: 1px solid #f1f1f1 !important;
-=======
-#pin{
-  background-color: #fff;
-  border-radius: 10px 10px 10px 10px;
-  box-shadow: 0 0 25px 5px #999;
-  color: #111;
-  display: none;
-  min-width: 450px;
-  padding: 25px;
->>>>>>> origin/master
-}
+/* CLOCK  */
+div.clock { 
+  cursor: pointer; 
+  width: 100%; 
+  text-align: center; 
+} 
+div.clock a { color: #333; font-size: 18px; font-weight: bold; text-decoration: none; } 
+div.clock a:hover { text-decoration: underline; } 
+div.clock div.date { 
+  color: #777; font-size: 50px; margin: 10px 0; 
+} 
+div.clock div.time { 
+  font-size: 1.5em; font-weight: 200; 
+} 
+div.clock div.time span { 
+  border-radius: 5px; padding: 1px 4px 3px 4px; color: #fff; /* fallback */ 
+  background: #000; /* Safari 4-5, Chrome 1-9 */ 
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#00bcd4), to(#000)); /* Safari 5.1, Chrome 10+ */ 
+  background: -webkit-linear-gradient(top, #00bcd4, #2196f3); /* Firefox 3.6+ */ 
+  background: -moz-linear-gradient(top, #00bcd4, #2196f3); /* IE 10 */ 
+  background: -ms-linear-gradient(top, #00bcd4, #2196f3); /* Opera 11.10+ */ 
+  background: -o-linear-gradient(top, #00bcd4,#2196f3); 
+
+  width: 50px;
+  height:50px;
+} 
+div.clock div.time span:nth-child(3) { color: #333; /* fallback */ 
+  background: #ddd; /* Safari 4-5, Chrome 1-9 */ 
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eee), to(#ccc)); /* Safari 5.1, Chrome 10+ */ 
+  background: -webkit-linear-gradient(top, #eee, #ccc); /* Firefox 3.6+ */ 
+  background: -moz-linear-gradient(top, #eee, #ccc); /* IE 10 */ 
+  background: -ms-linear-gradient(top, #eee, #ccc); /* Opera 11.10+ */ 
+  background: -o-linear-gradient(top, #eee, #ccc); } 
+div.clock div.time strong { font-weight: 100; font-size: 0.8em; margin-left: 5px; color: #666; }
