@@ -38,24 +38,23 @@
                                         <div class="form-group input-icon right">
                                             <label>Tipo:</label>
                                             <i class="fa fa-chevron-down"></i>
-                                            <select class="form-control" name="tipo" onchange="habilitar(this)">
-                                                <option value="natural">Natural</option>
-                                                <option value="empresa">Empresa</option>
-                                            </select>
+                                            {{ form_widget(edit_form.tipo, { 'attr': {'class':'form-control' }, 'id':'selectTipo'}) }}
                                         </div>
                                     </div>
-                                    <div class="col-sm-4" id="empresa" style="display:none;">
-                                        <div class="form-group">
-                                            <label>Empresa:</label>
-                                            {{ form_widget(edit_form.empresa, { 'attr': {'placeholder':'Nombre de la empresa','class':'form-control', 'required':'required' }}) }}
-                                        </div>                                        
-                                    </div>
-                                    <div class="col-sm-4" id="nit" style="display:none;">
-                                        <div class="form-group">
-                                            <label>Nit:</label>
-                                            {{ form_widget(edit_form.nit, { 'attr': {'placeholder':'Digite nit', 'class':'form-control', 'required':'required' }}) }}
+                                    <div id="div-persona-juridica" class="display-none">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Empresa:</label>
+                                                <input type="text" placeholder="Nombre de la empresa" class="form-control" name="textEmpresa" />
+                                            </div>                                        
                                         </div>
-                                    </div>                                    
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Nit:</label>
+                                                <input type="text" placeholder="NIT de la empresa" class="form-control" name="textNit" />
+                                            </div>
+                                        </div>
+                                    </div>                                        
                                 </div>
 
                                 <div class="row">
@@ -84,12 +83,18 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                
                                 <div class="row">                                    
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label>Telefono:</label>
                                             {{ form_widget(edit_form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Telefono Opcional:</label>
+                                            {{ form_widget(edit_form.telefonoOpc, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -126,16 +131,23 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript"> 
-        function habilitar(obj){
-          num=obj.selectedIndex;
-          if (num==1) {
-            document.getElementById('empresa').style.display='block';
-            document.getElementById('nit').style.display='block';
-          }else{
-            document.getElementById('empresa').style.display='none';
-            document.getElementById('nit').style.display='none';
-          }
-        } 
+    <script type="text/javascript">
+
+        $('#selectTipo').change(function(e){
+            var valor = $(this).val();
+            if (valor != "") {
+                switch(valor) {
+                    case 'natural':
+                        $('#div-persona-natural').removeClass('display-none').addClass('display-block');
+                        $('#div-persona-juridica').removeClass('display-block').addClass('display-none');
+                        break;
+                    case 'juridica':
+                        $('#div-persona-natural').removeClass('display-block').addClass('display-none');
+                        $('#div-persona-juridica').removeClass('display-none').addClass('display-block');
+                        break;
+                }
+            }
+        })
+
     </script>
 {% endblock %}

@@ -19,6 +19,7 @@ class ClienteType extends AbstractType
             ->add('nombre')
             ->add('apellido')
             ->add('telefono')
+            ->add('telefonoOpc')
             ->add('correo')
             ->add('preferencias')
             ->add('tipo','choice',array(

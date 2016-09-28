@@ -1,6 +1,8 @@
 {% extends 'frontend.html.twig' %}
 
 {% block content %}
+
+
     <div class="page-content"><!-- .page-content -->
         <ol class="breadcrumb"><!-- .breadcrumb -->
             <li class="">
@@ -85,10 +87,26 @@
                                 <div class="row">                                                                        
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label>Telefono:</label>
+                                            <label>Telefono:</label><small><a href="{{path('cliente_new',{activo:1})}}">más</a></small>
                                             {{ form_widget(form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
                                         </div>
                                     </div>
+                                    {% if activo == 1 %}
+                                    <div class="col-sm-4">
+                                        <div  class="form-group">
+                                            <label>Telefono opcional:</label>
+                                            {{ form_widget(form.telefonoOpc, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% if activo == 0 %}
+                                    <div class="col-sm-4 hidden">
+                                        <div  class="form-group">
+                                            <label>Telefono opcional:</label>
+                                            {{ form_widget(form.telefonoOpc) }}
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label>Correo:</label>
@@ -136,6 +154,7 @@
 
 {% block javascripts %}
     <script type="text/javascript">
+
         $('#selectTipo').change(function(e){
             var valor = $(this).val();
             if (valor != "") {
@@ -151,5 +170,8 @@
                 }
             }
         })
+
     </script>
+
+
 {% endblock %}

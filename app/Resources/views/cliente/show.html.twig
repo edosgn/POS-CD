@@ -27,7 +27,8 @@
                             {{ cliente.nombre }} {{cliente.apellido}}<br />
                             <i>ID</i> {{ cliente.identificacion }}<br />
                             <i class="fa fa-phone"></i>
-                            {{ cliente.telefono }}<br />
+                            {{ cliente.telefono }} -
+                            {{ cliente.telefonoOpc }}<br/>
                             <i class="fa fa-birthday-cake"></i>
                             {% if cliente.fechaNacimiento %}{{ cliente.fechaNacimiento|date('Y-m-d') }}{% endif %}
                         </div><!-- /.media-body -->
@@ -49,7 +50,8 @@
                             {{ cliente.correo }}<br />
                             <i>ID</i> {{ cliente.identificacion }}<br />
                             <i class="fa fa-phone"></i>
-                            {{ cliente.telefono }}<br />
+                            {{ cliente.telefono }} -
+                            {{ cliente.telefonoOpc }}<br />
                             <i class="fa fa-birthday-cake"></i>
                             {% if cliente.fechaNacimiento %}{{ cliente.fechaNacimiento|date('Y-m-d') }}{% endif %}
                         </div><!-- /.media-body -->

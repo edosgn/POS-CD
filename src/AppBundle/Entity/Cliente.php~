@@ -489,27 +489,4 @@ class Cliente
     {
         return $this->nit;
     }
-
-    /**
-     * Set telefonoOpc
-     *
-     * @param string $telefonoOpc
-     * @return Cliente
-     */
-    public function setTelefonoOpc($telefonoOpc)
-    {
-        $this->telefonoOpc = $telefonoOpc;
-
-        return $this;
-    }
-
-    /**
-     * Get telefonoOpc
-     *
-     * @return string 
-     */
-    public function getTelefonoOpc()
-    {
-        return $this->telefonoOpc;
-    }
 }

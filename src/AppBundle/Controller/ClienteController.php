@@ -45,10 +45,10 @@ class ClienteController extends Controller
     /**
      * Creates a new Cliente entity.
      *
-     * @Route("/new", name="cliente_new")
+     * @Route("/new/{activo}", name="cliente_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $activo = 0)
     {
         $cliente = new Cliente();
         $form = $this->createForm('AppBundle\Form\ClienteType', $cliente);
@@ -70,10 +70,15 @@ class ClienteController extends Controller
             return $this->redirectToRoute('cliente_show', array('id' => $cliente->getId()));
         }
 
-        return $this->render('cliente/new.html.twig', array(
+        
+            return $this->render('cliente/new.html.twig', array(
             'cliente' => $cliente,
             'form' => $form->createView(),
-        ));
+            'activo' =>$activo
+            ));
+       
+        
+        
     }
 
     /**
