@@ -95,9 +95,27 @@ class OrdenProduccionController extends Controller
     public function showAction(OrdenProduccion $ordenProduccion)
     {
         $deleteForm = $this->createDeleteForm($ordenProduccion);
-        $pedido=$ordenProduccion->getPedido();       
+        $pedido=$ordenProduccion->getPedido(); 
+
+
+        $hora = $ordenProduccion->getHorario()->getInicio();
+        $jornada = $ordenProduccion->getHorario()->getJornada();
+        $fecha = $ordenProduccion->getFechaEntrega()->format('Y-m-d H:i:s');
+
+        if($jornada == 'PM') {
+            $hora = $hora + 12 ;
+        }
+       
+        
+
+
+        $nuevafecha = strtotime ( '+'.$hora.' hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = date ( 'Y-m-j H:i:s' , $nuevafecha );
+
+        $fecha1 = new \DateTime($nuevafecha);
 
         return $this->render('ordenproduccion/show.html.twig', array(
+            'nuevafecha' => $fecha1,
             'ordenProduccion' => $ordenProduccion,
             'pedido' => $pedido,
             'delete_form' => $deleteForm->createView(),

@@ -86,7 +86,10 @@ class DefaultController extends Controller
 
                 $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleDespacho();
 
+
                 $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTerminada();
+
+           
 
                 return $this->render('default/index.shipping.html.twig', array(
                     'ordenProduccionDetalleEntregada' => $ordenProduccionDetalleEntregada,

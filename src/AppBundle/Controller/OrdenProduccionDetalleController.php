@@ -135,6 +135,24 @@ class OrdenProduccionDetalleController extends Controller
     public function showAction(OrdenProduccionDetalle $ordenProduccionDetalle)
     {
 
+        $pedido=$ordenProduccionDetalle->getOrdenProduccion()->getPedido(); 
+
+
+        $hora = $ordenProduccionDetalle->getOrdenProduccion()->getHorario()->getInicio();
+        $jornada = $ordenProduccionDetalle->getOrdenProduccion()->getHorario()->getJornada();
+        $fecha = $ordenProduccionDetalle->getOrdenProduccion()->getFechaEntrega()->format('Y-m-d H:i:s');
+
+        if($jornada == 'PM') {
+            $hora = $hora + 12 ;
+        }
+
+        $nuevafecha = strtotime ( '+'.$hora.' hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = date ( 'Y-m-j H:i:s' , $nuevafecha );
+
+        $fecha1 = new \DateTime($nuevafecha);
+
+
+
         $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
 
          $user = $this->getUser();
@@ -151,6 +169,7 @@ class OrdenProduccionDetalleController extends Controller
         ));
          }
         return $this->render('ordenproducciondetalle/show.html.twig', array(
+            'nuevafecha' => $fecha1,
             'ordenProduccionDetalle' => $ordenProduccionDetalle,
             'delete_form' => $deleteForm->createView(),
         ));
