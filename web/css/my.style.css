@@ -15,6 +15,7 @@ body
 /* draggable targets */
 [data-draggable="target"]
 {
+    min-height: 116px;
     float: left;
     list-style-type: none;
     width: 100%;
