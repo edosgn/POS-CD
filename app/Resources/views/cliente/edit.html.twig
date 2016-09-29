@@ -60,6 +60,12 @@
                                 <div class="row">
                                     <div class="col-sm-3">
                                         <div class="form-group">
+                                            <label>Identificación:</label>
+                                            {{ form_widget(edit_form.identificacion, { 'attr': {'placeholder':'Digite Identificación','class':'form-control' }}) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
                                             <label>Nombre:</label>
                                             {{ form_widget(edit_form.nombre, { 'attr': {'placeholder':'Digite Nombre','class':'form-control' }}) }}
                                         </div>
@@ -75,25 +81,19 @@
                                             <label>Fecha Nacimiento:</label>
                                             <input type='text' class="form-control datepicker" name="fechaNacimiento" value="{{ cliente.fechaNacimiento|date('Y-m-d') }}" />
                                         </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <label>Identificación:</label>
-                                            {{ form_widget(edit_form.identificacion, { 'attr': {'placeholder':'Digite Identificación','class':'form-control' }}) }}
-                                        </div>
-                                    </div>
+                                    </div>                                    
                                 </div>
                                 
                                 <div class="row">                                    
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label>Telefono:</label>
-                                            {{ form_widget(edit_form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
+                                            <label>Celular:</label>
+                                            {{ form_widget(edit_form.telefono, { 'attr': {'placeholder':'Digite Celular','class':'form-control'}}) }}
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label>Telefono Opcional:</label>
+                                            <label>Telefono Fijo:</label>
                                             {{ form_widget(edit_form.telefonoOpc, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }}) }}
                                         </div>
                                     </div>

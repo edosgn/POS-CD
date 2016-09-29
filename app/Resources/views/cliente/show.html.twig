@@ -123,10 +123,10 @@
                                                         {% set totalOrdenes = totalOrdenes+ordenProduccionDetalle.precio %}
                                                     {% endfor %}
                                                 {% endfor %}
-                                                {% for venta in pedido.venta %}
+                                                {#{% for venta in pedido.venta %}
                                                     {% set totalVentas = totalVentas+pedido.venta.valor %}
                                                 {% endfor %}
-                                                {% set total=totalVentas+totalOrdenes %}
+                                                {% set total=totalVentas+totalOrdenes %}#}
                                                 ${{total|number_format(2, ',', '.')}}
                                                 
                                             </td>

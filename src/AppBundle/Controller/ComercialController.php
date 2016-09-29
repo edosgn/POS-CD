@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -49,4 +50,38 @@ class ComercialController extends Controller
             'ordenes' => $ordenes,
         ));
     }
+
+    /**
+     * validar si el cliente existe para añadir un nuevo pedido
+     *
+     * @Route("/valida/cliente", name="comercial_valida_cliente")
+     * @Method("POST")
+     */
+    public function validaClienteAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $cliente=$em->getRepository('AppBundle:Cliente')->findOneByIdentificacion($request->request->get('textIdentificacion'));
+
+        //var_dump($cliente->getNombre());
+        //die();
+        $ban = false;
+        $idCliente=null;
+        if (count($cliente) != 0) {
+            $ban = true;
+            $idCliente=$cliente->getId();
+        }
+
+        $response = new JsonResponse();
+
+        $entidades = array();
+        $entidades[] = array(
+            'ban'=>$ban,
+            'idCliente'=>$idCliente
+        );
+
+        $response->setData($entidades);
+
+        return $response;
+    }    
 }

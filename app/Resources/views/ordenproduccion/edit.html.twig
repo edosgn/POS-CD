@@ -12,12 +12,6 @@
             <li class="active">Editar</li>
         </ol><!-- /.breadcrumb -->
 
-        {% if error %}
-            <span class="label label-danger">
-                "Error! PIN Invalido."
-            </span>
-        {% endif %}
-
         <div class="page-heading"><!-- .page-heading -->
             <h1>Orden de Producción
                 <small>Editar</small>
@@ -415,18 +409,6 @@
             }
 
             txtarea.scrollTop = scrollPos;
-        }
-
-
-        function metodoPago(){
-            //e.preventDefault();
-            
-            if(document.getElementById('select-pago').value == 'credito'){
-                $('#pin').bPopup();
-            }
-            else{
-                document.getElementById('pin').style.display='none';   
-            }
         }
 
 

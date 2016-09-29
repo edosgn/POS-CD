@@ -137,30 +137,9 @@ class OrdenProduccionController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $rolUser=$this->get('security.context')->getToken()->getUser()->getRole();
-            if($rolUser == 'ROLE_COMMERCIAL'){
-                $usuario=$em->getRepository('AppBundle:Usuario')->findOneByRole('ROLE_ADMIN');
-                $pin=$usuario->getPin();
-                if($request->request->get('ingresarPin') == $pin){
-                    $em->persist($ordenProduccion);
-                    $em->flush();
-
-                    return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
-                }
-                else{
-                    return $this->render('ordenproduccion/edit.html.twig', array(
-                    'ordenProduccion' => $ordenProduccion,
-                    'step' => $request->query->get('idStep'),
-                    'edit_form' => $editForm->createView(),
-                    'delete_form' => $deleteForm->createView(),
-                    'error' => 'error',));
-                }
-            }
-            else{
-                $em->persist($ordenProduccion);
-                $em->flush();
-                return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));
-            }
+            $em->persist($ordenProduccion);
+            $em->flush();
+            return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));            
         }
 
         return $this->render('ordenproduccion/edit.html.twig', array(
@@ -234,7 +213,7 @@ class OrdenProduccionController extends Controller
 
         $id= $request->request->get('textIdentificacion');
         $pin= $request->request->get('textPin');
-        $ban=false;$resultado="";
+        $ban=false;
         if($usuario=$em->getRepository('AppBundle:Usuario')->findOneByIdentificacion($id)){
             if($usuario->getRole() == "ROLE_ADMIN"){
                 $pinuser=$usuario->getPin();
@@ -251,7 +230,6 @@ class OrdenProduccionController extends Controller
         $entidades = array();
         $entidades[] = array(
             'ban'=>$ban, 
-            //'resultado'=>$resultado
         );
 
         $response->setData($entidades);

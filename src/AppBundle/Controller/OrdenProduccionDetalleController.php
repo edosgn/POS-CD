@@ -93,13 +93,12 @@ class OrdenProduccionDetalleController extends Controller
         ));
         $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-        //$pedido=$em->getRepository('AppBundle:Pedido')->find($request->query->get('idOrdenProduccion'));
-        var_dump($request->query->get('idOrdenProduccion'));
-        die();
-
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $em = $this->getDoctrine()->getManager();
+            $ordenProduccion=$form['ordenProduccion']->getData();
+                        
+            $pedido=$ordenProduccion->getPedido();
+            $pedido->setTotal($pedido->getTotal()+$precio=$form['precio']->getData());
 
             if ($request->files->get('inputFotoObservacion') != null) {
                 $file = $request->files->get('inputFotoObservacion');
@@ -111,6 +110,7 @@ class OrdenProduccionDetalleController extends Controller
                 $ordenProduccionDetalle->setFotoObservacion($originalName);
             }
             
+            $em->persist($pedido);
             $em->persist($ordenProduccionDetalle);
             $em->flush();
 
@@ -197,6 +197,10 @@ class OrdenProduccionDetalleController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ordenProduccion=$editForm['ordenProduccion']->getData();
+                        
+            $pedido=$ordenProduccion->getPedido();
+            $pedido->setTotal($pedido->getTotal()+$precio=$editForm['precio']->getData());
 
             if ($request->files->get('inputFotoObservacion') != null) {
                 $file = $request->files->get('inputFotoObservacion');
@@ -208,6 +212,7 @@ class OrdenProduccionDetalleController extends Controller
                 $ordenProduccionDetalle->setFotoObservacion($originalName);
             }
             
+            $em->persist($pedido);
             $em->persist($ordenProduccionDetalle);
             $em->flush();
             return $this->redirectToRoute('orden_produccion_detalle_list', array('idOrdenProduccion' => $ordenProduccionDetalle->getOrdenProduccion()->getId()));

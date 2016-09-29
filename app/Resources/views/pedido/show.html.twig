@@ -101,11 +101,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% set count = 0 %} 
-                                                                             
+                                        {% set count = 0 %}
                                         {% for ordenProduccion in pedido.ordenProduccion %}
-                                            {% set count = count + 1 %}
-                                            {% set subtotalordenes = subtotalordenes + ordenProduccion|length %}
+                                            {% set count = count + 1 %}                                            
+                                            {% if ordenProduccion.ordenProduccionDetalle|length != 0 %}
                                             <tr>
                                                 <td>{{ count }}</td>
                                                 <td>
@@ -113,10 +112,25 @@
                                                     {{ ordenProduccion.numero }}
                                                     </a>
                                                 </td>
-                                                <td>{{ ordenProduccion.ordenProduccionDetalle|length }}</td>
+                                                <td>
+                                                    <div class="card-body"><!-- .card-body -->             
+                                                        {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
+                                                            <p><!-- .p -->
+                                                                <i class="fa fa-gift"></i>
+                                                                {{ ordenProduccionDetalle.detalle }}
+                                                            </p><!-- /.p -->
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
                                                 <td>{{ ordenProduccion.estado }}</td>
                                                 <td>{{ ordenProduccion.fechaEntrega | date('Y-m-d') }} {{ordenProduccion.horario}}</td>
-                                                <td>{{ ordenProduccion|length }}</td>
+                                                <td>
+                                                    {% set valor = 0 %}                                             
+                                                    {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
+                                                        {% set valor=valor+ordenProduccionDetalle.precio %}
+                                                    {% endfor %}
+                                                    $ {{ valor|number_format(2, ',', '.') }}
+                                                </td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="{{path('orden_produccion_show',{'id':ordenProduccion.id})}}" class="btn btn-default btn-raised btn-xs">
@@ -128,10 +142,14 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            {% endif %}
                                         {% endfor %}
                                         
                                     </tbody>
                                 </table><!-- /.table -->
+                                <div class="col-md-10">
+                                    <br><p class="text-right"><strong>SUB TOTAL: ${{pedido.total|number_format(2, ',', '.')}}</strong></p>
+                                </div>
                             </div><!-- /.table-responsive -->
                             {% endif %}
                             {% if pedido.venta|length != 0 %}
@@ -177,7 +195,7 @@
                                     </table><!-- /.table -->
                                 </div><!-- /.table-responsive -->                          
                             {% endif %}
-                            {% set total = subtotalordenes + subtotalventas %}
+                            {% set total = pedido.total + subtotalventas %}
                             {% if pedido.ordenProduccion|length == 0 and pedido.venta|length == 0 %}
                                 <h2 class="text-center">
                                     <i class="fa fa-exclamation-triangle fa-2x"></i>
@@ -197,8 +215,7 @@
                             <p class="text-left"><img class="img-responsive" src="https://haciendaelrefugio.files.wordpress.com/2013/04/jim-signature.png" alt="signature" width= "130" height= "130"></p>
                             <p class="text-left mb-sm"><strong>{{app.user}}</strong></p>
                         </div>
-                        <div class="col-md-4">
-                            <p class="text-right"><strong>SUB TOTAL: ${{subtotalordenes|number_format(2, ',', '.')}}</strong></p>     
+                        <div class="col-md-4">                            
                             <hr>
                             <h4 class="text-right" style="font-weight: bold;">TOTAL: $ {{total|number_format(2, ',', '.')}}</h4>     
                         </div>

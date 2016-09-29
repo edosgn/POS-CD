@@ -93,6 +93,8 @@ class PedidoController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $idCliente=$request->query->get('idCliente');
+        //var_dump($idCliente);
+        //die();
         $cliente= $em->getRepository('AppBundle:Cliente')->find($idCliente);
 
         $consecutivo= $em->getRepository('AppBundle:Pedido')->findConsecutivo(date('Y'));

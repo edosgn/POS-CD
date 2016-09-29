@@ -33,9 +33,9 @@ class Pedido
     /**
      * @var int
      *
-     * @ORM\Column(name="total_pedido", type="bigint")
+     * @ORM\Column(name="total", type="bigint")
      */
-    private $totalPedido='0';
+    private $total='0';
 
     /** 
     * created Time/Date 
@@ -122,26 +122,26 @@ class Pedido
     }
 
     /**
-     * Set totalPedido
+     * Set total
      *
-     * @param integer $totalPedido
+     * @param integer $total
      * @return Pedido
      */
-    public function setTotalPedido($totalPedido)
+    public function setTotal($total)
     {
-        $this->totalPedido = $totalPedido;
+        $this->total = $total;
 
         return $this;
     }
 
     /**
-     * Get totalPedido
+     * Get total
      *
      * @return integer 
      */
-    public function getTotalPedido()
+    public function getTotal()
     {
-        return $this->totalPedido;
+        return $this->total;
     }
 
     /** 

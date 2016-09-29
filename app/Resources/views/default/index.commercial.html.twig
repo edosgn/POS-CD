@@ -15,8 +15,8 @@
 				<small>Novedades</small>
 			</h1>
 			<div class="options">
-				<a href="{{ path('acceso_pedido') }}" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="top" title="Añadir Pedido">
-                    <i class="fa fa-cart-plus"></i>
+				<a href="#" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="top" title="Añadir Pedido" >
+                    <i class="fa fa-cart-plus" data-toggle="modal" data-target="#modal-cliente"></i>
                 </a>
                 <a href="{{ path('pedido_index') }}" class="btn btn-warning btn-raised" data-toggle="tooltip" data-placement="top" title="Buscar Pedido">
                     <i class="fa fa-search"></i>
@@ -231,6 +231,83 @@
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
+
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="modal-cliente">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Buscar Cliente</h4>
+                  </div>
+                  <form id="form-cliente" method="post">
+                      <div class="modal-body">
+                            <label class="control-label">Identificación</label>
+                            <input type="number" name="textIdentificacion" id="text-id" class="form-control" required >
+                            <div class="display-none" id="div-cliente">
+                                <hr>
+                                <a href="{{path('cliente_new')}}" class="btn btn-inverse btn-raised">Crear Cliente</a>
+                            </div>
+                            <div class="display-none" id="div-cliente-ok">
+                                <hr>
+                                <a href="#" class="btn btn-inverse btn-raised" id="newPedido">Crear Pedido</a>
+                            </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default btn-raised" name="btn-pin" data-url="{{path('comercial_valida_cliente')}}" id="btn-buscar">
+                             Buscar
+                        </button>
+                      </div>
+                </form>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
 		</div> <!-- /.container-fluid -->
 	</div> <!-- #page-content -->
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+
+    $('#btn-buscar').click(function(e){
+        e.preventDefault();
+        var url = $(this).data('url');
+        var formData = $( "#form-cliente" ).serialize();
+            
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data : formData,
+            dataType : 'json',
+            success: function(data) {
+                $.each(data,function(i,item){                    
+                    validateId(item);
+                });
+            },
+            error: function() {
+                console.log('Error!');
+            }
+        });                     
+    });
+
+    function validateId(item){
+        //console.log(item.ban);
+        //console.log(item);
+        var cliente=item.idCliente;
+        var url="{{ path('pedido_new', {'idCliente':'cliente'})}}";
+        var url=url.replace("cliente",item.idCliente);
+        if (item.ban == true) {            
+            $('#div-cliente-ok').fadeIn('slow');
+            $('#div-cliente').fadeOut('fast');
+            //Reemplazar href por url
+            $("#newPedido").attr("href", url);
+        }else{
+            $('#div-cliente').fadeIn('slow');
+            $('#div-cliente-ok').fadeOut('fast');
+        }
+    }    
+
+    </script>
 {% endblock %}
