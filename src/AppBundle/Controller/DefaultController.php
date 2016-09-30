@@ -38,40 +38,38 @@ class DefaultController extends Controller
                 ));
     			break;
     		case 'ROLE_COMMERCIAL':
-    			$pedidos = $em->getRepository('AppBundle:Pedido')->findBy(
-    				array(
-    					'usuario' => $usuario->getId(),
-    				)
-    			);
+    			$ordenProduccionDetalles = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleComercial($usuario->getId());
 
-                $ordenProduccionDetalleProduccion = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleProduccion(
-                    $usuario->getId()
+                $ordenProduccionDetalleProduccion = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoUsuario(
+                    2,$usuario->getId()
                 );
 
-                $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTerminada(
-                    $usuario->getId()
+                $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoUsuario(
+                    3,$usuario->getId()
                 );
 
-                $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregada($usuario->getId()
+                $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoUsuario(
+                    4,$usuario->getId()
                 );
 
                 return $this->render('default/index.commercial.html.twig', array(
-                    'pedidos' => $pedidos,
+                    'ordenProduccionDetalles' => $ordenProduccionDetalles,
                     'ordenProduccionDetalleProduccion' => $ordenProduccionDetalleProduccion,
                     'ordenProduccionDetalleTerminada' => $ordenProduccionDetalleTerminada,
                     'ordenProduccionDetalleEntregada' => $ordenProduccionDetalleEntregada,
                 ));
     			break;
     		case 'ROLE_PRODUCTION':
-                $ordenProduccionDetalleAsignada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleAsignada($usuario->getId()
+                $ordenProduccionDetalleAsignada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(
+                    1,$usuario->getId()
                 );
 
-                $ordenProduccionDetalleProduccion = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleProduccion(
-                    $usuario->getId()
+                $ordenProduccionDetalleProduccion = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(
+                    2,$usuario->getId()
                 );
 
-                $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTerminada(
-                    $usuario->getId()
+                $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(
+                    3,$usuario->getId()
                 );
 
                 return $this->render('default/index.production.html.twig', array(
@@ -82,7 +80,7 @@ class DefaultController extends Controller
     			break;
     		case 'ROLE_SHIPPING':
     			
-                $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregada();
+                $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(4);
 
                 $getOrdenProduccionDetalleEntregadaZonaNorte = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Norte");
 

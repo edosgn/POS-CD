@@ -98,7 +98,7 @@ class OrdenProduccionDetalleController extends Controller
             $ordenProduccion=$form['ordenProduccion']->getData();
                         
             $pedido=$ordenProduccion->getPedido();
-            $pedido->setTotal($pedido->getTotal()+$precio=$form['precio']->getData());
+            $pedido->setTotal($pedido->getTotal()+$form['precio']->getData());
 
             if ($request->files->get('inputFotoObservacion') != null) {
                 $file = $request->files->get('inputFotoObservacion');

@@ -47,8 +47,13 @@ class VentaController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $pedido=$form['pedido']->getData();
+
+            $pedido->setTotal($pedido->getTotal()+$form['valor']->getData());            
+
             $venta->setCreatedAt(new \DateTime('now'));
             $em->persist($venta);
+            $em->persist($pedido);
             $em->flush();
 
             return $this->redirectToRoute('venta_show', array('id' => $venta->getId()));
@@ -95,6 +100,7 @@ class VentaController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $ventum->setUpdateAt(new \DateTime('now'));
             $em->persist($ventum);
             $em->flush();
 

@@ -85,7 +85,7 @@
                                             <div class="col-md-3"><!-- .col -->
                                                 <div class="form-group">
                                                     <label class="control-label">Fecha de Entrega</label>
-                                                    <input type='text' class="form-control datepicker" name="fechaEntrega" value="{{ordenProduccion.fechaEntrega|date('Y-m-d')}}" />
+                                                    <input type='text' class="form-control datepicker" name="fechaEntrega" id="text-fecha-entrega" value="{{ordenProduccion.fechaEntrega|date('Y-m-d')}}" />
                                                 </div>
                                             </div><!-- /.col -->
                                             <div class="col-md-3"><!-- .col -->
@@ -473,5 +473,19 @@
                 alert("PIN Incorrecto");
             }
         }
+
+        $('#text-fecha-entrega').change(function(e){
+            e.preventDefault();
+            var d = new Date();
+            var fechaActual=d.toISOString().substring(0,10);
+            var fechaSeleccionada = $(this).val();
+
+            if ( fechaSeleccionada < fechaActual) {
+                alert('la fecha entrega debe ser posterior a la actual');
+                $(this).val(fechaActual);
+            }else{
+                alert('fecha correcta');
+            }
+        });
     </script>
 {% endblock %}

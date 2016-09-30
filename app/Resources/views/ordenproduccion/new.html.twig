@@ -80,7 +80,7 @@
                                     <div class="col-md-3"><!-- .col -->
                                         <div class="form-group">
                                             <label class="control-label">Fecha de Entrega</label>
-                                            <input type='text' class="form-control datepicker" name="fechaEntrega" value="{{ 'now'|date('Y-m-d') }}" />
+                                            <input type='text' class="form-control datepicker" name="fechaEntrega" id="fechaEntrega" value="{{ 'now'|date('Y-m-d') }}" />
                                         </div>
                                     </div><!-- /.col -->
                                     <div class="col-md-3"><!-- .col -->
@@ -161,7 +161,7 @@
                             </div><!-- /.datosEnvio -->                           
                         </fieldset>
                         <div class="col-sm-12 text-right">
-                            <button type="submit" class="finish btn-success btn">
+                            <button type="submit" class="finish btn-success btn" id="btn-siguiente">
                                 Siguiente <i class="fa fa-angle-right"></i>
                             </button>
                         </div>
@@ -273,6 +273,12 @@
 
             txtarea.scrollTop = scrollPos;
         }
+
+        $('#btn-siguiente').click(function(e){
+            //e.preventDefault();
+            var entrega = $("#fechaEntrega").val()
+            //alert(entrega);
+        });
 
 
     </script>

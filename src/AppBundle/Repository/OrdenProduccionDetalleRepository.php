@@ -13,21 +13,23 @@ use Doctrine\ORM\EntityRepository;
 class OrdenProduccionDetalleRepository extends EntityRepository
 {
 	//
-    public function getOrdenProduccionDetalleAsignada($idUsuario = null)
+    public function getOrdenProduccionDetalleTipoResponsable($tipo,$idUsuario = null)
     {
     	if ($idUsuario == null) {
     		$query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 1')
+	        ->where('opd.ordenProduccionEstado = :tipo')
+	        ->setParameter('tipo', $tipo)
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery(); 
     	}else{
     		$query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 1 AND opd.responsable = :idUsuario')
+	        ->where('opd.ordenProduccionEstado = :tipo AND opd.responsable = :idUsuario')
 	        ->setParameter('idUsuario', $idUsuario)
+	        ->setParameter('tipo', $tipo)
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();
     	}
@@ -35,21 +37,47 @@ class OrdenProduccionDetalleRepository extends EntityRepository
         return $query->getResult();
     }
 
+
     //
-    public function getOrdenProduccionDetalleProduccion($idUsuario = null)
+    public function getOrdenProduccionDetalleTipoUsuario($tipo,$idUsuario = null)
+    {
+    	if ($idUsuario == null) {
+    		$query = $this->createQueryBuilder('opd')
+	        ->join('opd.ordenProduccion', 'op')
+	        ->join('op.pedido', 'p')
+	        ->where('opd.ordenProduccionEstado = :tipo')
+	        ->setParameter('tipo', $tipo)
+	        ->orderBy('op.prioridad', 'DESC')
+	        ->getQuery(); 
+    	}else{
+    		$query = $this->createQueryBuilder('opd')
+	        ->join('opd.ordenProduccion', 'op')
+	        ->join('op.pedido', 'p')
+	        ->where('opd.ordenProduccionEstado = :tipo AND p.usuario = :idUsuario')
+	        ->setParameter('idUsuario', $idUsuario)
+	        ->setParameter('tipo', $tipo)
+	        ->orderBy('op.prioridad', 'DESC')
+	        ->getQuery();
+    	}
+
+        return $query->getResult();
+    }
+
+
+    //
+    public function getOrdenProduccionDetalleComercial($idUsuario = null)
     {
     	if ($idUsuario == null) {
 	        $query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 2')
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();
 	    }else{
 	    	$query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 2 AND opd.responsable = :idUsuario')
+	        ->where('p.usuario = :idUsuario')
 	        ->setParameter('idUsuario', $idUsuario)
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();	
@@ -58,77 +86,7 @@ class OrdenProduccionDetalleRepository extends EntityRepository
         return $query->getResult();
     }
 
-    //
-    public function getOrdenProduccionDetalleTerminada($idUsuario = null)
-    {
-    	if ($idUsuario == null) {
-	        $query = $this->createQueryBuilder('opd')
-	        ->join('opd.ordenProduccion', 'op')
-	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 3')
-	        ->orderBy('op.prioridad', 'DESC')
-	        ->getQuery();
-	    }else{
-	    	$query = $this->createQueryBuilder('opd')
-	        ->join('opd.ordenProduccion', 'op')
-	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 3 AND opd.responsable = :idUsuario')
-	        ->setParameter('idUsuario', $idUsuario)
-	        ->orderBy('op.prioridad', 'DESC')
-	        ->getQuery();	
-	    }
-
-        return $query->getResult();
-    }
-
-    //
-    public function getOrdenProduccionDetalleDespacho($idUsuario = null)
-    {
-    	if ($idUsuario == null) {
-	        $query = $this->createQueryBuilder('opd')
-	        ->join('opd.ordenProduccion', 'op')
-	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 4')
-	        ->orderBy('op.id', 'DESC')
-	        ->getQuery();
-	    }else{
-	    	$query = $this->createQueryBuilder('opd')
-	        ->join('opd.ordenProduccion', 'op')
-	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 4 AND opd.responsable = :idUsuario')
-	        ->setParameter('idUsuario', $idUsuario)
-	        ->orderBy('op.id', 'DESC')
-	        ->getQuery();	
-	       
-	    }
-
-	  
-        return $query->getResult();
-    }
-
-    //
-    public function getOrdenProduccionDetalleEntregada($idUsuario = null)
-    {
-    	if ($idUsuario == null) {
-	        $query = $this->createQueryBuilder('opd')
-	        ->join('opd.ordenProduccion', 'op')
-	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 5')
-	        ->orderBy('op.prioridad', 'DESC')
-	        ->getQuery();
-	    }else{
-	    	$query = $this->createQueryBuilder('opd')
-	        ->join('opd.ordenProduccion', 'op')
-	        ->join('op.pedido', 'p')
-	        ->where('opd.ordenProduccionEstado = 5 AND opd.responsable = :idUsuario')
-	        ->setParameter('idUsuario', $idUsuario)
-	        ->orderBy('op.prioridad', 'DESC')
-	        ->getQuery();	
-	    }
-
-        return $query->getResult();
-    }
-
+    
     public function getOrdenProduccionDetalleEntregadaZona($zona,$idUsuario = null)
     {
     	if ($idUsuario == null) {

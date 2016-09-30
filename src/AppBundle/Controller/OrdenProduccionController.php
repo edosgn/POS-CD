@@ -105,9 +105,6 @@ class OrdenProduccionController extends Controller
         if($jornada == 'PM') {
             $hora = $hora + 12 ;
         }
-       
-        
-
 
         $nuevafecha = strtotime ( '+'.$hora.' hour' , strtotime ( $fecha ) ) ;
         $nuevafecha = date ( 'Y-m-j H:i:s' , $nuevafecha );

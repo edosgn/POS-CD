@@ -190,17 +190,16 @@
                                     <strong>Estado de la orden:</strong>
                                     <span>{{ ordenProduccion.estado }}</span>
                                 </div><!-- /.personel-info -->
-
-                                <div class="personel-info pt-n" ><!-- .personel-info -->
-                                    <div id="tiempo">{{ nuevafecha  | cuenta_atras}}</div>
-                                </div><!-- /.personel-info -->
-                               
-                                
+                                <h2>
+                                    <div class="personel-info pt-n" ><!-- .personel-info -->
+                                        <div id="tiempo">{{ nuevafecha  | cuenta_atras}}</div>
+                                    </div><!-- /.personel-info -->
+                                </h2>
                             </div> 
                             
                         </div><!-- /.panel body -->                        
                     </div><!-- /.panel -->
-                    <a href="{{ path('pedido_show',{'id':ordenProduccion.pedido.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Finalizar">
+                    <a href="{{ path('pedido_show',{'id':ordenProduccion.pedido.id}) }}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="top" title="Finalizar">
                     <i class="fa fa-check fa-5x"></i>
                 </a>
                 </div><!-- /.col -->

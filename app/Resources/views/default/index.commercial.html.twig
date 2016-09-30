@@ -23,17 +23,18 @@
                 </a>
 			</div>
 		</div>
-		
+
+        	
 		<div class="container-fluid">
 			<div class="row"><!-- .row -->
 
                 <div class="col-xs-12 col-md-3"><!-- .col -->
                     <div class="panel panel-midnightblue" data-widget="{'draggable':'false'}"><!-- .panel -->
                         <div class="panel-heading"><!-- .panel-heading -->
-                            <h2>Pedidos <span class="bagde">{{ pedidos|length }}</span></h2>
+                            <h2>Ordenes de Produccion <span class="bagde">{{ ordenProduccionDetalles|length }}</span></h2>
                         </div><!-- /.panel-heading -->
                         <div class="panel-body"><!-- .panel-body -->
-                            {% if pedidos|length != 0 %}
+                            {% if ordenProduccionDetalles|length != 0 %}
                             <table class="table table-data">
                                 <thead>
                                     <tr>
@@ -41,16 +42,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for pedido in pedidos %}
+                                    {% for ordenProduccionDetalle in ordenProduccionDetalles %}
                                         <tr>
                                             <td>
                                                 <div class="col-xs-8"><!-- .col -->
-                                                    <strong>{{ pedido.numero }}</strong>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.numero }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.pedido.cliente }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.direccionEntrega }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.estado }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.tipoPago }}</small>
                                                     <br>
-                                                    <small>{{ pedido.cliente }}</small>
+                                                    
                                                 </div><!-- /.col -->
                                                 <div class="col-xs-4 text-center"><!-- .col -->
-                                                    <a href="{{path('pedido_show',{'id':pedido.id})}}" class="btn btn-raised">
+                                                    <a href="{{path('pedido_show',{'id':ordenProduccionDetalle.ordenProduccion.pedido.id})}}" class="btn btn-raised">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
                                                     </a>
                                                     
@@ -102,12 +110,11 @@
                                                     <strong>Prioridad:</strong>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
                                                 </div><!-- /.col -->
-                                                <div class="col-xs-4 text-center"><!-- .col -->
+                                                {#<div class="col-xs-4 text-center"><!-- .col -->
                                                     <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
-                                                    </a>
-                                                    
-                                                </div><!-- /.col -->
+                                                    </a>                                                    
+                                                </div><!-- /.col -->#}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -155,12 +162,11 @@
                                                     <strong>Prioridad:</strong>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
                                                 </div><!-- /.col -->
-                                                <div class="col-xs-4 text-center"><!-- .col -->
+                                                {#<div class="col-xs-4 text-center"><!-- .col -->
                                                     <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
-                                                    </a>
-                                                    
-                                                </div><!-- /.col -->
+                                                    </a>                                                    
+                                                </div><!-- /.col -->#}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -208,12 +214,11 @@
                                                     <strong>Prioridad:</strong>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
                                                 </div><!-- /.col -->
-                                                <div class="col-xs-4 text-center"><!-- .col -->
+                                                {#<div class="col-xs-4 text-center"><!-- .col -->
                                                     <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
-                                                    </a>
-                                                    
-                                                </div><!-- /.col -->
+                                                    </a>                                                    
+                                                </div><!-- /.col -->#}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -250,7 +255,12 @@
                             </div>
                             <div class="display-none" id="div-cliente-ok">
                                 <hr>
-                                <a href="#" class="btn btn-inverse btn-raised" id="newPedido">Crear Pedido</a>
+                                <div class="col-xs-12 col-sm-3 text-center">
+                                    <img src="{{asset('img/avatar/default.jpg')}}" class="img-responsive img-circle"><br>
+                                    <a id="nombre" href="#"></a><br>
+                                    <span id="identificacion" ></span>
+                                </div>
+                                {#<a href="#" class="btn btn-inverse btn-raised" id="newPedido">Crear Pedido</a>#}
                             </div>
                       </div>
                       <div class="modal-footer">
@@ -292,17 +302,17 @@
         });                     
     });
 
-    function validateId(item){
-        //console.log(item.ban);
-        //console.log(item);
-        var cliente=item.idCliente;
-        var url="{{ path('pedido_new', {'idCliente':'cliente'})}}";
-        var url=url.replace("cliente",item.idCliente);
-        if (item.ban == true) {            
+    function validateId(item){       
+        var url="{{ path('cliente_show', { 'id': 'cliente' }) }}";
+        var url=url.replace('cliente',item.idCliente);
+        alert(url);
+        if (item.ban == true) {
+            $('#identificacion').text(item.ced);
+            $('#nombre').text(item.named)
             $('#div-cliente-ok').fadeIn('slow');
             $('#div-cliente').fadeOut('fast');
             //Reemplazar href por url
-            $("#newPedido").attr("href", url);
+            $("#nombre").attr("href", url);
         }else{
             $('#div-cliente').fadeIn('slow');
             $('#div-cliente-ok').fadeOut('fast');

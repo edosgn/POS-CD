@@ -67,9 +67,13 @@ class ComercialController extends Controller
         //die();
         $ban = false;
         $idCliente=null;
+        $nombre=null;
+        $ced=null;
         if (count($cliente) != 0) {
             $ban = true;
             $idCliente=$cliente->getId();
+            $nombre=$cliente->__toString();
+            $ced=$cliente->getIdentificacion();
         }
 
         $response = new JsonResponse();
@@ -77,7 +81,9 @@ class ComercialController extends Controller
         $entidades = array();
         $entidades[] = array(
             'ban'=>$ban,
-            'idCliente'=>$idCliente
+            'idCliente'=>$idCliente,
+            'named'=>$nombre,
+            'ced'=>$ced
         );
 
         $response->setData($entidades);
