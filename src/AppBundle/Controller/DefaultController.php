@@ -24,7 +24,7 @@ class DefaultController extends Controller
                     )
                 );
 
-                $ordenProduccionDetalleAsignada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleAsignada();
+                $ordenProduccionDetalleAsignada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoUsuario($usuario->getId());
 
                 $ordenProduccionDetalleProduccionTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleProduccionTerminada();
 
@@ -49,7 +49,7 @@ class DefaultController extends Controller
                 );
 
                 $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoUsuario(
-                    4,$usuario->getId()
+                    5,$usuario->getId()
                 );
 
                 return $this->render('default/index.commercial.html.twig', array(
@@ -80,7 +80,8 @@ class DefaultController extends Controller
     			break;
     		case 'ROLE_SHIPPING':
     			
-                $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(4);
+                $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(5);
+                $ordenProduccionDetalleEntregadaNovedad = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(6);
 
                 $getOrdenProduccionDetalleEntregadaZonaNorte = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregadaZona("Norte");
 
@@ -101,10 +102,10 @@ class DefaultController extends Controller
                 }
                 //die();
 
-                $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleDespacho();
+                $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(4);
 
 
-                $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTerminada();
+                $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(3);
 
            
 
@@ -116,6 +117,7 @@ class DefaultController extends Controller
                     'OrdenProduccionDetalleEntregadaZonaSur' => $OrdenProduccionDetalleEntregadaZonaSur,
                     'getOrdenProduccionDetalleEntregadaZonaNorte'=>$getOrdenProduccionDetalleEntregadaZonaNorte, 
                     'ordenProduccionDetalleEntregada' => $ordenProduccionDetalleEntregada,
+                    'ordenProduccionDetalleEntregadaNovedad' => $ordenProduccionDetalleEntregadaNovedad,
                     'ordenProduccionDetalleDespacho' => $ordenProduccionDetalleDespacho,
                     'ordenProduccionDetalleTerminada' => $ordenProduccionDetalleTerminada,
                 ));

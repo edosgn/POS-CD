@@ -276,9 +276,14 @@ class OrdenProduccionDetalleController extends Controller
         $em->persist($ordenProduccionDetalle);
         $em->flush();
 
+
+        if ($ordenProduccionDetalle->getOrdenProduccionEstado()->getId() == 3) {
+            return $this->redirectToRoute('homepage');
+        }     
+
         return $this->redirectToRoute('orden_produccion_detalle_show',array(
-                'id' => $ordenProduccionDetalle->getId()
-            ));
+            'id' => $ordenProduccionDetalle->getId()
+        ));
 
     }
 
@@ -296,11 +301,11 @@ class OrdenProduccionDetalleController extends Controller
         $usuario = $this->get('security.token_storage')->getToken()->getUser();
         $user = $this->getUser();
 
-        $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleEntregada();
+        $ordenProduccionDetalleEntregada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(5);
 
-        $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleDespacho();
+        $ordenProduccionDetalleDespacho = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(4);
 
-        $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTerminada();
+        $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(3);
 
         if ($request->request->get('destino')) {
             if ($request->getMethod('POST')) 

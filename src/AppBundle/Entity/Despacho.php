@@ -26,21 +26,21 @@ class Despacho
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaEntrega", type="datetime", nullable = true)
+     * @ORM\Column(name="fechaEntrega", type="datetime", nullable=true)
      */
     private $fechaEntrega;
 
    /**
      * @var string
      *
-     * @ORM\Column(name="receptor", type="text" , nullable = true)
+     * @ORM\Column(name="receptor", type="text" , nullable=true)
      */
     private $receptor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="observaciones", type="text", nullable = true)
+     * @ORM\Column(name="observaciones", type="text", nullable=true)
      */
     private $observaciones;
 

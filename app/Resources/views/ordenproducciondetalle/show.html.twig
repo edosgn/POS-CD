@@ -15,64 +15,114 @@
 
         </ol><!-- /.breadcrumb -->
         <div class="page-heading"><!-- .page-heading -->
-            <h1>
-                Orden Producción: 
-                <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }} </strong>
-                <small>Ver</small>
-            </h1>
+            <div class="row"><!-- .row -->
+                <div class="col-sm-6"><!-- .col -->
+                    <h1>
+                        Orden Producción: 
+                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }} </strong>
+                        <small>Ver</small>
+                    </h1>
+                </div><!-- /.col -->
 
-            <h1>
-                 Estado: 
-                <strong> {{ ordenProduccionDetalle.ordenProduccionEstado.nombre }} </strong>
-                
-            </h1>
-            <div class="options">
-                <a href="3" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
-                    <i class="fa fa-chevron-left"></i>
-                </a>
-                <a href="#" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Mensaje">
-                    <i class="fa fa-plus"></i>
-                </a>
-                <a href="#" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                <a href="#" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </div>
+                <div class="col-sm-4"><!-- .col -->
+                    <h1>
+                         Estado: 
+                        <strong> {{ ordenProduccionDetalle.ordenProduccionEstado.nombre }} </strong>
+                        
+                    </h1>
+                </div><!-- /.col -->
+
+                <div class="options">
+                    <a href="3" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                    <a href="#" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Mensaje">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <a href="#" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <a href="#" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div><!-- /.row -->
         </div><!-- /.page-heading -->
 
         <div class="container-fluid"><!-- .container-fluid -->
             <div class="row"><!-- .row -->
                 <div class="col-sm-9">
                     <div class="col-sm-8"><!-- .col -->
-                        <h1 class="text-center well">
-                            <strong>{{ ordenProduccionDetalle.detalle }}</strong>
-                        </h1>
+                        <div class="panel panel-primary"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <strong>{{ ordenProduccionDetalle.detalle }}</strong>
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
                     </div><!-- /.col -->
                     <div class="col-sm-4"><!-- .col -->
-                        <h1 class="text-center well">
-                            <strong><i class="fa fa-dollar"></i>{{ ordenProduccionDetalle.precio }}</strong>
-                        </h1>
+                        <div class="panel panel-success"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <strong><i class="fa fa-dollar"></i>{{ ordenProduccionDetalle.precio }}</strong>
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
                     </div><!-- /.col -->
                     <div class="col-sm-12"><!-- .col -->
-                        <h1 class="text-center well">
-                            <strong>{{ ordenProduccionDetalle.observacion }}</strong>
-                        </h1>
+                        <div class="panel panel-danger"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <strong>{{ ordenProduccionDetalle.observacion }}</strong>
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col -->
+
+                    <div class="col-sm-4"><!-- .col -->
+                        <div class="panel panel-warning"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h3><small>Destinatario:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+
+                        <div class="panel panel-warning"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h3><small>Firma:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.firma }}</strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+
+                        <div class="panel panel-warning"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h3><small>Comercial:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.pedido.usuario }}</strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
                     </div><!-- /.col -->
 
                     <div class="col-sm-6"><!-- .col -->
-                        <h3>
-                            <strong>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</strong>
-                        </h3>
-                        <h3>
-                            <strong>{{ ordenProduccionDetalle.firma }}</strong>
-                        </h3>
-                        <h3>
-                            <strong>{{ ordenProduccionDetalle.ordenProduccion.pedido.usuario }}</strong>
-                        </h3>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6"><!-- .col -->
+
                         <h1 class="text-center">
                             <a href="{{path('homepage')}}" class="btn btn-lg btn-raised btn-danger">
                                 <i class="fa fa-pause fa-5x"></i>
@@ -91,26 +141,41 @@
                         </h1>
                     </div><!-- /.col -->
                 </div>
+
                 <div class="col-sm-3">
                     <div class="col-sm-12"><!-- .col -->
-                        <h1 class="text-center well">
-                            <div class="personel-info pt-n" ><!-- .personel-info -->
-                                <div id="tiempo">{{ nuevafecha  | cuenta_atras}}</div>
-                            </div><!-- /.personel-info -->
-                        </h1>
+                        <div class="panel panel-default"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <div class="personel-info pt-n" ><!-- .personel-info -->
+                                        <div id="tiempo">{{ nuevafecha  | cuenta_atras}}</div>
+                                    </div><!-- /.personel-info -->
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+
+                                
                     </div><!-- /.col -->
                     <div class="col-sm-12"><!-- .col -->
-                        <h1 class="text-center well">
-                            <strong>
-                                {% if ordenProduccionDetalle.fotoObservacion == null%}
-                                    <i class="fa fa-camera fa-4x"></i>
-                                {% else %}
-                                    <a class="ejemplo_1" href="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" >
-                                        <img src="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" width="310" height="250" />
-                                    </a>
-                                {% endif %}
-                            </strong>
-                        </h1>
+                        <div class="panel panel-default"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <strong>
+                                        {% if ordenProduccionDetalle.fotoObservacion == null%}
+                                            <i class="fa fa-camera fa-4x"></i>
+                                        {% else %}
+                                            <a class="ejemplo_1" href="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" >
+                                                <img src="{{ asset("img/uploads/observations/"~ordenProduccionDetalle.fotoObservacion)}}" width="310" height="250" />
+                                            </a>
+                                        {% endif %}
+                                    </strong>
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->    
                     </div><!-- /.col -->
                 </div>
 
@@ -118,6 +183,9 @@
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->        
     </div><!-- /.page-content -->
+
+{% endblock %}
+
 {% block javascripts %}
 <script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
@@ -136,5 +204,4 @@ $(document).ready(function(){
     });  
 });  
 </script>  
-{% endblock %}
 {% endblock %}

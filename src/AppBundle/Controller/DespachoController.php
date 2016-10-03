@@ -18,6 +18,56 @@ use AppBundle\Entity\Usuario;
 class DespachoController extends Controller
 {
     /**
+     * añade una novedad a la orden del porq no fue recibida a satisfaccion
+     *
+     * @Route("/entrega", name="despacho_entrega")
+     * @Method("POST")
+     */
+    public function entregaAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+            
+            $em = $this->getDoctrine()->getManager();
+
+            $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($request->request->get('idOrdenProduccionDetalle'));
+            $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find($request->request->get('textEstado'));
+            $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+
+            $despacho=$em->getRepository('AppBundle:Despacho')->findOneByOrdenProduccionDetalle(
+                $request->request->get('idOrdenProduccionDetalle')
+            );
+
+            $despacho->setFechaEntrega(new \DateTime(date('Y-m-d H:i:s')));
+            $despacho->setReceptor($request->request->get('textReceptor'));
+
+            if ($request->request->get('textObservaciones') != '') {
+                $despacho->setObservaciones($request->request->get('textObservaciones'));
+            }
+
+            $em->persist($despacho);
+            $em->persist($ordenProduccionDetalle);
+            $em->flush();
+
+            //Revisar consulta para que muestre siguiente y validar que no actualiza el estado del detalle
+
+            $despachoNew=$em->getRepository('AppBundle:Despacho')->findOneBy(
+                array(),
+                array(
+                    'fechaEntrega'=>'DESC'
+                )
+            );
+
+            if ($despachoNew) {
+                return $this->redirectToRoute('orden_produccion_detalle_show', array(
+                    'id' => $despachoNew->getOrdenProduccionDetalle()->getId()
+                ));
+            }
+        }
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
      * Lista las ordenes de produccion listas para entregar.
      *
      * @Route("/", name="despacho_list")

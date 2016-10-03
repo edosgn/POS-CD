@@ -37,7 +37,9 @@ class OrdenProduccionType extends AbstractType
                     'Credito'=>'Credito',
                     'Consignacion'=>'Consignación',
                     'Giro'=>'Giro',
-                    'Tarjeta'=>'Tarjeta'),
+                    'Tarjeta'=>'Tarjeta',
+                    'ContraEntrega'=>'Contra Entrega'
+                ),
                 'empty_value'=>false,
             ))
             ->add('prioridad','entity',array(

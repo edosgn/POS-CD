@@ -71,13 +71,14 @@ class OrdenProduccionDetalleRepository extends EntityRepository
 	        $query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
+	        ->where('opd.ordenProduccionEstado != 5')
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();
 	    }else{
 	    	$query = $this->createQueryBuilder('opd')
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
-	        ->where('p.usuario = :idUsuario')
+	        ->where('p.usuario = :idUsuario AND opd.ordenProduccionEstado != 5')
 	        ->setParameter('idUsuario', $idUsuario)
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();	

@@ -15,56 +15,253 @@
 
         </ol><!-- /.breadcrumb -->
         <div class="page-heading"><!-- .page-heading -->
-            <h1>
-                Orden Producción: 
-                <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }} </strong>
-                <small>Ver</small>
-            </h1>
+            <div class="row"><!-- .row -->
+                <div class="col-sm-6"><!-- .col -->
+                    <h1>
+                        Orden Producción: 
+                        <strong>{{ ordenProduccionDetalle.ordenProduccion.numero }} </strong>
+                    </h1>
+                </div><!-- /.col -->
 
-            <h1>
-                Estado: 
-                <strong> {{ ordenProduccionDetalle.ordenProduccionEstado.nombre }} </strong>
-                
-            </h1>
-            <div class="options">
-                <a href="3" class="btn btn-info btn-raised" data-toggle="tooltip" data-placement="top" title="Volver al listado">
-                    <i class="fa fa-chevron-left"></i>
-                </a>
-                <a href="#" class="btn btn-inverse btn-raised" data-toggle="tooltip" data-placement="top" title="Mensaje">
-                    <i class="fa fa-plus"></i>
-                </a>
-                <a href="#" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="top" title="Editar">
-                    <i class="fa fa-pencil"></i>
-                </a>
-                <a href="#" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-            </div>
+                <div class="col-sm-4"><!-- .col -->
+                    <h1>
+                         Estado: 
+                        <strong> {{ ordenProduccionDetalle.ordenProduccionEstado.nombre }} </strong>
+                    </h1>
+                </div><!-- /.col -->
+
+                <div class="col-sm-2"><!-- .col -->
+                    <a href="{{path('homepage')}}" class="btn btn-lg btn-raised btn-inverse" data-toggle="tooltip" data-placement="top" title="Volver">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
         </div><!-- /.page-heading -->
 
+        <div class="container-fluid"><!-- .container-fluid -->
+            <div class="row"><!-- .row -->
+                {% if ordenProduccionDetalle.ordenProduccion.tipoPago  == 'ContraEntrega'  %}
+                    <div class="alert alert-danger" role="alert">
+                        <h1 class="text-center">
+                            <i class="fa fa-bullhorn"></i> Alerta! detalle se cancelara contra entrega.
+                        </h1>
+                    </div>
+                {% endif %}
+                    
+                <div class="col-sm-9">
+                    <div class="col-sm-12"><!-- .col -->
+                        <div class="panel panel-primary"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <strong>
+                                        {{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}
+                                    </strong>
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-6"><!-- .col -->
+                        <div class="panel panel-success"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <strong>
+                                        <i class="fa fa-globe"></i> 
+                                        {{ ordenProduccionDetalle.ordenProduccion.direccionEntrega }}
+                                    </strong>
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-6"><!-- .col -->
+                        <div class="panel panel-success"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h4 class="text-center">
+                                    <strong>
+                                        <i class="fa fa-phone"></i> 
+                                        {{ ordenProduccionDetalle.ordenProduccion.telefono }}
+                                    </strong>
+                                </h4>
+                                <hr>
+                                <h4 class="text-center">
+                                    <strong>
+                                        <br>
+                                        {{ ordenProduccionDetalle.ordenProduccion.descripcionDireccion }}
+                                    </strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col -->
+                    <div class="col-sm-6"><!-- .col -->
+                        <div class="panel panel-danger"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h3><small>Detalle:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.detalle }}</strong>
+                                </h4>
+                                <hr>
+                                <h3><small>Observación:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.observacion }}</strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col -->
 
-               <div class="container-fluid"><!-- .container-fluid -->
-               
-                    <form action="{{ path('orden_despacho') }}" method="POST" id="formulario">
-                        <div class="col-md-5">
-                            <select name="origen[]" id="origen" multiple="multiple" size="8" class="col-md-12">
-                            {% for ordenProduccionDetalleEstado in ordenProduccionDetalleEstados %}
-                                <option value="{{ordenProduccionDetalleEstado.id}}">{{ordenProduccionDetalleEstado.ordenProduccion}}</option>
-                            {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                        <input type="button" class="pasar izq" value="Pasar »"><input type="button" class="quitar der" value="« Quitar"><br />
-                        <input type="button" class="pasartodos izq" value="Todos »"><input type="button" class="quitartodos der" value="« Todos">
-                        </div>
-                        <div class="col-md-5">
+                    <div class="col-sm-6"><!-- .col -->
+                        <div class="panel panel-warning"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h3><small>Mensaje:</small></h3>
+                                <h4 style="max-height:150px;overflow:auto;">
+                                    <strong>{{ ordenProduccionDetalle.descripcionMensaje }}</strong>
+                                </h4>
+                                <hr>
+                                <h3><small>Firma:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.firma }}</strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col -->
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="col-sm-12"><!-- .col -->
+                        <div class="panel panel-default"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h1 class="text-center">
+                                    <div class="personel-info pt-n" ><!-- .personel-info -->
+                                        <h3>Hora estimada entrega</h3>
+                                        {{ ordenProduccionDetalle.ordenProduccion.horario.inicio ~ " - " ~ ordenProduccionDetalle.ordenProduccion.horario.final ~ " " ~ ordenProduccionDetalle.ordenProduccion.horario.jornada }}
+                                        {#
+                                        <div id="tiempo">{{ nuevafecha  | cuenta_atras}}</div>
+                                        #}
+                                    </div><!-- /.personel-info -->
+                                </h1>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+
+                                
+                    </div><!-- /.col -->
+                    <div class="col-sm-12"><!-- .col -->
+                        <div class="panel panel-default"><!-- .panel -->
+                            <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body"><!-- .panel-body -->
+                                <h3><small>Cliente:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.pedido.cliente }}</strong>
+                                </h4>
+                                <hr>
+                                <h3><small>Telefono:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.pedido.cliente.telefono }}</strong>
+                                </h4>
+                                <hr>
+                                <h3><small>Responsable:</small></h3>
+                                <h4>
+                                    <strong>{{ ordenProduccionDetalle.ordenProduccion.pedido.usuario }}</strong>
+                                </h4>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->    
+                    </div><!-- /.col -->
+
+                    <div id="div-despacho" class="col-sm-12 well display-none">
+                        <form action="{{path('despacho_entrega')}}" method="POST" id="form-despacho">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label>Receptor:</label>
+                                        <input type="text" name="textReceptor" class="form-control" required />
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label>Observaciones:</label>
+                                       <textarea name="textObservaciones" class="form-control"></textarea>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" value="{{ordenProduccionDetalle.id}}" name="idOrdenProduccionDetalle" />
+                                <input type="hidden" value="" id="idEstado" name="textEstado"/>
+
+                                <div class="col-xs-12">
+                                    <button type="submit" class="btn btn-inverse btn-raised">
+                                        Guardar
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-raised" id="btn-cancelar">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                                    
+                        </form>
+                    </div>
+
+                    {% if ordenProduccionDetalle.ordenProduccionEstado.nombre == 'Despacho' %}
+
+                        <div class="col-sm-12"><!-- .col -->
+                            <h1 class="text-center">
+                                <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':5})}}" class="btn btn-lg btn-raised btn-success" id="btn-entregado" data-toggle="tooltip" data-placement="top" title="Entregado">
+                                    <i class="fa fa-check fa-4x"></i>
+                                </a>
+
+                                <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':7})}}" class="btn btn-lg btn-raised btn-danger" data-toggle="tooltip" data-placement="top" title="No entregado">
+                                    <i class="fa fa-times fa-4x"></i>
+                                </a>
                             
-                        <select class="col-md-12" name="destino[]" id="destino" multiple="multiple" size="8"></select>
-                        </div>
-                        <p class="clear col-md-offset-5"><input type="submit" class="submit" value="Procesar formulario"></p>
-                    </form>
+                                <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':6})}}" class="btn btn-lg btn-raised btn-primary" id="btn-novedad" data-toggle="tooltip" data-placement="top" title="Entregado con novedad">
+                                    <i class="fa fa-exclamation-circle fa-4x"></i>
+                                </a>                         
+                            </h1>
+                        </div><!-- /.col -->
+                    {% endif %}
+                </div>
+
                     
-               </div><!-- /.container-fluid -->          	
-                    
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->        
     </div><!-- /.page-content -->
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/fancy/source/jquery.fancybox.pack.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('js/fancy/source/jquery.fancybox.css')}}" />
+<script type="text/javascript">  
+
+$(document).ready(function(){  
+    $("#btn-entregado").click(function(e){  
+        e.preventDefault();
+        $("#idEstado").val(5);
+        $('#div-despacho').fadeIn('slow');
+    });
+
+    $("#btn-novedad").click(function(e){  
+        e.preventDefault();
+        $("#idEstado").val(6);
+        $('#div-despacho').fadeIn('slow');
+    });
+
+    $("#btn-cancelar").click(function(e){  
+        e.preventDefault();
+
+        $('#div-despacho').fadeOut('fast');
+    });
+});  
+
+</script>  
 {% endblock %}

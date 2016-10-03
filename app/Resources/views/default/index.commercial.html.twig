@@ -51,17 +51,21 @@
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.destinatarioNombres ~ " " ~ ordenProduccionDetalle.ordenProduccion.destinatarioApellidos }}</small><br>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.direccionEntrega }}</small><br>
                                                     <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small><br>
-                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.estado }}</small><br>
-                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small><br>
+                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.horario }}</small><br>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.tipoPago }}</small>
                                                     <br>
                                                     
                                                 </div><!-- /.col -->
-                                                <div class="col-xs-4 text-center"><!-- .col -->
-                                                    <a href="{{path('pedido_show',{'id':ordenProduccionDetalle.ordenProduccion.pedido.id})}}" class="btn btn-raised">
+                                                <div class="col-xs-4 text-center" ><!-- .col -->
+                                                    <a href="{{path('pedido_show',{'id':ordenProduccionDetalle.ordenProduccion.pedido.id})}}" class="btn btn-raised" style="background-color:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}}">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
                                                     </a>
-                                                    
+                                                    <div class="row">
+                                                        <div id="tiempo">
+                                                            Mostrar tiempo restante
+                                                        </div>
+                                                    </div>
                                                 </div><!-- /.col -->
                                             </td>
                                         </tr>
@@ -110,11 +114,11 @@
                                                     <strong>Prioridad:</strong>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
                                                 </div><!-- /.col -->
-                                                {#<div class="col-xs-4 text-center"><!-- .col -->
+                                                <div class="col-xs-4 text-center"><!-- .col -->
                                                     <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
-                                                    </a>                                                    
-                                                </div><!-- /.col -->#}
+                                                    </a>                         
+                                                </div><!-- /.col -->
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -162,11 +166,11 @@
                                                     <strong>Prioridad:</strong>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
                                                 </div><!-- /.col -->
-                                                {#<div class="col-xs-4 text-center"><!-- .col -->
+                                                <div class="col-xs-4 text-center"><!-- .col -->
                                                     <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
                                                     </a>                                                    
-                                                </div><!-- /.col -->#}
+                                                </div><!-- /.col -->
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -214,11 +218,11 @@
                                                     <strong>Prioridad:</strong>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.prioridad }}</small>
                                                 </div><!-- /.col -->
-                                                {#<div class="col-xs-4 text-center"><!-- .col -->
+                                                <div class="col-xs-4 text-center"><!-- .col -->
                                                     <a href="{{path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id})}}" class="btn btn-raised" style="background:{{ordenProduccionDetalle.ordenProduccion.prioridad.color}};">
                                                         <i class="fa fa-chevron-right fa-2x"></i>
-                                                    </a>                                                    
-                                                </div><!-- /.col -->#}
+                                                    </a>                                                   
+                                                </div><!-- /.col -->
                                             </td>
                                         </tr>
                                     {% endfor %}
