@@ -46,14 +46,14 @@ class Detalle
     protected $detalleCategoria;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", mappedBy="detalle")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccion", mappedBy="detalle")
      **/
-    private $ordenProduccionDetalle;
+    private $ordenProduccion;
 
      
 
     public function __construct() {
-        $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ordenProduccion = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -163,40 +163,38 @@ class Detalle
     public function getDetalleCategoria()
     {
         return $this->detalleCategoria;
-    }
+    } 
 
     /**
-     * Add ordenProduccionDetalle
+     * Add ordenProduccion
      *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
+     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
      * @return Detalle
      */
-    public function addOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle)
+    public function addOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion)
     {
-        $this->ordenProduccionDetalle[] = $ordenProduccionDetalle;
+        $this->ordenProduccion[] = $ordenProduccion;
 
         return $this;
     }
 
     /**
-     * Remove ordenProduccionDetalle
+     * Remove ordenProduccion
      *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
+     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
      */
-    public function removeOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle)
+    public function removeOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion)
     {
-        $this->ordenProduccionDetalle->removeElement($ordenProduccionDetalle);
+        $this->ordenProduccion->removeElement($ordenProduccion);
     }
 
     /**
-     * Get ordenProduccionDetalle
+     * Get ordenProduccion
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getOrdenProduccionDetalle()
+    public function getOrdenProduccion()
     {
-        return $this->ordenProduccionDetalle;
+        return $this->ordenProduccion;
     }
-
- 
 }

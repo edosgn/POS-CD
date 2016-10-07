@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -71,7 +72,13 @@ class PedidoController extends Controller
 
             $cliente = $form['cliente']->getData();
             if ($cliente) {
-                if ($cliente->getTelefono() != $request->request->get('textTelefono')) {
+                if ($cliente->getTelefono() != $request->request->get('textCelular')) {
+                    $cliente->setTelefono($request->request->get('textCelular'));
+
+                    $em->persist($cliente);
+                    $em->flush();
+                }
+                if ($cliente->getTelefonoOpc() != $request->request->get('textTelefono')) {
                     $cliente->setTelefono($request->request->get('textTelefono'));
 
                     $em->persist($cliente);
@@ -193,5 +200,78 @@ class PedidoController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * valida si el cliente ya ha tenido credito para no volver a pedir PIN a administrador.
+     *
+     * @Route("/valida/credito", name="orden_produccion_valida_credito")
+     * @Method("GET")
+     */
+    public function validaCreditoAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $creditos=$em->getRepository('AppBundle:Pedido')->findPedidoCredito($request->query->get('idCliente'));
+
+        $ban = false;
+        if (count($creditos) != 0) {
+            $ban = true;
+        }
+
+        $response = new JsonResponse();
+
+        $entidades = array();
+        $entidades[] = array(
+            'ban'=>$ban,
+        );
+
+        $response->setData($entidades);
+
+        return $response;
+    } 
+
+    /**
+     * setea el metodo de pago del pedido.
+     *
+     * @Route("/metodo/pago", name="metodo_pago")
+     * @Method("GET")
+     */
+    public function metodoPagoAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pedido=$em->getRepository('AppBundle:Pedido')->find($request->query->get('id'));        
+
+        $response = new JsonResponse();
+
+        $entidades = array();
+        $entidades[] = array(
+            'ban'=>$ban,
+        );
+
+        $response->setData($entidades);
+
+        return $response;
+    }
+
+
+    /**
+     * guarda el estado de la opcion seleccionada en el pedido (porpagar,porcobrar,pendiente).
+     *
+     * @Route("/estado/pedido/{id}/{estado}", name="estado_pedido")
+     * @Method("GET")
+     */
+    public function estadoPedidoAction($id,$estado)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $pedido=$em->getRepository('AppBundle:Pedido')->find($id);        
+        $pedido->setEstado($estado);
+        
+        $em->persist($pedido);
+        $em->flush();
+
+        return $this->redirectToRoute('pedido_show',array(
+            'id'=>$pedido->getId()
+        ));
     }
 }

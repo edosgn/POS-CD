@@ -32,12 +32,12 @@ class Mensaje
     protected $mensajeCategoria;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", mappedBy="mensaje")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccion", mappedBy="mensaje")
      **/
-    private $ordenProduccionDetalle;
+    private $ordenProduccion;
 
     public function __construct() {
-        $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ordenProduccion = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString()

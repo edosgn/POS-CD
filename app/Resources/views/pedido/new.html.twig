@@ -44,8 +44,14 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
+                                            <label>Celular:</label>
+                                            <input type="text" name="textCelular" class="form-control" value="{{ cliente.telefono }}" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
                                             <label>Telefono:</label>
-                                            <input type="text" name="textTelefono" class="form-control" value="{{ cliente.telefono }}" />
+                                            <input type="text" name="textTelefono" class="form-control" value="{{ cliente.telefonoOpc }}" />
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -82,6 +88,106 @@
                                         </a>
                                     </div>
                                 </div>
+
+
+
+                                <div id="datos-envio" style="display:block;"><!-- .datosEnvio-->
+                                    <label class="control-label">Enviar  a</label>
+                                    <div class="row"><!-- .row -->
+                                        <div class="col-md-5"><!-- .col --> 
+                                            <div class="col-md-12 input-group">
+                                                {{ form_widget(form.destinatarioNombres, { 'attr': {'placeholder':'Nombres', 'class':'form-control' }, 'id':'textDestinatarioNombres'}) }}
+                                            </div>
+                                        </div><!-- /.col -->
+                                        <div class="col-md-7"><!-- .col -->
+                                            <div class="input-group">
+                                                {{ form_widget(form.destinatarioApellidos, { 'attr': {'placeholder':'Apellidos', 'class':'form-control' }, 'id':'textDestinatarioApellidos'}) }}
+                                                <span class="input-group-btn">
+                                                    <a href="{{path('referencia_list',{'idCliente':cliente.id})}}" class="btn btn-info btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Buscar Preferido">
+                                                        <i class="fa fa-search"></i>
+                                                    </a>
+                                                    <a href="{{path('referencia_add',{'idCliente':cliente.id})}}" class="btn btn-inverse btn-raised load-in-progress" data-id="#container-load" data-toggle="tooltip" data-placement="top" title="Agregar Preferido">
+                                                        <i class="fa fa-star"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+
+                                    <div class="row"><!-- .row -->                                   
+                                        <div class="col-md-3"><!-- .col -->
+                                            <div class="form-group">
+                                                <label class="control-label">Telefono</label>
+                                                {{ form_widget(form.telefono, { 'attr': {'placeholder':'Digite Telefono','class':'form-control' }, 'id':'textTelefono'}) }}
+                                            </div>
+                                        </div><!-- /.col -->
+
+                                        <div class="col-md-3"><!-- .col -->
+                                            <div class="form-group input-icon right">
+                                                <label class="control-label">Zona</label>
+                                                <i class="fa fa-chevron-down"></i>
+                                                {{ form_widget(form.zonaEnvio, { 'attr': {'class':'form-control','onchange':'valorEnvio(this)' }, 'id':'zona'}) }}
+                                            </div>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+
+                                    <div class="row"><!-- .row -->
+                                        <div class="col-md-12"><!-- .col -->
+                                            <div class="form-group">
+                                                <label class="control-label">Dirección Entrega</label>
+                                                {{ form_widget(form.direccionEntrega, { 'attr': {'placeholder':'Digite Dirección','class':'form-control' }, 'id':'textDireccion' }) }}
+                                            </div>
+                                        </div><!-- /.col -->
+                                        <div class="col-md-12"><!-- .col -->
+                                            <ul class="demo-btns"><!-- .demo-btns -->
+                                                <li>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Calle ');return false;">
+                                                            Cll
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Carrera ');return false;">
+                                                            Cra
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Diagonal ');return false;">
+                                                            Diagonal
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Barrio ');return false;">
+                                                            Barrio
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Conjunto ');return false;">
+                                                            Conjunto
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Apartamento ');return false;">
+                                                            Apto
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Torre ');return false;">
+                                                            Torre
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Condominio ');return false;">
+                                                            Condominio
+                                                        </button>
+                                                        <button type="button" class="btn btn-default btn-raised btn-address" data-id="#textDireccion" onclick="insertAtCaret('textDireccion', ' Oficina ');return false;">
+                                                            Oficina
+                                                        </button>
+                                                    </div>
+                                                </li>
+                                            </ul><!-- /.demo-btns -->
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+
+                                    <div class="row"><!-- .row -->
+                                        <div class="col-md-12"><!-- .col -->
+                                            <div class="form-group">
+                                                <label class="control-label">Descripción Dirección</label>
+                                                {{ form_widget(form.descripcionDireccion, { 'attr': {'class':'form-control' }}) }}
+                                            </div>
+                                        </div><!-- /.col -->
+                                    </div><!-- /.row -->
+                                </div><!-- /.datosEnvio -->
+
+
+
+
 
                                 {{ form_widget(form.numero, { 'attr': {'placeholder':'Número','class':'form-control', 'value':numero, 'readonly':'readonly' }, 'type':'hidden'}) }}
                                 {{ form_widget(form.cliente, { 'attr': {'class':'form-control select-hidden select-entity', 'data-id':cliente.id }}) }}   

@@ -117,21 +117,20 @@ class VentaController extends Controller
     /**
      * Deletes a Venta entity.
      *
-     * @Route("/{id}", name="venta_delete")
-     * @Method("DELETE")
+     * @Route("/delete/{id}", name="venta_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Venta $ventum)
+    public function deleteAction(Venta $ventum)
     {
-        $form = $this->createDeleteForm($ventum);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();        
+        $pedido=$ventum->getPedido();
+        $pedido->setTotal($pedido->getTotal() - $ventum->getValor());
+        
+        $em->persist($pedido);
+        $em->remove($ventum);
+        $em->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($ventum);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('venta_index');
+        return $this->redirectToRoute('pedido_show', array('id' => $pedido->getId()));
     }
 
     /**

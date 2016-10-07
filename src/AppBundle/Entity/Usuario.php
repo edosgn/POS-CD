@@ -140,9 +140,14 @@ class Usuario implements UserInterface
     private $pedidos;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", mappedBy="responsable")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Abono", mappedBy="usuario")
      **/
-    private $ordenProduccionDetalle;
+    private $abonos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccion", mappedBy="responsable")
+     **/
+    private $ordenProduccion;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\UsuarioCategoria", mappedBy="responsable")
@@ -156,9 +161,10 @@ class Usuario implements UserInterface
 
     public function __construct() {
         $this->pedidos = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ordenProduccion = new \Doctrine\Common\Collections\ArrayCollection();
         $this->usuarioCategoria = new \Doctrine\Common\Collections\ArrayCollection();
         $this->despachos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->abonos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -485,39 +491,6 @@ class Usuario implements UserInterface
     }
 
     /**
-     * Add ordenProduccionDetalle
-     *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
-     * @return Usuario
-     */
-    public function addOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle)
-    {
-        $this->ordenProduccionDetalle[] = $ordenProduccionDetalle;
-
-        return $this;
-    }
-
-    /**
-     * Remove ordenProduccionDetalle
-     *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
-     */
-    public function removeOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle)
-    {
-        $this->ordenProduccionDetalle->removeElement($ordenProduccionDetalle);
-    }
-
-    /**
-     * Get ordenProduccionDetalle
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOrdenProduccionDetalle()
-    {
-        return $this->ordenProduccionDetalle;
-    }
-
-    /**
      * Add usuarioCategoria
      *
      * @param \AppBundle\Entity\UsuarioCategoria $usuarioCategoria
@@ -604,5 +577,71 @@ class Usuario implements UserInterface
     public function getDespachos()
     {
         return $this->despachos;
+    }
+
+    /**
+     * Add abonos
+     *
+     * @param \AppBundle\Entity\Abono $abonos
+     * @return Usuario
+     */
+    public function addAbono(\AppBundle\Entity\Abono $abonos)
+    {
+        $this->abonos[] = $abonos;
+
+        return $this;
+    }
+
+    /**
+     * Remove abonos
+     *
+     * @param \AppBundle\Entity\Abono $abonos
+     */
+    public function removeAbono(\AppBundle\Entity\Abono $abonos)
+    {
+        $this->abonos->removeElement($abonos);
+    }
+
+    /**
+     * Get abonos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAbonos()
+    {
+        return $this->abonos;
+    }
+
+    /**
+     * Add ordenProduccion
+     *
+     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
+     * @return Usuario
+     */
+    public function addOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion)
+    {
+        $this->ordenProduccion[] = $ordenProduccion;
+
+        return $this;
+    }
+
+    /**
+     * Remove ordenProduccion
+     *
+     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
+     */
+    public function removeOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion)
+    {
+        $this->ordenProduccion->removeElement($ordenProduccion);
+    }
+
+    /**
+     * Get ordenProduccion
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrdenProduccion()
+    {
+        return $this->ordenProduccion;
     }
 }

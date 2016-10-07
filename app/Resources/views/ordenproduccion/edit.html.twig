@@ -237,32 +237,7 @@
 
                         <fieldset title="3" class="stepy-step">
                             <legend>Finalizar</legend>
-                            <div class="row"><!-- .row -->
-                                <div class="col-md-12"><!-- .col -->
-                                    {{ form_widget(edit_form.tipoPago, { 'attr': {'class':'select-hidden select-readonly' }, 'id':'select-pago'}) }}
-                                    <label class="control-label">Tipo Pago: <strong id="text-pago">{{ ordenProduccion.tipoPago }}</strong></label>
-                                    <br>
-                                    <div class="btn-group" role="group"> 
-                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Contado" data-toggle="tooltip" data-placement="top" title="Contado">
-                                            <i class="fa fa-money fa-3x"></i>
-                                        </a>
-                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Credito" data-toggle="tooltip" data-placement="top" title="Credito">
-                                            <i class="fa fa-hourglass-half fa-3x"></i>
-                                        </a>
-                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Consignacion" data-toggle="tooltip" data-placement="top" title="Consignacion">
-                                            <i class="fa fa-bank fa-3x"></i>
-                                        </a>
-                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Giro" data-toggle="tooltip" data-placement="top" title="Giro">
-                                            <i class="fa fa-refresh fa-3x"></i>
-                                        </a>
-                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Tarjeta" data-toggle="tooltip" data-placement="top" title="Tarjeta">
-                                            <i class="fa fa-credit-card fa-3x"></i>
-                                        </a>
-                                        <a class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="ContraEntrega" data-toggle="tooltip" data-placement="top" title="Contra Entrega">
-                                            <i class="fa fa-truck fa-3x"></i>
-                                        </a>
-                                    </div>
-                                </div><!-- /.col -->
+                            <div class="row"><!-- .row -->                                
 
                                 <div class="col-md-3"><!-- .col -->
                                     {{ form_widget(edit_form.prioridad, { 'attr': {'class':'select-hidden' }, 'id':'select-prioridad'}) }}
@@ -301,14 +276,18 @@
                       <div class="modal-body">
                         
                             <label class="control-label">Identificación</label>
-                            <input type="number" name="textIdentificacion" id="txt-id" class="form-control" required >                                  
+                            <select class="form-control" id="select-admin" name="selectAdmin"> 
+                                {% for usuario in usuarios %}
+                                    <option value="{{usuario.id}}">{{usuario}}</option>
+                                {% endfor %}
+                            </select>
                             <label class="control-label">PIN</label>
                             <input type="password" name="textPin" id="txt-pin" class="form-control" required maxlength="4">
                             
                         
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn btn-default btn-raised" name="btn-pin" data-url="{{path('orden_produccion_valida_pago')}}" id="btn-pin">
                              Validar PIN
                         </button>
@@ -416,7 +395,7 @@
             e.preventDefault();
             var url = $(this).data('url');
 
-            if ($('#text-pago').text() == "Credito" || $('#text-prioridad').text() == "Importante") {
+            if ($('#text-prioridad').text() == "Importante") {
                 
                 $.ajax({
                     type: 'GET',
@@ -442,8 +421,8 @@
 
         $('#btn-pin').click(function(e){
             e.preventDefault();
-            var pin = $('#txt-pin').val();
-            var id = $('#txt-id').val();
+            /*var pin = $('#txt-pin').val();
+            var id = $('#select-admin').find('option:selected').attr('id');*/
             var url = $(this).data('url');
             var formData = $( "#form-pin" ).serialize();
 
@@ -460,8 +439,7 @@
                 error: function() {
                     console.log('Error!');
                 }
-            });
-              
+            });              
         })
         
         function validatePin(item){

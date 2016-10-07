@@ -33,7 +33,14 @@ class Abono
      *
      * @ORM\Column(name="valor_abono", type="string", length=100)
      */
-    private $valorAbono;    
+    private $valorAbono; 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_pago", type="string", length=100)
+     */
+    private $tipoPago;
 
     /**
      * @var string
@@ -63,6 +70,9 @@ class Abono
 
     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pedido", inversedBy="abono") */
     protected $pedido;
+
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Usuario", inversedBy="abonos") */
+    protected $usuario;
 
 
     /**
@@ -206,5 +216,51 @@ class Abono
     public function getPedido()
     {
         return $this->pedido;
+    }
+
+    /**
+     * Set tipoPago
+     *
+     * @param string $tipoPago
+     * @return Abono
+     */
+    public function setTipoPago($tipoPago)
+    {
+        $this->tipoPago = $tipoPago;
+
+        return $this;
+    }
+
+    /**
+     * Get tipoPago
+     *
+     * @return string 
+     */
+    public function getTipoPago()
+    {
+        return $this->tipoPago;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \AppBundle\Entity\Usuario $usuario
+     * @return Abono
+     */
+    public function setUsuario(\AppBundle\Entity\Usuario $usuario = null)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \AppBundle\Entity\Usuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

@@ -21,6 +21,9 @@
                 <a href="{{ path('pedido_index') }}" class="btn btn-warning btn-raised" data-toggle="tooltip" data-placement="top" title="Buscar Pedido">
                     <i class="fa fa-search"></i>
                 </a>
+                <a href="{{ path('ordenes_entregar_punto_venta') }}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="top" title="Entregar Ordenes">
+                    <i class="fa fa-check"></i>
+                </a>
 			</div>
 		</div>
 
@@ -53,7 +56,6 @@
                                                     <small>{{ ordenProduccionDetalle.detalle ~ " (" ~ ordenProduccionDetalle.precio ~ ")" }}</small><br>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccionEstado }}</small><br>
                                                     <small>{{ ordenProduccionDetalle.ordenProduccion.horario }}</small><br>
-                                                    <small>{{ ordenProduccionDetalle.ordenProduccion.tipoPago }}</small>
                                                     <br>
                                                     
                                                 </div><!-- /.col -->
@@ -307,9 +309,9 @@
     });
 
     function validateId(item){       
-        var url="{{ path('cliente_show', { 'id': 'cliente' }) }}";
-        var url=url.replace('cliente',item.idCliente);
-        alert(url);
+        var url="{{ path('cliente_show', { 'id': 1 }) }}";
+        var url=url.replace(1,item.idCliente);
+        //alert(url);
         if (item.ban == true) {
             $('#identificacion').text(item.ced);
             $('#nombre').text(item.named)

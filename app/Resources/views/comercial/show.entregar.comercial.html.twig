@@ -6,9 +6,6 @@
             <li class="">
                 <a href="{{ path('homepage') }}">Inicio</a>
             </li>
-            <li>
-                <a href="{{ path('orden_produccion_show',{'id':ordenProduccionDetalle.ordenProduccion.id}) }}">Orden Produccion</a>
-            </li>
             <li class="active">
                 Ver
             </li>
@@ -31,7 +28,7 @@
                 </div><!-- /.col -->
 
                 <div class="col-sm-2"><!-- .col -->
-                    <a href="{{path('homepage')}}" class="btn btn-lg btn-raised btn-inverse" data-toggle="tooltip" data-placement="top" title="Volver">
+                    <a href="{{path('ordenes_entregar_punto_venta')}}" class="btn btn-lg btn-raised btn-inverse" data-toggle="tooltip" data-placement="top" title="Volver">
                         <i class="fa fa-chevron-left"></i>
                     </a>
                 </div><!-- /.col -->
@@ -135,7 +132,7 @@
                 </div>
 
                 <div class="col-sm-3">
-                    {% if ordenProduccionDetalle.ordenProduccionEstado.nombre == 'Despacho' %}
+                    {#{% if ordenProduccionDetalle.ordenProduccionEstado.nombre == 'Despacho' %}
                     <div class="col-sm-12"><!-- .col -->
                         <div class="panel panel-default"><!-- .panel -->
                             <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
@@ -152,7 +149,7 @@
                             </div><!-- /.panel-body -->
                         </div><!-- /.panel -->                                
                     </div><!-- /.col -->
-                    {% endif %}
+                    {% endif %}#}
                     <div class="col-sm-12"><!-- .col -->
                         <div class="panel panel-default"><!-- .panel -->
                             <div class="panel-heading" style="height:10px;"><!-- .panel-heading -->
@@ -177,7 +174,7 @@
                     </div><!-- /.col -->
 
                     <div id="div-despacho" class="col-sm-12 well display-none">
-                        <form action="{{path('despacho_entrega')}}" method="POST" id="form-despacho">
+                        <form action="{{path('comercial_entrega')}}" method="POST" id="form-despacho">
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group">
@@ -209,7 +206,7 @@
                         </form>
                     </div>
 
-                    {% if ordenProduccionDetalle.ordenProduccionEstado.nombre == 'Despacho' %}
+                    {% if ordenProduccionDetalle.ordenProduccionEstado.nombre == 'Terminada' %}
                         <div class="col-sm-12"><!-- .col -->
                             <h1 class="text-center">
                                 <a href="{{path('orden_produccion_asignar_estado',{'id':ordenProduccionDetalle.id,'idEstado':5})}}" class="btn btn-lg btn-raised btn-success" id="btn-entregado" data-toggle="tooltip" data-placement="top" title="Entregado">

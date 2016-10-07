@@ -29,6 +29,7 @@ class UsuarioType extends AbstractType
                 'choices' => array(
                     'ROLE_ADMIN' => 'Administrador', 
                     'ROLE_COMMERCIAL' => 'Comercial', 
+                    'ROLE_SELLER' => 'Cajero',
                     'ROLE_PRODUCTION' => 'Produccion', 
                     'ROLE_SHIPPING' => 'Despacho'
                 ),

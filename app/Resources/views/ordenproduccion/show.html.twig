@@ -44,11 +44,13 @@
                             <h2>Información General</h2><br>
                         </div><!-- /.panel-heading -->
                         <div class="panel-body"><!-- .panel-body -->
-                            <div class="col-md-12 text-center">
-                                <a href="{{ path('orden_produccion_edit',{'id':ordenProduccion.id, 'idStep':1}) }}" class="btn btn-inverse btn-raised btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                            </div>
+                            {% if ordenProduccion.estado == 'Asignada' %}
+                                <div class="col-md-12 text-center">
+                                    <a href="{{ path('orden_produccion_edit',{'id':ordenProduccion.id, 'idStep':1}) }}" class="btn btn-inverse btn-raised btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
 
                             <div>
                                 <div class="personel-info pt-n"><!-- .personel-info -->
@@ -113,11 +115,13 @@
                             <h2>Detalles</h2><br>
                         </div><!-- /.panel-heading -->
                         <div class="panel-body"><!-- .panel-body -->
-                            <div class="col-md-12 text-center">
-                                <a href="{{ path('orden_produccion_edit',{'id':ordenProduccion.id, 'idStep':2}) }}" class="btn btn-inverse btn-raised btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                            </div>
+                            {% if ordenProduccion.estado == 'Asignada' %}
+                                <div class="col-md-12 text-center">
+                                    <a href="{{ path('orden_produccion_edit',{'id':ordenProduccion.id, 'idStep':2}) }}" class="btn btn-inverse btn-raised btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
 
                             {% if ordenProduccion.ordenProduccionDetalle|length != 0 %}
                                 <div class="table-responsive"><!-- .table-responsive -->
@@ -168,44 +172,45 @@
                             <h2>Producción</h2>
                         </div><!-- /.panel-heading -->
                         <div class="panel-body"><!-- .panel-body -->
-                            <div class="col-md-12 text-center">
-                                <a href="{{ path('orden_produccion_edit',{'id':ordenProduccion.id, 'idStep':3}) }}" class="btn btn-inverse btn-raised btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Editar">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                            </div>
+                            {% if ordenProduccion.estado == 'Asignada' %}
+                                <div class="col-md-12 text-center">
+                                    <a href="{{ path('orden_produccion_edit',{'id':ordenProduccion.id, 'idStep':3}) }}" class="btn btn-inverse btn-raised btn-lg btn-block" data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
 
                             <div>
                                 <div class="personel-info pt-n"><!-- .personel-info -->
                                     <i class="fa fa-sort-numeric-asc"></i>
                                     <strong>Prioridad:</strong>
                                     <span>{{ ordenProduccion.prioridad }}</span>
-                                </div><!-- /.personel-info -->
+                                </div><!-- /.personel-info -->  
+                                {% if ordenProduccion.estado == "Terminada" %}
                                 <div class="personel-info pt-n"><!-- .personel-info -->
-                                    <i class="fa fa-money"></i>
-                                    <strong>Tipo de pago:</strong>
-                                    <span>{{ ordenProduccion.tipoPago }}</span>
-                                </div><!-- /.personel-info -->
-                                <div class="personel-info pt-n"><!-- .personel-info -->
-                                    <i class="fa fa-info"></i>
-                                    <strong>Estado de la orden:</strong>
-                                    <span>{{ ordenProduccion.estado }}</span>
-                                </div><!-- /.personel-info -->
-                                <h2>
-                                    <div class="personel-info pt-n" ><!-- .personel-info -->
-                                        <div id="tiempo">{{ nuevafecha  | cuenta_atras}}</div>
-                                    </div><!-- /.personel-info -->
-                                </h2>
+                                    <h2 class="text-center">
+                                        <i class="fa fa-info"></i>
+                                        <strong>Estado de la orden:</strong>
+                                        <span>{{ ordenProduccion.estado }}</span>
+                                    </h2>
+                                </div><!-- /.personel-info -->                                
+                                {% else %}
+                                    <h2>
+                                        <div class="personel-info pt-n" ><!-- .personel-info -->
+                                            <h1><small class="center">Tiempo Restante</small><h1>
+                                            <div id="tiempo">{{ nuevafecha  | cuenta_atras }}</div>
+                                        </div><!-- /.personel-info -->
+                                    </h2>
+                                {% endif %}
                             </div> 
                             
                         </div><!-- /.panel body -->                        
                     </div><!-- /.panel -->
                     <a href="{{ path('pedido_show',{'id':ordenProduccion.pedido.id}) }}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="top" title="Finalizar">
-                    <i class="fa fa-check fa-5x"></i>
-                </a>
+                        <i class="fa fa-check fa-5x"></i>
+                    </a>
                 </div><!-- /.col -->
-
             </div><!-- /.row -->
-
         </div><!-- /.container-fluid -->
     </div><!-- /.page-content -->
 {% endblock %}

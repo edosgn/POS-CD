@@ -164,10 +164,8 @@
                             <button type="submit" class="finish btn-success btn" id="btn-siguiente">
                                 Siguiente <i class="fa fa-angle-right"></i>
                             </button>
-                        </div>
-                            
+                        </div>                            
 
-                        {{ form_widget(form.tipoPago, { 'attr': {'class':'form-control select-hidden' }}) }}
                         {{ form_widget(form.prioridad, { 'attr': {'class':'form-control select-hidden' }}) }}
                     {{ form_end(form) }}<!-- .form -->
                 </div><!-- /.panel-body -->
@@ -206,9 +204,10 @@
         function metodoEntrega(){
             if (document.orden_produccion.entrega[1].checked == true) {
               document.getElementById('datos_envio').style.display='none';
-              document.getElementById('textDestinatario').value="{{pedido.cliente}}";
-              document.getElementById('textTelefono').value="{{pedido.cliente.telefono}}";
-              document.getElementById('textDireccion').value="Floristeria";
+              document.getElementById('textDestinatarioNombres').value="{{pedido.cliente}}";
+              document.getElementById('textDestinatarioApellidos').value="{{pedido.cliente}}";
+              document.getElementById('textDestinatarioTelefono').value="{{pedido.cliente.telefono}}";
+              document.getElementById('textDestinatarioDireccion').value="Floristeria";
               document.getElementById('zona').value=6;
               document.getElementById('envio').value=0;
               document.getElementById('hRecoger').style.display='block';

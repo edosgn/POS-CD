@@ -38,6 +38,9 @@
                 <a href="{{ path('venta_new', {'idPedido': pedido.id}) }}" class="btn btn-second btn-raised" data-toggle="tooltip" data-placement="top" title="Venta">
                     <i class="fa fa-plus"></i>
                 </a>
+                <a href="#" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="top" title="Metodo Pago">
+                    <i class="fa fa-dollar" data-toggle="modal" data-target="#modal-metodoPago"></i>
+                </a>
                 <a href="{{ path('orden_produccion_new', {'idPedido': pedido.id}) }}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="top" title="Eliminar">
                     <i class="fa fa-trash"></i>
                 </a>
@@ -75,6 +78,14 @@
                             <li><i class="fa fa-shopping-cart"></i><strong> Pedido No:</strong> {{ pedido }} </li>
                             <li><i class="fa fa-calendar"></i><strong> Fecha:</strong> {{ pedido.createdAt|date('Y-m-d') }}</li>
                             <li><i class="fa fa-user"></i><strong> Creado por:</strong> {{ pedido.usuario }}</li>
+                        </ul>
+                    </div>
+                </div><!-- /.col -->
+                <div class="col-md-3"><!-- .col -->
+                    <div class="panel panel-body color-red">
+                        <h3 class="text-muted">Metodo de pago</h3>                         
+                        <ul class="text-left list-unstyled ml-md">
+                            <li><i class="fa fa-shopping-dollar"></i><strong> {{ pedido.estado }} </strong></li>
                         </ul>
                     </div>
                 </div><!-- /.col -->
@@ -116,7 +127,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <div class="card-body"><!-- .card-body -->             
+                                                    <div class="card-body" style="max-height:70px;overflow:auto;"><!-- .card-body-->
                                                         {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
                                                             <p><!-- .p -->
                                                                 <i class="fa fa-gift"></i>
@@ -211,41 +222,95 @@
                 </div><!-- /.col -->
 
                 <div class="col-md-12"><!-- .col -->
-                    {% if pedido.ordenProduccion|length != 0 or pedido.venta|length != 0 %}
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <p class="text-left">Vendedor</p>
                             <p class="text-left"><img class="img-responsive" src="https://haciendaelrefugio.files.wordpress.com/2013/04/jim-signature.png" alt="signature" width= "130" height= "130"></p>
                             <p class="text-left mb-sm"><strong>{{app.user}}</strong></p>
-                        </div>                        
+                        </div>
+                        {% if is_granted('ROLE_COMMERCIAL') and pedido.estado == NULL %}
+                            <div class="col-md-6 text-center">
+                                <div class="btn-group" role="group"> 
+                                    <a href="{{path('estado_pedido',{'id':pedido.id,'estado':'Pendiente'})}}" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="Pendiente" data-toggle="tooltip" data-placement="top" title="Pendiente">
+                                        <i class="fa fa-money fa-3x"></i>
+                                    </a>
+                                    <a href="{{path('estado_pedido',{'id':pedido.id,'estado':'PorPagar'})}}" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="PorPagar" data-toggle="tooltip" data-placement="top" title="Credito">
+                                        <i class="fa fa-hourglass-half fa-3x"></i>
+                                    </a>                                    
+                                    <a href="{{path('estado_pedido',{'id':pedido.id,'estado':'PorCobrar'})}}" class="btn btn-default btn-raised select-btn" data-id="#select-pago" data-text="#text-pago" data-value="PorCobrar" data-toggle="tooltip" data-placement="top" title="Contra Entrega">
+                                      <i class="fa fa-truck fa-3x"></i>
+                                    </a>
+                                </div>
+                            </div> 
+                        {% elseif is_granted('ROLE_SELLER') %}
+                            <div class="btn-group center" role="group"> 
+                                <a class="btn btn-default btn-raised select-btn-pago" data-id="#select-pago" data-text="#text-pago" data-value="Contado" data-toggle="tooltip" data-placement="top" title="Contado">
+                                    <i class="fa fa-money fa-2x"></i>
+                                </a>                        
+                                <a class="btn btn-default btn-raised select-btn-pago" data-id="#select-pago" data-text="#text-pago" data-value="Consignacion" data-toggle="tooltip" data-placement="top" title="Consignacion">
+                                    <i class="fa fa-bank fa-2x"></i>
+                                </a>
+                                <a class="btn btn-default btn-raised select-btn-pago" data-id="#select-pago" data-text="#text-pago" data-value="Giro" data-toggle="tooltip" data-placement="top" title="Giro">
+                                    <i class="fa fa-refresh fa-2x"></i>
+                                </a>
+                                <a class="btn btn-default btn-raised select-btn-pago" data-id="#select-pago" data-text="#text-pago" data-value="Tarjeta" data-toggle="tooltip" data-placement="top" title="Tarjeta">
+                                    <i class="fa fa-credit-card fa-2x"></i>
+                                </a>                        
+                            </div>
+                        {% endif %}                                          
                     </div>
-                    {% endif %}
                 </div><!-- /.col -->
-            </div><!-- /.row -->
-                
-            <div class="row">
-                    
-            </div>
-
+            </div><!-- /.row --> 
         </div><!-- /.container-fluid -->
+
+        
+
     </div><!-- /.page-content -->
 {% endblock %}
-{% block aside %}
-    <table border="2" style="text-align:center">
-        <tr>
-            <td colspan="8"><h4>Ordenes de Produccion del pedido</h4></td>
-        </tr>
-        {% for orden in ordenes %}
-            <tr>                
-                <td>Orden Nº</td>
-                <td>{{orden.numero}}</td>
-                <td>Detalle</td>
-                <td>{{orden.detalle}}</td>
-                <td>Destinatario</td>               
-                <td>{{orden.destinatario}}</td>
-                <td>Fecha entrega</td>
-                <td>{{orden.fechaEntrega | date('Y-m-d H:i:s A')}}</td>
-            </tr>
-        {% endfor %}
-    </table><br>
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+        $('#btn-pago').click(function(e){
+            e.preventDefault();
+            var url = $(this).data('url');
+            var metodo = $("#text-pago").val();
+            alert(metodo);
+            //if ($('#text-pago').text() == "Credito") {
+                
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    dataType : 'json',
+                    success: function(data) {
+                        $.each(data,function(i,item){
+                            if (item.ban == false) {                               
+                                $('#modal-pin').modal('show');
+                            }else{
+                                $('#wizard').submit();
+                            }
+                        });
+                    },
+                    error: function() {
+                        console.log('Error!');
+                    }
+                });                
+            /*}else{
+                $('#wizard').submit();
+            } */            
+        })
+
+        /*$('.select-btn').click(function(e){
+            e.preventDefault();
+            var select = $(this).data('id');
+            var value = $(this).data('value');
+            var title = $(this).attr('data-value');
+            var label = $(this).data('text');
+
+            $(select).val(value);
+            $(label).text(title);
+        });*/
+
+    </script>    
 {% endblock %}

@@ -37,6 +37,48 @@ class Pedido
      */
     private $total='0';
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estato", type="string", length=100, nullable=true)
+     */
+    private $estado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=100)
+     */
+    private $telefono;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="direccion_entrega", type="string", length=255)
+     */
+    private $direccionEntrega;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion_direccion", type="text", nullable=true)
+     */
+    private $descripcionDireccion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="destinatario_nombres", type="string", length=100)
+     */
+    private $destinatarioNombres;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="destinatario_apellidos", type="string", length=100)
+     */
+    private $destinatarioApellidos;
+
     /** 
     * created Time/Date 
     * 
@@ -60,6 +102,9 @@ class Pedido
 
     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Cliente", inversedBy="pedidos") */
     protected $cliente;
+
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\ZonaEnvio", inversedBy="pedido") */
+    protected $zonaEnvio;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccion", mappedBy="pedido")
@@ -352,5 +397,166 @@ class Pedido
     public function getAbono()
     {
         return $this->abono;
+    }
+    
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return Pedido
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Set telefono
+     *
+     * @param string $telefono
+     * @return Pedido
+     */
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get telefono
+     *
+     * @return string 
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * Set direccionEntrega
+     *
+     * @param string $direccionEntrega
+     * @return Pedido
+     */
+    public function setDireccionEntrega($direccionEntrega)
+    {
+        $this->direccionEntrega = $direccionEntrega;
+
+        return $this;
+    }
+
+    /**
+     * Get direccionEntrega
+     *
+     * @return string 
+     */
+    public function getDireccionEntrega()
+    {
+        return $this->direccionEntrega;
+    }
+
+    /**
+     * Set descripcionDireccion
+     *
+     * @param string $descripcionDireccion
+     * @return Pedido
+     */
+    public function setDescripcionDireccion($descripcionDireccion)
+    {
+        $this->descripcionDireccion = $descripcionDireccion;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionDireccion
+     *
+     * @return string 
+     */
+    public function getDescripcionDireccion()
+    {
+        return $this->descripcionDireccion;
+    }
+
+    /**
+     * Set destinatarioNombres
+     *
+     * @param string $destinatarioNombres
+     * @return Pedido
+     */
+    public function setDestinatarioNombres($destinatarioNombres)
+    {
+        $this->destinatarioNombres = $destinatarioNombres;
+
+        return $this;
+    }
+
+    /**
+     * Get destinatarioNombres
+     *
+     * @return string 
+     */
+    public function getDestinatarioNombres()
+    {
+        return $this->destinatarioNombres;
+    }
+
+    /**
+     * Set destinatarioApellidos
+     *
+     * @param string $destinatarioApellidos
+     * @return Pedido
+     */
+    public function setDestinatarioApellidos($destinatarioApellidos)
+    {
+        $this->destinatarioApellidos = $destinatarioApellidos;
+
+        return $this;
+    }
+
+    /**
+     * Get destinatarioApellidos
+     *
+     * @return string 
+     */
+    public function getDestinatarioApellidos()
+    {
+        return $this->destinatarioApellidos;
+    }
+
+    /**
+     * Set zonaEnvio
+     *
+     * @param \AppBundle\Entity\ZonaEnvio $zonaEnvio
+     * @return Pedido
+     */
+    public function setZonaEnvio(\AppBundle\Entity\ZonaEnvio $zonaEnvio = null)
+    {
+        $this->zonaEnvio = $zonaEnvio;
+
+        return $this;
+    }
+
+    /**
+     * Get zonaEnvio
+     *
+     * @return \AppBundle\Entity\ZonaEnvio 
+     */
+    public function getZonaEnvio()
+    {
+        return $this->zonaEnvio;
     }
 }

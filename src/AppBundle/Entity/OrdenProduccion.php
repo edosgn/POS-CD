@@ -31,27 +31,6 @@ class OrdenProduccion
     private $numero;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="destinatario_nombres", type="string", length=100)
-     */
-    private $destinatarioNombres;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="destinatario_apellidos", type="string", length=100)
-     */
-    private $destinatarioApellidos;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="telefono", type="string", length=100)
-     */
-    private $telefono;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_entrega", type="datetime", nullable=true)
@@ -61,37 +40,51 @@ class OrdenProduccion
     /**
      * @var string
      *
-     * @ORM\Column(name="direccion_entrega", type="string", length=255)
-     */
-    private $direccionEntrega;     
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="descripcion_direccion", type="text", nullable=true)
-     */
-    private $descripcionDireccion;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tipo_pago", type="string", length=100, nullable=true)
-     */
-    private $tipoPago;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="novedad", type="text", nullable=true)
-     */
-    private $novedad;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="estado", type="string", length=100, nullable=true)
      */
-    private $estado = "Sin asignar";
+    private $estado = "Asignada";
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion_mensaje", type="text")
+     */
+    private $descripcionMensaje;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="precio", type="bigint")
+     */
+    private $precio = 0;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="valor_envio", type="integer", nullable=true)
+     */
+    private $valorEnvio;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="observacion", type="text")
+     */
+    private $observacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="foto_observacion", type="string", length=255, nullable=true)
+     */
+    private $fotoObservacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="firma", type="string", length=100, nullable=true)
+     */
+    private $firma;
 
     /** 
     * created Time/Date 
@@ -114,22 +107,31 @@ class OrdenProduccion
     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pedido", inversedBy="ordenProduccion") */
     protected $pedido;
 
-    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\ZonaEnvio", inversedBy="ordenProduccion") */
-    protected $zonaEnvio;
-
     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Horario", inversedBy="ordenProduccion") */
     protected $horario;
 
     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Prioridad", inversedBy="ordenProduccion") */
     protected $prioridad;
 
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Detalle", inversedBy="ordenProduccion") */
+    protected $detalle;
+
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Mensaje", inversedBy="ordenProduccion") */
+    protected $mensaje;
+
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Usuario", inversedBy="ordenProduccion") */
+    protected $responsable;
+
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrdenProduccionEstado", inversedBy="ordenProduccion") */
+    protected $ordenProduccionEstado;
+
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", mappedBy="ordenProduccion")
-     **/
-    private $ordenProduccionDetalle;
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Despacho", mappedBy="ordenProduccion")
+     */
+    private $despachos;
 
     public function __construct() {
-        $this->ordenProduccionDetalle = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->despachos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function __toString(){
@@ -308,29 +310,6 @@ class OrdenProduccion
     }
 
     /**
-     * Set cantidadDetalle
-     *
-     * @param integer $cantidadDetalle
-     * @return OrdenProduccion
-     */
-    public function setCantidadDetalle($cantidadDetalle)
-    {
-        $this->cantidadDetalle = $cantidadDetalle;
-
-        return $this;
-    }
-
-    /**
-     * Get cantidadDetalle
-     *
-     * @return integer 
-     */
-    public function getCantidadDetalle()
-    {
-        return $this->cantidadDetalle;
-    }
-
-    /**
      * Set observacion
      *
      * @param string $observacion
@@ -351,29 +330,6 @@ class OrdenProduccion
     public function getObservacion()
     {
         return $this->observacion;
-    }
-
-    /**
-     * Set tipoPago
-     *
-     * @param string $tipoPago
-     * @return OrdenProduccion
-     */
-    public function setTipoPago($tipoPago)
-    {
-        $this->tipoPago = $tipoPago;
-
-        return $this;
-    }
-
-    /**
-     * Get tipoPago
-     *
-     * @return string 
-     */
-    public function getTipoPago()
-    {
-        return $this->tipoPago;
     }
 
     /**
@@ -420,29 +376,6 @@ class OrdenProduccion
     public function getEstado()
     {
         return $this->estado;
-    }
-
-    /**
-     * Set novedad
-     *
-     * @param string $novedad
-     * @return OrdenProduccion
-     */
-    public function setNovedad($novedad)
-    {
-        $this->novedad = $novedad;
-
-        return $this;
-    }
-
-    /**
-     * Get novedad
-     *
-     * @return string 
-     */
-    public function getNovedad()
-    {
-        return $this->novedad;
     }
 
     /** 
@@ -579,35 +512,219 @@ class OrdenProduccion
     }
 
     /**
-     * Add ordenProduccionDetalle
+     * Add despachos
      *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
+     * @param \AppBundle\Entity\Despacho $despachos
      * @return OrdenProduccion
      */
-    public function addOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle)
+    public function addDespacho(\AppBundle\Entity\Despacho $despachos)
     {
-        $this->ordenProduccionDetalle[] = $ordenProduccionDetalle;
+        $this->despachos[] = $despachos;
 
         return $this;
     }
 
     /**
-     * Remove ordenProduccionDetalle
+     * Remove despachos
      *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
+     * @param \AppBundle\Entity\Despacho $despachos
      */
-    public function removeOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle)
+    public function removeDespacho(\AppBundle\Entity\Despacho $despachos)
     {
-        $this->ordenProduccionDetalle->removeElement($ordenProduccionDetalle);
+        $this->despachos->removeElement($despachos);
     }
 
     /**
-     * Get ordenProduccionDetalle
+     * Get despachos
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getOrdenProduccionDetalle()
+    public function getDespachos()
     {
-        return $this->ordenProduccionDetalle;
+        return $this->despachos;
+    }
+
+    /**
+     * Set descripcionMensaje
+     *
+     * @param string $descripcionMensaje
+     * @return OrdenProduccion
+     */
+    public function setDescripcionMensaje($descripcionMensaje)
+    {
+        $this->descripcionMensaje = $descripcionMensaje;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcionMensaje
+     *
+     * @return string 
+     */
+    public function getDescripcionMensaje()
+    {
+        return $this->descripcionMensaje;
+    }
+
+    /**
+     * Set precio
+     *
+     * @param integer $precio
+     * @return OrdenProduccion
+     */
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
+
+        return $this;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return integer 
+     */
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    /**
+     * Set valorEnvio
+     *
+     * @param integer $valorEnvio
+     * @return OrdenProduccion
+     */
+    public function setValorEnvio($valorEnvio)
+    {
+        $this->valorEnvio = $valorEnvio;
+
+        return $this;
+    }
+
+    /**
+     * Get valorEnvio
+     *
+     * @return integer 
+     */
+    public function getValorEnvio()
+    {
+        return $this->valorEnvio;
+    }
+
+    /**
+     * Set fotoObservacion
+     *
+     * @param string $fotoObservacion
+     * @return OrdenProduccion
+     */
+    public function setFotoObservacion($fotoObservacion)
+    {
+        $this->fotoObservacion = $fotoObservacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fotoObservacion
+     *
+     * @return string 
+     */
+    public function getFotoObservacion()
+    {
+        return $this->fotoObservacion;
+    }
+
+    /**
+     * Set detalle
+     *
+     * @param \AppBundle\Entity\Detalle $detalle
+     * @return OrdenProduccion
+     */
+    public function setDetalle(\AppBundle\Entity\Detalle $detalle = null)
+    {
+        $this->detalle = $detalle;
+
+        return $this;
+    }
+
+    /**
+     * Get detalle
+     *
+     * @return \AppBundle\Entity\Detalle 
+     */
+    public function getDetalle()
+    {
+        return $this->detalle;
+    }
+
+    /**
+     * Set mensaje
+     *
+     * @param \AppBundle\Entity\Mensaje $mensaje
+     * @return OrdenProduccion
+     */
+    public function setMensaje(\AppBundle\Entity\Mensaje $mensaje = null)
+    {
+        $this->mensaje = $mensaje;
+
+        return $this;
+    }
+
+    /**
+     * Get mensaje
+     *
+     * @return \AppBundle\Entity\Mensaje 
+     */
+    public function getMensaje()
+    {
+        return $this->mensaje;
+    }
+
+    /**
+     * Set responsable
+     *
+     * @param \AppBundle\Entity\Usuario $responsable
+     * @return OrdenProduccion
+     */
+    public function setResponsable(\AppBundle\Entity\Usuario $responsable = null)
+    {
+        $this->responsable = $responsable;
+
+        return $this;
+    }
+
+    /**
+     * Get responsable
+     *
+     * @return \AppBundle\Entity\Usuario 
+     */
+    public function getResponsable()
+    {
+        return $this->responsable;
+    }
+
+    /**
+     * Set ordenProduccionEstado
+     *
+     * @param \AppBundle\Entity\OrdenProduccionEstado $ordenProduccionEstado
+     * @return OrdenProduccion
+     */
+    public function setOrdenProduccionEstado(\AppBundle\Entity\OrdenProduccionEstado $ordenProduccionEstado = null)
+    {
+        $this->ordenProduccionEstado = $ordenProduccionEstado;
+
+        return $this;
+    }
+
+    /**
+     * Get ordenProduccionEstado
+     *
+     * @return \AppBundle\Entity\OrdenProduccionEstado 
+     */
+    public function getOrdenProduccionEstado()
+    {
+        return $this->ordenProduccionEstado;
     }
 }

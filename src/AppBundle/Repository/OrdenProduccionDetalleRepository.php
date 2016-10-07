@@ -95,8 +95,9 @@ class OrdenProduccionDetalleRepository extends EntityRepository
 	        ->join('opd.ordenProduccion', 'op')
 	        ->join('op.pedido', 'p')
 	        ->join('op.zonaEnvio','ze')
-	        ->where('opd.ordenProduccionEstado = 3 AND ze.nombre = :nombre_zona')
+	        ->where('opd.ordenProduccionEstado = 3 AND ze.nombre = :nombre_zona AND op.direccionEntrega != :direccion')
 	        ->setParameter('nombre_zona', $zona)
+	        ->setParameter('direccion', 'Floristeria')
 	        ->orderBy('op.prioridad', 'DESC')
 	        ->getQuery();
 	    }else{
@@ -158,5 +159,37 @@ class OrdenProduccionDetalleRepository extends EntityRepository
 	    }
 
         return $query->getResult();
+    }
+
+
+    //Obtiene las ordenes de produccion con estdo terminado y para entregar en punto de venta
+    public function getOrdenesEstadoConDireccion()
+    {
+        $em = $this->getEntityManager();
+        $dql = "SELECT opd
+            FROM AppBundle:OrdenProduccionDetalle opd
+            JOIN opd.ordenProduccion op
+            WHERE opd.ordenProduccionEstado = :estado
+            AND op.direccionEntrega = :direccion
+            ORDER BY op.prioridad DESC";
+
+        $consulta = $em->createQuery($dql);
+        $consulta->setParameter('estado', 3);
+        $consulta->setParameter('direccion', 'Floristeria');
+        return $consulta->getResult();
+    }
+
+    //Obtiene todos los detalles que pertenecen a la orden de produccion q se envia
+    public function getDetallesOrdenProduccion($id)
+    {
+        $em = $this->getEntityManager();
+        $dql = "SELECT opd
+            FROM AppBundle:OrdenProduccionDetalle opd
+            JOIN opd.ordenProduccion op
+            WHERE opd.ordenProduccion = :orden";
+
+        $consulta = $em->createQuery($dql);
+        $consulta->setParameter('orden', $id);
+        return $consulta->getResult();
     }
 }

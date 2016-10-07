@@ -43,22 +43,18 @@ class ZonaEnvio
     private $valor;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OrdenProduccion", mappedBy="zonaEnvio")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Pedido", mappedBy="zonaEnvio")
      **/
-    private $ordenProduccion;
+    private $pedido;
 
     public function __construct() {
-        $this->ordenProduccion = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pedido = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
-
-
     public function __toString()
     {
         return $this->getNombre();
     }
-
-
 
     /**
      * Get id
@@ -117,39 +113,6 @@ class ZonaEnvio
     }
 
     /**
-     * Add ordenProduccion
-     *
-     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
-     * @return ZonaEnvio
-     */
-    public function addOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion)
-    {
-        $this->ordenProduccion[] = $ordenProduccion;
-
-        return $this;
-    }
-
-    /**
-     * Remove ordenProduccion
-     *
-     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
-     */
-    public function removeOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion)
-    {
-        $this->ordenProduccion->removeElement($ordenProduccion);
-    }
-
-    /**
-     * Get ordenProduccion
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getOrdenProduccion()
-    {
-        return $this->ordenProduccion;
-    }
-
-    /**
      * Set valor
      *
      * @param integer $valor
@@ -170,5 +133,38 @@ class ZonaEnvio
     public function getValor()
     {
         return $this->valor;
+    }
+
+    /**
+     * Add pedido
+     *
+     * @param \AppBundle\Entity\Pedido $pedido
+     * @return ZonaEnvio
+     */
+    public function addPedido(\AppBundle\Entity\Pedido $pedido)
+    {
+        $this->pedido[] = $pedido;
+
+        return $this;
+    }
+
+    /**
+     * Remove pedido
+     *
+     * @param \AppBundle\Entity\Pedido $pedido
+     */
+    public function removePedido(\AppBundle\Entity\Pedido $pedido)
+    {
+        $this->pedido->removeElement($pedido);
+    }
+
+    /**
+     * Get pedido
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPedido()
+    {
+        return $this->pedido;
     }
 }

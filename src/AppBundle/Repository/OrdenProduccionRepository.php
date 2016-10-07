@@ -54,18 +54,68 @@ class OrdenProduccionRepository extends EntityRepository
         return $query->getResult();
     }
 
-    //Obtiene las ordenes de produccion de un cliente q sean de tipo credito
-    public function findOrdenProduccionCredito($idCliente)
-    {
+
+
+    //------------------------------------
+    public function getOrdenesProduccionTerminadas()
+    {        
         $em = $this->getEntityManager();
         $dql = "SELECT op
             FROM AppBundle:OrdenProduccion op
-            JOIN op.pedido p
-            WHERE p.cliente = :idCliente
-            AND op.tipoPago = :tipo";
+            WHERE op.estado = :estado";
+
         $consulta = $em->createQuery($dql);
-        $consulta->setParameter('idCliente', $idCliente);
-        $consulta->setParameter('tipo', 'Credito');
-        return $consulta->getResult();
+        $consulta->setParameter('estado', 'Terminada');
+        return $consulta->getResult();        
+    }
+
+    //
+    public function getOrdenProduccionDetalleTipoResponsable($tipo,$idUsuario = null)
+    {
+        if ($idUsuario == null) {
+            $query = $this->createQueryBuilder('op')
+            ->join('op.pedido', 'p')
+            ->where('op.estado = :tipo')
+            ->setParameter('tipo', $tipo)
+            ->orderBy('op.prioridad', 'DESC')
+            ->getQuery(); 
+        }else{
+            $query = $this->createQueryBuilder('opd')
+            ->join('opd.ordenProduccion', 'op')
+            ->join('op.pedido', 'p')
+            ->where('opd.ordenProduccionEstado = :tipo AND opd.responsable = :idUsuario')
+            ->setParameter('idUsuario', $idUsuario)
+            ->setParameter('tipo', $tipo)
+            ->orderBy('op.prioridad', 'DESC')
+            ->getQuery();
+        }
+
+        return $query->getResult();
+    }
+
+
+    //
+    public function getOrdenProduccionDetalleTipoUsuario($tipo,$idUsuario = null)
+    {
+        if ($idUsuario == null) {
+            $query = $this->createQueryBuilder('opd')
+            ->join('opd.ordenProduccion', 'op')
+            ->join('op.pedido', 'p')
+            ->where('opd.ordenProduccionEstado = :tipo')
+            ->setParameter('tipo', $tipo)
+            ->orderBy('op.prioridad', 'DESC')
+            ->getQuery(); 
+        }else{
+            $query = $this->createQueryBuilder('opd')
+            ->join('opd.ordenProduccion', 'op')
+            ->join('op.pedido', 'p')
+            ->where('opd.ordenProduccionEstado = :tipo AND p.usuario = :idUsuario')
+            ->setParameter('idUsuario', $idUsuario)
+            ->setParameter('tipo', $tipo)
+            ->orderBy('op.prioridad', 'DESC')
+            ->getQuery();
+        }
+
+        return $query->getResult();
     }
 }

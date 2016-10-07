@@ -17,31 +17,11 @@ class OrdenProduccionType extends AbstractType
     {
         $builder
             ->add('pedido')
-            ->add('destinatarioNombres')
-            ->add('destinatarioApellidos')
-            ->add('telefono')
             ->add('horario','entity',array(
                 'class' => 'AppBundle:Horario',
                 'empty_value' => false,
             ))
-            ->add('direccionEntrega')
-            ->add('descripcionDireccion')
-            ->add('zonaEnvio','entity',array(
-                'class' => 'AppBundle:ZonaEnvio',
-                'empty_value' => false,
-            ))
-            ->add('numero')
-            ->add('tipoPago','choice',array(
-                'choices'=>array(
-                    'Contado'=>'Contado',
-                    'Credito'=>'Credito',
-                    'Consignacion'=>'Consignación',
-                    'Giro'=>'Giro',
-                    'Tarjeta'=>'Tarjeta',
-                    'ContraEntrega'=>'Contra Entrega'
-                ),
-                'empty_value'=>false,
-            ))
+            ->add('numero')            
             ->add('prioridad','entity',array(
                 'class' => 'AppBundle:Prioridad',
                 'query_builder' => function(EntityRepository $em){
@@ -49,6 +29,35 @@ class OrdenProduccionType extends AbstractType
                     $qb->where($qb->expr()->orX($qb->expr()->eq('p.nombre', ':normal'), $qb->expr()->eq('p.nombre', ':important')));
                     $qb->setParameter('normal', 'Normal');
                     $qb->setParameter('important', 'Importante');
+                    return $qb;
+                },
+                'empty_value' => false,
+            ))
+            ->add('detalle')
+            ->add('mensaje')
+            ->add('descripcionMensaje','textarea',array(
+                'attr' => array('rows' => '5')
+            ))
+            ->add('responsable','entity',array(
+                'class' => 'AppBundle:Usuario',
+                'query_builder' => function(EntityRepository $em){
+                    $qb = $em->createQueryBuilder('u');
+                    $qb->add('where', $qb->expr()->like('u.role', ':rol'));
+                    $qb->setParameter('rol', '%PRODUCTION%');
+                    return $qb;
+                },
+                'empty_value' => false,
+            ))
+            ->add('precio')
+            ->add('valorEnvio')
+            ->add('observacion')
+            ->add('firma')
+            ->add('ordenProduccionEstado','entity',array(
+                'class' => 'AppBundle:OrdenProduccionEstado',
+                'query_builder' => function(EntityRepository $em){
+                    $qb = $em->createQueryBuilder('e');
+                    $qb->add('where', $qb->expr()->eq('e.estado', ':estate'));
+                    $qb->setParameter('estate', 1);
                     return $qb;
                 },
                 'empty_value' => false,

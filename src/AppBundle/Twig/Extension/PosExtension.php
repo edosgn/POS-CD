@@ -33,10 +33,8 @@ cuentaAtras = (horas < 10 ? '0' + horas : horas) + 'h '
 + (segundos < 10 ? '0' + segundos : segundos) + 's ';
 setTimeout('muestraCuentaAtras()', 1000);
 }
-document.getElementById('tiempo').innerHTML = '<div class="clock" id="clock">'+
-	'<div class="date"><small>Tiempo Restante</small></div>'+
-	'<div class="time">'+
-		
+document.getElementById('tiempo').innerHTML = '<div class="clock" id="clock">'+	
+	'<div class="time">'+		
 		'<span class="hour">'+(horas < 10 ? '0' + horas : horas)+'</span>:'+
 		'<span class="minute">'+(minutos < 10 ? '0' + minutos : minutos)+'</span>:'+
 		'<span class="second">'+(segundos < 10 ? '0' + segundos : segundos)+'</span>'+

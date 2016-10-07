@@ -66,7 +66,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ path('venta_edit',{'id':venta.id}) }}" class="btn btn-default btn-raised btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                    <a href="{{ path('venta_delete',{'id':venta.id}) }}" class="btn btn-default btn-raised btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </li>
@@ -75,7 +75,6 @@
                     </div><!-- panel -->
                 </div><!-- /.col -->
             </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-        
+        </div><!-- /.container-fluid -->        
     </div><!-- /.page-content -->
 {% endblock %}

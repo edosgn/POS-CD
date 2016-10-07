@@ -79,16 +79,6 @@ class OrdenProduccionDetalle
     protected $ordenProduccionEstado;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Despacho", mappedBy="ordenProduccionDetalle")
-     */
-    private $despachos;
-
-    public function __construct() {
-        
-        $this->despachos = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Get id
      *
      * @return integer 
@@ -349,38 +339,5 @@ class OrdenProduccionDetalle
     public function getOrdenProduccionEstado()
     {
         return $this->ordenProduccionEstado;
-    }
-
-    /**
-     * Add despachos
-     *
-     * @param \AppBundle\Entity\Despacho $despachos
-     * @return OrdenProduccionDetalle
-     */
-    public function addDespacho(\AppBundle\Entity\Despacho $despachos)
-    {
-        $this->despachos[] = $despachos;
-
-        return $this;
-    }
-
-    /**
-     * Remove despachos
-     *
-     * @param \AppBundle\Entity\Despacho $despachos
-     */
-    public function removeDespacho(\AppBundle\Entity\Despacho $despachos)
-    {
-        $this->despachos->removeElement($despachos);
-    }
-
-    /**
-     * Get despachos
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDespachos()
-    {
-        return $this->despachos;
     }
 }

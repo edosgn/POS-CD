@@ -200,6 +200,9 @@ class UsuarioController extends Controller
         $usuariosComercial = $em->getRepository('AppBundle:Usuario')->findByRole(
             'ROLE_COMMERCIAL'
         );
+        $usuariosCajero = $em->getRepository('AppBundle:Usuario')->findByRole(
+            'ROLE_SELLER'
+        );
         $usuariosProduccion = $em->getRepository('AppBundle:Usuario')->findByRole(
             'ROLE_PRODUCTION'
         );
@@ -212,6 +215,7 @@ class UsuarioController extends Controller
             'usuariosComercial' => $usuariosComercial,
             'usuariosProduccion' => $usuariosProduccion,
             'usuariosDespacho' => $usuariosDespacho,
+            'usuariosCajero' => $usuariosCajero,
         ));
     }
 

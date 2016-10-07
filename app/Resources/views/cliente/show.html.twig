@@ -33,6 +33,16 @@
                             {% if cliente.fechaNacimiento %}{{ cliente.fechaNacimiento|date('Y-m-d') }}{% endif %}
                         </div><!-- /.media-body -->
                     </div><!-- /.media -->
+                    <div class="media col-md-6 col-sm-6 col-xs-6">
+                        <h4 class="media-heading">Estado de cuenta:</h4>
+                        {% if creditos|length != 0 %}
+                            {% for credito in creditos %}
+                                <p>Orden de produccion {{ credito.numero }} a credito</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>El Cliente no tiene deudas</p>
+                        {% endif %}
+                    </div>
                 </div><!-- /.col -->
             </div><!-- /.row -->
             {% else %}
@@ -55,7 +65,17 @@
                             <i class="fa fa-birthday-cake"></i>
                             {% if cliente.fechaNacimiento %}{{ cliente.fechaNacimiento|date('Y-m-d') }}{% endif %}
                         </div><!-- /.media-body -->
-                    </div><!-- /.media -->
+                    </div><!-- /.media --> 
+                    <div class="media col-md-6 col-sm-6 col-xs-6">
+                        <h4 class="media-heading">Estado de cuenta:</h4>
+                        {% if creditos|length != 0 %}
+                            {% for credito in creditos %}
+                                <p>Orden de produccion {{ credito.numero }} a credito</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>El Cliente no tiene deudas</p>
+                        {% endif %}
+                    </div>                   
                 </div><!-- /.col -->
             </div><!-- /.row -->
             {% endif %}
@@ -102,33 +122,26 @@
                                                 <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{pedido.numero}}</a>
                                             </td>
                                             <td>
+                                                <div style="max-height:75px;overflow:auto;" class="card-body">
                                                 {% if pedido.ordenProduccion|length != 0 %}
                                                     <ul>
                                                         {% for ordenProduccion in pedido.ordenProduccion %}
-                                                            <li>{{ordenProduccion.ordenProduccionDetalle|length}}</li>
+                                                            {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
+                                                                <li>{{ordenProduccionDetalle.detalle}}</li>
+                                                            {% endfor %}
                                                         {% endfor %}
                                                         {% for venta in pedido.venta %}
                                                             <li>{{venta.articulo}}</li>
                                                         {% endfor %}
                                                     </ul>
                                                 {% endif %}
+                                                </div>
                                             </td>
                                             <td>
                                                 {{ pedido.createdAt|date('Y-m-d') }}
                                             </td>
-                                            <td>
-                                                {% set total = 0%} {% set totalOrdenes = 0 %} {% set totalVentas = 0 %}
-                                                {% for ordenProduccion in pedido.ordenProduccion %}
-                                                    {% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}
-                                                        {% set totalOrdenes = totalOrdenes+ordenProduccionDetalle.precio %}
-                                                    {% endfor %}
-                                                {% endfor %}
-                                                {#{% for venta in pedido.venta %}
-                                                    {% set totalVentas = totalVentas+pedido.venta.valor %}
-                                                {% endfor %}
-                                                {% set total=totalVentas+totalOrdenes %}#}
-                                                ${{total|number_format(2, ',', '.')}}
-                                                
+                                            <td>                                                
+                                                $ {{pedido.total|number_format(2, ',', '.')}}
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -183,30 +196,28 @@
             <div class="col-md-12"><!-- .col -->
                 <div class="panel panel-default"><!-- .panel -->
                     <div class="panel-body"><!-- .panel-body -->
-                        {#
+                        
                         {% if cliente.pedidos|length != 0 %}
-                            {% set promtotal = 0 %} {% set sumtotal = 0 %} {% set npedidos = cliente.pedidos|length %}
+                            {% set prompedidos = 0 %} {% set sumtotal = 0 %}
                             {% for pedido in cliente.pedidos %}
-                                {% set promedio = 0 %} {% set sum = 0 %} {% set num = 0 %}
-                                {% if pedido.ordenProduccion|length != 0 %}                                                    
-                                    {% for orden in pedido.ordenProduccion %}
-                                        {% set sum = sum + orden.precio %}
-                                        {% set num = num + 1 %}
-                                    {% endfor %} 
-                                    {% set promedio = sum / num %}                                   
-                                {% endif %}
-                                {% set sumtotal = sumtotal + promedio %}
+                                {% set sumtotal =sumtotal + pedido.total %}
                             {% endfor %}
-                            {% set promtotal = sumtotal / npedidos %}
-                            Promedio de pedidos: {{promtotal|number_format(2, ',', '.')}}
+                            {% set prompedidos = sumtotal / cliente.pedidos|length %}
+                            Promedio de pedidos: {{prompedidos|number_format(2, ',', '.')}}<br>
+                            {% for pedido in cliente.pedidos %}
+                                {% for ordenProduccion in pedido.ordenProduccion %}
+                                    {#{% for ordenProduccionDetalle in ordenProduccion.ordenProduccionDetalle %}#}
+                                        <li>{{ ordenProduccion.ordenProduccionDetalle|length }}</li>
+                                    {#{% endfor %}#}
+                                {% endfor %}
+                            {% endfor %}
                         {% else %}
                             <h5 class="text-center text-danger">No hay graficas que mostrar.</h5>
-                        {% endif %}
-                        #}                        
+                        {% endif %}   
+
                     </div><!-- /.panel-body -->
                 </div><!-- /.panel -->
             </div><!--row-->
-
         </div><!-- /.container-fluid -->
     </div><!-- /.page-content -->
 {% endblock %}

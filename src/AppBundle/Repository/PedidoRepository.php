@@ -66,4 +66,18 @@ class PedidoRepository extends EntityRepository
 
 		return $consulta->getResult();
 	}
+
+	//Obtiene los pedidos de un cliente q sean de tipo credito
+    public function findPedidoCredito($idCliente)
+    {
+        $em = $this->getEntityManager();
+        $dql = "SELECT p
+            FROM AppBundle:Pedido p            
+            WHERE p.cliente = :idCliente
+            AND p.estado = :tipo";
+        $consulta = $em->createQuery($dql);
+        $consulta->setParameter('idCliente', $idCliente);
+        $consulta->setParameter('tipo', 'PorPagar');
+        return $consulta->getResult();
+    }
 }

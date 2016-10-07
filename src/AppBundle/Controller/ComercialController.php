@@ -10,6 +10,7 @@ use AppBundle\Entity\Cliente;
 use AppBundle\Entity\Pedido;
 use AppBundle\Entity\OrdenProduccion;
 use AppBundle\Entity\Usuario;
+use AppBundle\Entity\Despacho;
 
 /**
  * Produccion controller.
@@ -89,5 +90,61 @@ class ComercialController extends Controller
         $response->setData($entidades);
 
         return $response;
+    }
+
+
+
+    /**
+     * añade una novedad a la orden entregada en punto de venta
+     *
+     * @Route("/entrega/comercial", name="comercial_entrega")
+     * @Method("POST")
+     */
+    public function entregaComercialAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {            
+            $em = $this->getDoctrine()->getManager();
+
+            //---almacenar el registro en despacho
+            $user = $this->getUser();
+            $despacho = new Despacho();
+            $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($request->request->get('idOrdenProduccionDetalle'));
+            $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find(4);
+            $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+            $em->persist($ordenProduccionDetalle);
+            $despacho->setUsuario($user);
+            $despacho->setOrdenProduccionDetalle($ordenProduccionDetalle);
+
+            $em->persist($despacho);
+            $em->flush();
+            //--
+
+            
+            $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find($request->request->get('textEstado'));
+            $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+
+            $despacho=$em->getRepository('AppBundle:Despacho')->findOneByOrdenProduccionDetalle(
+                $request->request->get('idOrdenProduccionDetalle')
+            );
+
+            $despacho->setFechaEntrega(new \DateTime(date('Y-m-d H:i:s')));
+            $despacho->setReceptor($request->request->get('textReceptor'));
+
+            if ($request->request->get('textObservaciones') != '') {
+                $despacho->setObservaciones($request->request->get('textObservaciones'));
+            }
+
+            $em->persist($despacho);
+            $em->persist($ordenProduccionDetalle);
+            $em->flush();
+
+            $ordenesEntregarPuntoVenta = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenesEstadoConDireccion();
+        
+            return $this->render('comercial/entregar.comercial.html.twig', array(
+                'ordenesProduccionDetalleEntregar' => $ordenesEntregarPuntoVenta,
+            ));
+        }
+
+        return $this->redirectToRoute('homepage');
     }    
 }

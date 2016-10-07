@@ -19,9 +19,7 @@ class Despacho
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
-
-    
+    private $id;    
 
     /**
      * @var \DateTime
@@ -44,14 +42,11 @@ class Despacho
      */
     private $observaciones;
 
-    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrdenProduccionDetalle", inversedBy="despachos") */
-    private $ordenProduccionDetalle;
-
+    /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\OrdenProduccion", inversedBy="despachos") */
+    private $ordenProduccion;
 
     /** @ORM\ManyToOne(targetEntity="AppBundle\Entity\Usuario", inversedBy="despachos") */
-    private $usuario; 
-
-     
+    private $usuario;      
 
 
     /**
@@ -135,29 +130,6 @@ class Despacho
     }
 
     /**
-     * Set ordenProduccionDetalle
-     *
-     * @param \AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle
-     * @return Despacho
-     */
-    public function setOrdenProduccionDetalle(\AppBundle\Entity\OrdenProduccionDetalle $ordenProduccionDetalle = null)
-    {
-        $this->ordenProduccionDetalle = $ordenProduccionDetalle;
-
-        return $this;
-    }
-
-    /**
-     * Get ordenProduccionDetalle
-     *
-     * @return \AppBundle\Entity\OrdenProduccionDetalle 
-     */
-    public function getOrdenProduccionDetalle()
-    {
-        return $this->ordenProduccionDetalle;
-    }
-
-    /**
      * Set usuario
      *
      * @param \AppBundle\Entity\Usuario $usuario
@@ -178,5 +150,28 @@ class Despacho
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set ordenProduccion
+     *
+     * @param \AppBundle\Entity\OrdenProduccion $ordenProduccion
+     * @return Despacho
+     */
+    public function setOrdenProduccion(\AppBundle\Entity\OrdenProduccion $ordenProduccion = null)
+    {
+        $this->ordenProduccion = $ordenProduccion;
+
+        return $this;
+    }
+
+    /**
+     * Get ordenProduccion
+     *
+     * @return \AppBundle\Entity\OrdenProduccion 
+     */
+    public function getOrdenProduccion()
+    {
+        return $this->ordenProduccion;
     }
 }

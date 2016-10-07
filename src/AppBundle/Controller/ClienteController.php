@@ -70,15 +70,11 @@ class ClienteController extends Controller
             return $this->redirectToRoute('cliente_show', array('id' => $cliente->getId()));
         }
 
-        
-            return $this->render('cliente/new.html.twig', array(
-            'cliente' => $cliente,
-            'form' => $form->createView(),
-            'activo' =>$activo
-            ));
-       
-        
-        
+        return $this->render('cliente/new.html.twig', array(
+        'cliente' => $cliente,
+        'form' => $form->createView(),
+        'activo' =>$activo
+        ));
     }
 
     /**
@@ -90,10 +86,14 @@ class ClienteController extends Controller
     public function showAction(Cliente $cliente)
     {
         $deleteForm = $this->createDeleteForm($cliente);
+
+        $em = $this->getDoctrine()->getManager();
+        $creditos=$em->getRepository('AppBundle:Pedido')->findPedidoCredito($cliente->getId());
         
         return $this->render('cliente/show.html.twig', array(
             'cliente' => $cliente,
             'delete_form' => $deleteForm->createView(),
+            'creditos' => $creditos
         ));
     }
 

@@ -31,6 +31,15 @@ class PedidoType extends AbstractType
                 'empty_value' => false,
             ))
             ->add('numero')
+            ->add('zonaEnvio','entity',array(
+                'class' => 'AppBundle:ZonaEnvio',
+                'empty_value' => false,
+            ))
+            ->add('telefono')
+            ->add('direccionEntrega')
+            ->add('descripcionDireccion')
+            ->add('destinatarioNombres')
+            ->add('destinatarioApellidos')
         ;
     }
     

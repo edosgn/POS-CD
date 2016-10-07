@@ -160,19 +160,27 @@ class OrdenProduccionDetalleController extends Controller
 
         $deleteForm = $this->createDeleteForm($ordenProduccionDetalle);
 
-         $user = $this->getUser();
-         if($user->getRole()=="ROLE_SHIPPING"){
+        $user = $this->getUser();
+        if($user->getRole()=="ROLE_SHIPPING"){
+            //definir la hora limite de entrega
+            $hora = $ordenProduccionDetalle->getOrdenProduccion()->getHorario()->getFinal();
+            $horalimite = strtotime ( '+'.$hora.' hour' , strtotime ( $fecha ) ) ;
+            $horalimite = date ( 'Y-m-j H:i:s' , $horalimite );
+            $fecha2 = new \DateTime($horalimite);
+            //------
 
             $repository = $this->getDoctrine()->getRepository('AppBundle:OrdenProduccionDetalle');
 
             $ordenProduccionDetalleEstados = $repository->findBy(array("ordenProduccionEstado"=>3));
 
             return $this->render('ordenproducciondetalle/show.shipping.html.twig', array(
-            'ordenProduccionDetalleEstados' => $ordenProduccionDetalleEstados,    
-            'ordenProduccionDetalle' => $ordenProduccionDetalle,
-            'delete_form' => $deleteForm->createView(),
-        ));
-         }
+                'pedido' => $pedido,
+                'horalimite' => $fecha2,
+                'ordenProduccionDetalleEstados' => $ordenProduccionDetalleEstados,    
+                'ordenProduccionDetalle' => $ordenProduccionDetalle,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        }
         return $this->render('ordenproducciondetalle/show.html.twig', array(
             'nuevafecha' => $fecha1,
             'ordenProduccionDetalle' => $ordenProduccionDetalle,
@@ -268,7 +276,7 @@ class OrdenProduccionDetalleController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($id);
-
+        
         $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find($idEstado);
 
         $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
@@ -295,8 +303,6 @@ class OrdenProduccionDetalleController extends Controller
      * @Method("POST")
      */
     public function OrdenDespacho(Request $request){    
-
-
         $em = $this->getDoctrine()->getManager();
         $usuario = $this->get('security.token_storage')->getToken()->getUser();
         $user = $this->getUser();
@@ -308,45 +314,90 @@ class OrdenProduccionDetalleController extends Controller
         $ordenProduccionDetalleTerminada = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenProduccionDetalleTipoResponsable(3);
 
         if ($request->request->get('destino')) {
-            if ($request->getMethod('POST')) 
-               {
+            if ($request->getMethod('POST')){
+                foreach ($request->request->get('destino') as $idOrdenProduccionDetalle) {
+                    $despacho = new Despacho();
+                    
+                    $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($idOrdenProduccionDetalle);
 
-                    foreach ($request->request->get('destino') as $idOrdenProduccionDetalle) {
-                        $despacho = new Despacho();
-                        
-                        $ordenProduccionDetalle = $em->getRepository('AppBundle:OrdenProduccionDetalle')->find($idOrdenProduccionDetalle);
+                    $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find(4);
 
-                        $ordenProduccionEstado = $em->getRepository('AppBundle:OrdenProduccionEstado')->find(4);
+                    $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
+                    $em->persist($ordenProduccionDetalle);
+                    $despacho->setUsuario($user);
+                    $despacho->setOrdenProduccionDetalle($ordenProduccionDetalle);
 
-                        $ordenProduccionDetalle->setOrdenProduccionEstado($ordenProduccionEstado);
-                        $em->persist($ordenProduccionDetalle);
-                        $despacho->setUsuario($user);
-                        $despacho->setOrdenProduccionDetalle($ordenProduccionDetalle);
-
-
-                        $em->persist($despacho);
-
-                        $em->flush();
-                        
-                    }
-
-                        
-
-
-                        return $this->redirectToRoute('homepage');
-               }
+                    $em->persist($despacho);
+                    $em->flush();
+                    
+                }
+                return $this->redirectToRoute('homepage');
+            }
         }else{
-                        return $this->redirectToRoute('homepage');
-
-           
+            return $this->redirectToRoute('homepage');           
         }
-        
-        
+    }
 
+    /**
+     * muestra las ordenes de produccion q estan listas pero con direccion de entrega en punto de venta.
+     *
+     * @Route("/entregar/puntoventa", name="ordenes_entregar_punto_venta")
+     * @Method("GET")
+     */
+    public function entregarPuntoVentaAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $ordenesEntregarPuntoVenta = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getOrdenesEstadoConDireccion();
+        
+        return $this->render('comercial/entregar.comercial.html.twig', array(
+            'ordenesProduccionDetalleEntregar' => $ordenesEntregarPuntoVenta,
+        ));
     }
 
 
 
+    /**
+     * Finds and displays una OrdenProduccionDetalle que sera entregada en el punto de venta.
+     *
+     * @Route("/ver/puntoventa/{id}", name="entregar_punto_venta_show")
+     * @Method("GET")
+     */
+    public function showPuntoVentaAction(OrdenProduccionDetalle $ordenProduccionDetalle)
+    {
 
-    
+        $pedido=$ordenProduccionDetalle->getOrdenProduccion()->getPedido(); 
+
+
+        /*$hora = $ordenProduccionDetalle->getOrdenProduccion()->getHorario()->getInicio();
+        $jornada = $ordenProduccionDetalle->getOrdenProduccion()->getHorario()->getJornada();
+        $fecha = $ordenProduccionDetalle->getOrdenProduccion()->getFechaEntrega()->format('Y-m-d H:i:s');
+
+        if($jornada == 'PM') {
+            $hora = $hora + 12 ;
+        }
+
+        $nuevafecha = strtotime ( '+'.$hora.' hour' , strtotime ( $fecha ) ) ;
+        $nuevafecha = date ( 'Y-m-j H:i:s' , $nuevafecha );
+
+        $fecha1 = new \DateTime($nuevafecha);*/
+
+        /*definir la hora limite de entrega
+        $hora = $ordenProduccionDetalle->getOrdenProduccion()->getHorario()->getFinal();
+        $horalimite = strtotime ( '+'.$hora.' hour' , strtotime ( $fecha ) ) ;
+        $horalimite = date ( 'Y-m-j H:i:s' , $horalimite );
+        $fecha2 = new \DateTime($horalimite);
+        */
+
+        $repository = $this->getDoctrine()->getRepository('AppBundle:OrdenProduccionDetalle');
+
+        $ordenProduccionDetalleEstados = $repository->findBy(array("ordenProduccionEstado"=>3));
+
+        return $this->render('comercial/show.entregar.comercial.html.twig', array(
+            'pedido' => $pedido,
+            //'horalimite' => $fecha2,
+            'ordenProduccionDetalleEstados' => $ordenProduccionDetalleEstados,    
+            'ordenProduccionDetalle' => $ordenProduccionDetalle,
+        ));
+        
+    }
 }

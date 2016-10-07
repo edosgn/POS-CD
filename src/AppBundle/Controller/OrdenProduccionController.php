@@ -111,6 +111,22 @@ class OrdenProduccionController extends Controller
 
         $fecha1 = new \DateTime($nuevafecha);
 
+        //VERIFICAR SI TODAS LOS DETALLES DE LA ORDEN ESTAN terminadas
+        $em = $this->getDoctrine()->getManager();
+        $detallesOrdenProduccion = $em->getRepository('AppBundle:OrdenProduccionDetalle')->getDetallesOrdenProduccion($ordenProduccion->getId());
+        $c=0;
+        foreach ($detallesOrdenProduccion as $ordenProduccionDetalle) {
+            if ($ordenProduccionDetalle->getOrdenProduccionEstado()->getId() == 3) {
+                $c=$c+1;
+            }
+        }
+        if ($c == count($detallesOrdenProduccion)) {            
+            $ordenProduccion->setEstado("Terminada");
+            $em->persist($ordenProduccion);
+            $em->flush();
+        }
+        //----
+
         return $this->render('ordenproduccion/show.html.twig', array(
             'nuevafecha' => $fecha1,
             'ordenProduccion' => $ordenProduccion,
@@ -139,8 +155,12 @@ class OrdenProduccionController extends Controller
             return $this->redirectToRoute('orden_produccion_show', array('id' => $ordenProduccion->getId()));            
         }
 
+        $em = $this->getDoctrine()->getManager();
+        $usuarios = $em->getRepository('AppBundle:Usuario')->findByRole('ROLE_ADMIN');
+
         return $this->render('ordenproduccion/edit.html.twig', array(
             'ordenProduccion' => $ordenProduccion,
+            'usuarios' => $usuarios,
             'step' => $request->query->get('idStep'),
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -199,7 +219,7 @@ class OrdenProduccionController extends Controller
     }
 
     /**
-     * cambia el estado de pendiente a asignada la orden para q sea visible desde produccion.
+     * valida la identificacion y el PIN si el pago es a credito o con prioridad importante.
      *
      * @Route("/valida/pago", name="orden_produccion_valida_pago")
      * @Method("POST")
@@ -208,17 +228,16 @@ class OrdenProduccionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $id= $request->request->get('textIdentificacion');
+        $id= $request->request->get('selectAdmin');
         $pin= $request->request->get('textPin');
         $ban=false;
-        if($usuario=$em->getRepository('AppBundle:Usuario')->findOneByIdentificacion($id)){
-            if($usuario->getRole() == "ROLE_ADMIN"){
-                $pinuser=$usuario->getPin();
-                if($pinuser == $pin){
-                    $ban=true;
-                }else{
-                    $ban=false;
-                }
+        if($usuario=$em->getRepository('AppBundle:Usuario')->find($id)){
+            $pinuser=$usuario->getPin();
+
+            if($pinuser == $pin){
+                $ban=true;
+            }else{
+                $ban=false;
             }
         }
 
@@ -232,35 +251,5 @@ class OrdenProduccionController extends Controller
         $response->setData($entidades);
 
         return $response;
-    }
-
-
-    /**
-     * cambia el estado de pendiente a asignada la orden para q sea visible desde produccion.
-     *
-     * @Route("/valida/credito", name="orden_produccion_valida_credito")
-     * @Method("GET")
-     */
-    public function validaCreditoAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $creditos=$em->getRepository('AppBundle:OrdenProduccion')->findOrdenProduccionCredito($request->query->get('idCliente'));
-
-        $ban = false;
-        if (count($creditos) != 0) {
-            $ban = true;
-        }
-
-        $response = new JsonResponse();
-
-        $entidades = array();
-        $entidades[] = array(
-            'ban'=>$ban,
-        );
-
-        $response->setData($entidades);
-
-        return $response;
-    }    
+    }   
 }

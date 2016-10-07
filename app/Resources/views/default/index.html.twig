@@ -15,7 +15,7 @@
 				<small>Novedades</small>
 			</h1>
 			<div class="options">
-				{% if is_granted('ROLE_COM') or is_granted('ROLE_ADMIN') %}
+				{% if is_granted('ROLE_COMMERCIAL') or is_granted('ROLE_ADMIN') %}
 				<a href="{{ path('acceso_pedido') }}" class="btn btn-primary btn-raised" data-toggle="tooltip" data-placement="top" title="Añadir Pedido">
                     <i class="fa fa-cart-plus"></i>
                 </a>
